@@ -421,12 +421,16 @@ if(checkoutBtnEl&&checkoutModalEl) checkoutBtnEl.onclick=()=>checkoutModalEl.cla
 renderCart();
 // COA lookup
 document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:12px;min-height:44px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px;min-height:44px;width:100%'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
+const lookupBtnEl=document.getElementById('lookupBtn'), batchLookupEl=document.getElementById('batchLookup'), lookupOutEl=document.getElementById('lookupOut');
+if(lookupBtnEl&&batchLookupEl&&lookupOutEl){
+  lookupBtnEl.onclick=()=>{
+    const v=batchLookupEl.value.trim();
+    const r=COA[v];
+    lookupOutEl.style.display='block';
+    lookupOutEl.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND â€” CHECK BATCH FORMAT.';
+  };
+}
 </script>
-const lookupBtnEl=document.getElementById('lookupBtn'), batchLookupEl=document.getElementById('batchLookup'), lookupOutEl=document.getElementById('lookupOut'); if(lookupBtnEl&&batchLookupEl&&lookupOutEl){lookupBtnEl.onclick=()=>{const v=batchLookupEl.value.trim();const r=COA[v];lookupOutEl.style.display='block';lookupOutEl.textContent=r?VERIFIED
-
-
-
-:'NOT FOUND — CHECK BATCH FORMAT.'}}
 </body>
 </html>
 
