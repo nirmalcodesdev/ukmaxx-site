@@ -27,8 +27,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   }));
   document.getElementById('shopNowBtn')?.addEventListener('click',()=>document.querySelector('#products')?.scrollIntoView({behavior:'smooth'}));
   const drawer=document.getElementById('cartDrawer');
-  document.getElementById('cartFab')?.addEventListener('click',()=>drawer?.classList.add('open'));
+  const cartFab=document.getElementById('cartFab');
+  cartFab?.addEventListener('click',()=>drawer?.classList.add('open'));
   document.getElementById('cartClose')?.addEventListener('click',()=>drawer?.classList.remove('open'));
+  let scrollTimer; window.addEventListener('scroll',()=>{ if(!cartFab) return; cartFab.classList.add('scrolling'); clearTimeout(scrollTimer); scrollTimer=setTimeout(()=>cartFab.classList.remove('scrolling'),300); },{passive:true});
   document.getElementById('checkoutBtn')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.add('open'));
   document.getElementById('checkoutClose')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.remove('open'));
 
