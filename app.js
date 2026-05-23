@@ -2,6 +2,7 @@ const CART_KEY='ukmaxx_cart_v1';
 const money=n=>`£${Number(n).toFixed(2)}`;
 const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
 const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
+const STRIPE_PUBLISHABLE_KEY='STRIPE_PUBLISHABLE_KEY';
 
 function renderCart(){
   const countEl=document.getElementById('cartCount');
@@ -21,7 +22,42 @@ function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s); if(f) f.qty++
 function chg(s,d){const c=getCart(); const f=c.find(x=>x.sku===s); if(!f) return; f.qty+=d; if(f.qty<=0)c.splice(c.indexOf(f),1); setCart(c); renderCart();}
 function rmv(s){setCart(getCart().filter(x=>x.sku!==s)); renderCart();}
 
+function orderRef(){ return `UKM-${Math.random().toString(36).slice(2,7).toUpperCase()}`; }
+
+async function startCheckout(){
+  const email=document.getElementById('email')?.value.trim();
+  const fullName=document.getElementById('fullName')?.value.trim();
+  const address=document.getElementById('address')?.value.trim();
+  const country=document.getElementById('country')?.value;
+  const err=document.getElementById('checkoutError');
+  if(err){ err.style.display='none'; err.textContent=''; }
+  if(!email||!fullName||!address||!country){ if(err){err.textContent='Please complete email, name, and address before payment.';err.style.display='block';} return; }
+  const c=getCart(); if(!c.length){ if(err){err.textContent='Your basket is empty.';err.style.display='block';} return; }
+
+  const items=c.map(i=>({
+    price_data:{
+      currency:'gbp',
+      product_data:{ name:`${i.sku} x1` },
+      unit_amount: Math.round(PRODUCTS[i.sku].price*100)
+    },
+    quantity:i.qty
+  }));
+  items.push({
+    price_data:{currency:'gbp',product_data:{name:'UK TRACKED SHIPPING'},unit_amount:499},
+    quantity:1
+  });
+
+  const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,country}})});
+  const data=await res.json();
+  if(!res.ok||!data.url){ if(err){err.textContent='Unable to start payment. Please try again.';err.style.display='block';} return; }
+  window.location.href=data.url;
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
+  const params=new URLSearchParams(location.search);
+  const success=params.get('payment')==='success';
+  const cancelled=params.get('payment')==='cancelled';
+
   document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',()=>{
     const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);
   }));
@@ -33,6 +69,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   let scrollTimer; window.addEventListener('scroll',()=>{ if(!cartFab) return; cartFab.classList.add('scrolling'); clearTimeout(scrollTimer); scrollTimer=setTimeout(()=>cartFab.classList.remove('scrolling'),300); },{passive:true});
   document.getElementById('checkoutBtn')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.add('open'));
   document.getElementById('checkoutClose')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.remove('open'));
+  document.getElementById('payBtn')?.addEventListener('click',startCheckout);
 
   const coaBody=document.querySelector('.coa-body');
   if(coaBody){
@@ -41,6 +78,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   document.getElementById('cartItems')?.addEventListener('click',(e)=>{const t=e.target; if(!(t instanceof HTMLElement)) return; const sku=t.getAttribute('data-sku'); const a=t.getAttribute('data-a'); if(!sku||!a) return; if(a==='inc') chg(sku,1); if(a==='dec') chg(sku,-1); if(a==='rm') rmv(sku);});
+
+  if(success){
+    setCart([]); renderCart();
+    const sm=document.getElementById('successModal'); const ref=document.getElementById('orderRef'); if(ref) ref.textContent=`Order Reference: ${orderRef()}`; if(sm) sm.style.display='flex';
+    document.getElementById('backToShop')?.addEventListener('click',()=>{ if(sm) sm.style.display='none'; history.replaceState({},'',location.pathname); window.scrollTo({top:0,behavior:'smooth'}); });
+  }
+  if(cancelled){
+    const banner=document.getElementById('checkoutBanner'); if(banner){banner.style.display='block'; banner.textContent='Payment cancelled — your basket has been saved';}
+    drawer?.classList.add('open');
+    history.replaceState({},'',location.pathname);
+  }
 
   renderCart();
 });
