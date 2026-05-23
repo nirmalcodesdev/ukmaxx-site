@@ -160,6 +160,23 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .footer-cols { margin-top:0; grid-column:span 1; display:contents; }
   .footer-bottom { flex-direction:row; justify-content:space-between; padding:18px 48px; }
 }
+
+/* Cart + checkout */
+.cart-fab{position:fixed;right:16px;bottom:16px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:10px 12px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer}
+.cart-count{display:inline-block;background:var(--accent);padding:2px 6px;border-radius:999px;margin-left:6px}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.cart-items{padding:12px 16px;overflow:auto;flex:1}
+.cart-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.qty{display:flex;gap:8px;align-items:center}.qty button{padding:2px 8px}
+.cart-foot{padding:14px 16px;border-top:1px solid var(--border)}
+.checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:center;justify-content:center;padding:14px}
+.checkout-modal.open{display:flex}
+.checkout-card{background:var(--white);width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--border);padding:16px}
+.field{margin-bottom:10px}.field input,.field select{width:100%;padding:10px;border:1px solid var(--border);background:#fff}
+.coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
+.coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-family:'Share Tech Mono',monospace;font-size:11px}
 </style>
 </head>
 <body>
@@ -177,7 +194,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
     <li><a href="#">FAQ</a></li>
     <li><a href="#">Telegram</a></li>
   </ul>
-  <button class="nav-btn">Shop Now</button>
+  <button class="nav-btn" id="shopNowBtn">Shop Now</button>
 </nav>
 
 <!-- HERO -->
@@ -237,7 +254,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
   <div class="products-grid">
     <div class="product-card featured">
-      <img class="product-img" src="./images/reta-single.jpg" alt="Retatrutide single vial">
+      <img loading="lazy" class="product-img" src="./images/reta-single.jpg" alt="Retatrutide single vial">
       <div class="product-body">
         <div class="product-badge">★ TOP SKU</div>
         <div class="product-sku">RT10 — RETATRUTIDE</div>
@@ -248,7 +265,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
     <div class="product-card">
-      <img class="product-img" src="./images/reta-3pack-v2.jpg" alt="Research pack">
+      <img loading="lazy" class="product-img" src="./images/reta-3pack-v2.jpg" alt="Research pack">
       <div class="product-body">
         <div class="product-sku">RT10 x3 — RESEARCH PACK</div>
         <div class="product-name">RETA 3-PACK</div>
@@ -257,7 +274,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
     <div class="product-card">
-      <img class="product-img" src="./images/bpc-157.jpg" alt="BPC-157">
+      <img loading="lazy" class="product-img" src="./images/bpc-157.jpg" alt="BPC-157">
       <div class="product-body">
         <div class="product-sku">BC5 — BPC-157</div>
         <div class="product-name">BPC 157</div>
@@ -266,7 +283,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
     <div class="product-card">
-      <img class="product-img" src="./images/ipamorelin.jpg" alt="Ipamorelin">
+      <img loading="lazy" class="product-img" src="./images/ipamorelin.jpg" alt="Ipamorelin">
       <div class="product-body">
         <div class="product-sku">IP5 — IPAMORELIN</div>
         <div class="product-name">IPAM 5MG</div>
@@ -275,7 +292,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
     <div class="product-card">
-      <img class="product-img" src="./images/nad-single.jpg" alt="NAD+">
+      <img loading="lazy" class="product-img" src="./images/nad-single.jpg" alt="NAD+">
       <div class="product-body">
         <div class="product-sku">NJ500 — NAD+</div>
         <div class="product-name">NAD+ 500MG</div>
@@ -284,7 +301,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
     <div class="product-card">
-      <img class="product-img" src="./images/bac-water-box.jpg" alt="BAC Water product kit">
+      <img loading="lazy" class="product-img" src="./images/bac-water-box.jpg" alt="BAC Water product kit">
       <div class="product-body">
         <div class="product-sku">WA10 — BAC WATER</div>
         <div class="product-name">BAC WATER</div>
@@ -329,7 +346,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
   </div>
-  <img class="coa-img" src="./images/coa-certificate.jpg" alt="Certificate of Analysis">
+  <img loading="lazy" class="coa-img" src="./images/coa-certificate.jpg" alt="Certificate of Analysis">
 </section>
 
 <!-- FOOTER -->
@@ -358,6 +375,48 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <span>ALL PRODUCTS FOR RESEARCH USE ONLY <span class="blink">_</span></span>
 </div>
 
+<button class="cart-fab" id="cartFab">BASKET <span class="cart-count" id="cartCount">0</span></button>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><strong>BASKET</strong><button id="cartClose">Close</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div id="cartTotals"></div>
+    <button class="add-btn" id="checkoutBtn" style="width:100%;margin-top:10px">CHECKOUT</button>
+  </div>
+</div>
+<div class="checkout-modal" id="checkoutModal"><div class="checkout-card">
+  <h3 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">SECURE CHECKOUT</h3>
+  <p style="font-size:12px;color:var(--dim)">UK Stocked · Batch Verified · Research Use Only</p>
+  <div class="field"><input id="email" placeholder="Email"></div>
+  <div class="field"><input placeholder="Full Name"></div>
+  <div class="field"><input placeholder="Address"></div>
+  <div class="field"><select><option>United Kingdom</option><option>Ireland</option><option>Germany</option></select></div>
+  <div class="field" style="font-size:12px;color:var(--dim)">UK Tracked 24 dispatch for orders before 2PM.</div>
+  <div id="checkoutSummary" class="coa-result-box"></div>
+  <button class="add-btn" style="width:100%;margin-top:8px">CONTINUE (STRIPE TEST PLACEHOLDER)</button>
+  <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px">Back</button>
+</div></div>
+<script src="./products.js"></script>
+<script>
+const CART_KEY='ukmaxx_cart_v1';
+const £=n=>`£${n.toFixed(2)}`;
+const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
+const skuFromBtn=btn=>btn.dataset.sku==='GENERIC'?btn.closest('.product-body').querySelector('.product-sku').textContent.split('—')[0].trim():btn.dataset.sku;
+function renderCart(){const c=getCart();cartCount.textContent=c.reduce((a,b)=>a+b.qty,0);if(!c.length){cartItems.innerHTML='<p style="color:var(--dim)">Basket empty.</p>';cartTotals.textContent='';checkoutSummary.textContent='';return;}cartItems.innerHTML=c.map(i=>`<div class='cart-item'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div>${£(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button onclick="chg('${i.sku}',-1)">-</button><button onclick="chg('${i.sku}',1)">+</button><button onclick="rmv('${i.sku}')">Remove</button></div></div>`).join('');const sub=c.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0);const ship=sub?4.99:0;const tot=sub+ship;cartTotals.innerHTML=`Subtotal ${£(sub)}<br>Shipping ${£(ship)}<br><strong>Total ${£(tot)}</strong>`;checkoutSummary.textContent=`ORDER SUMMARY\nSubtotal: ${£(sub)}\nShipping: ${£(ship)}\nTotal: ${£(tot)}\nSecure laboratory procurement flow.`}
+function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s);if(f)f.qty++;else c.push({sku:s,qty:1});setCart(c);renderCart();}
+function chg(s,d){const c=getCart();const f=c.find(x=>x.sku===s);if(!f)return;f.qty+=d;if(f.qty<=0)c.splice(c.indexOf(f),1);setCart(c);renderCart();}
+function rmv(s){setCart(getCart().filter(x=>x.sku!==s));renderCart();}
+window.chg=chg;window.rmv=rmv;
+document.querySelectorAll('.add-btn[data-sku]').forEach(b=>b.onclick=()=>addSku(skuFromBtn(b)));
+shopNowBtn.onclick=()=>document.querySelector('#products').scrollIntoView({behavior:'smooth'});
+cartFab.onclick=()=>cartDrawer.classList.add('open'); cartClose.onclick=()=>cartDrawer.classList.remove('open');
+checkoutBtn.onclick=()=>checkoutModal.classList.add('open'); checkoutClose.onclick=()=>checkoutModal.classList.remove('open');
+renderCart();
+// COA lookup
+document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:10px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
+lookupBtn.onclick=()=>{const v=batchLookup.value.trim();const r=COA[v];lookupOut.style.display='block';lookupOut.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND — CHECK BATCH FORMAT.'}
+</script>
 </body>
 </html>
 
