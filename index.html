@@ -99,6 +99,10 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .coa-body { font-size:14px; color:var(--dim); line-height:1.8; margin:14px 0 24px; font-weight:300; }
 .coa-card { background:var(--white); border:1px solid var(--border); padding:20px; position:relative; margin-top:24px; }
 .coa-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
+.coa-micros { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.coa-micro { border:1px solid var(--border); background:rgba(230,242,244,.55); padding:6px; }
+.coa-micro img { width:100%; height:72px; object-fit:cover; display:block; filter:grayscale(18%) brightness(.92); }
+.coa-micro span { display:block; margin-top:5px; font-family:'Share Tech Mono',monospace; font-size:8px; letter-spacing:.09em; color:var(--dim); text-transform:uppercase; }
 .coa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
 .coa-lab { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:0.05em; color:var(--text); }
 .coa-verified { font-family:'Share Tech Mono',monospace; font-size:9px; color:#00A550; border:1px solid #00A550; padding:3px 8px; letter-spacing:0.1em; }
@@ -312,6 +316,16 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       <div class="coa-result">
         <div class="coa-result-label">PURITY RESULT</div>
         <div class="coa-result-val">99.8%</div>
+      </div>
+      <div class="coa-micros">
+        <div class="coa-micro">
+          <img src="./images/tamper-seal-closeup.jpg" alt="Tamper seal closeup">
+          <span>Tamper Seal Integrity</span>
+        </div>
+        <div class="coa-micro">
+          <img src="./images/batch-sticker-macro.jpg" alt="Batch sticker macro">
+          <span>Batch Code Traceability</span>
+        </div>
       </div>
     </div>
   </div>
