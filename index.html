@@ -12,7 +12,9 @@
 <style>
 :root {
   --bg:#F4F8F9; --surface:#E6F2F4; --accent:#0A7E8C; --accent2:#0FA3B1;
-  --text:#081F23; --dim:#5A8089; --border:#B8D8DC; --white:#ffffff;
+  --text:#081F23; --dim:#4F727B; --border:#B8D8DC; --white:#ffffff;
+  --shadow-soft:0 6px 18px rgba(8,31,35,.06);
+  --shadow-lift:0 10px 26px rgba(8,31,35,.10);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -68,16 +70,16 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .lab-banner-sub { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.6; font-weight:300; }
 
 /* SECTION */
-.section { padding:44px 20px; }
-.section-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:8px; }
-.section-title { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:24px; color:var(--text); }
+.section { padding:52px 20px; }
+.section-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:10px; }
+.section-title { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:26px; color:var(--text); }
 .section-header { margin-bottom:24px; }
 
 /* PRODUCTS */
 .products-grid { display:flex; flex-direction:column; gap:2px; }
-.product-card { background:var(--surface); position:relative; border-top:3px solid transparent; min-height:468px; transition:transform .2s ease, box-shadow .2s ease, background .2s ease; }
-.product-card::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0)); pointer-events:none; opacity:.45; }
-.product-card:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(8,31,35,.08); }
+.product-card { background:var(--surface); position:relative; border:1px solid rgba(184,216,220,.7); border-top:3px solid transparent; min-height:468px; transition:transform .18s ease, box-shadow .18s ease, background .2s ease; box-shadow:var(--shadow-soft); }
+.product-card::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0)); pointer-events:none; opacity:.38; }
+.product-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lift); }
 .product-card.featured { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--accent); }
 .product-img { width:100%; height:200px; object-fit:cover; display:block; filter:grayscale(20%) brightness(0.9); transition:transform .35s ease; }
 .product-card:hover .product-img { transform:scale(1.02); }
@@ -86,12 +88,13 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .product-badge { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--accent); border:1px solid var(--accent); padding:3px 8px; margin-bottom:4px; }
 .product-sku { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:0.12em; margin-bottom:2px; }
 .product-name { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:4px; color:var(--text); }
-.product-desc { font-size:13px; color:var(--dim); line-height:1.7; margin-bottom:6px; font-weight:300; }
-.product-meta { display:flex; justify-content:space-between; align-items:center; margin-top:auto; }
-.product-price { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--accent); }
+.product-desc { font-size:13px; color:var(--dim); line-height:1.75; margin-bottom:8px; font-weight:400; }
+.product-meta { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:4px; }
+.product-price { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--accent); letter-spacing:.01em; }
 .product-price sub { font-size:14px; color:var(--dim); font-style:normal; }
-.add-btn { background:var(--accent); border:1px solid var(--accent); color:var(--white); padding:10px 16px; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.12em; cursor:pointer; border-radius:3px; transition:background .2s ease, color .2s ease, border-color .2s ease; }
+.add-btn { background:var(--accent); border:1px solid var(--accent); color:var(--white); padding:10px 16px; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.12em; cursor:pointer; border-radius:3px; transition:transform .12s ease, box-shadow .18s ease, background .2s ease, color .2s ease, border-color .2s ease; box-shadow:0 4px 10px rgba(10,126,140,.18); }
 .add-btn:hover { background:var(--accent2); border-color:var(--accent2); }
+.add-btn:active { transform:translateY(1px) scale(.98); box-shadow:0 2px 6px rgba(10,126,140,.14); }
 .lab-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
 .lab-tag { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:.08em; color:var(--dim); border:1px solid var(--border); padding:3px 6px; background:rgba(255,255,255,.45); text-transform:uppercase; }
 .purity-bar { margin-top:6px; }
@@ -170,7 +173,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .cart-fab{position:fixed;right:12px;bottom:28px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:9px 11px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;cursor:pointer;box-shadow:0 8px 18px rgba(8,31,35,.18);opacity:1;transition:opacity .3s ease}
 .cart-fab.scrolling{opacity:0}
 .cart-count{display:inline-block;background:var(--accent);padding:2px 6px;border-radius:999px;margin-left:6px}
-.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(8,31,35,.12)}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .2s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(8,31,35,.12)}
 .cart-drawer.open{transform:translateX(0)}
 .cart-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .cart-close{border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;padding:8px 10px;min-height:36px;cursor:pointer}
@@ -183,8 +186,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .cart-foot{padding:16px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white);position:sticky;bottom:0}
 .checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:flex-end;justify-content:center;padding:0}
 .checkout-modal.open{display:flex}
-.checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
-.field{margin-bottom:10px}.field input,.field select{width:100%;padding:12px;min-height:44px;border:1px solid var(--border);background:#fff}
+.checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;box-shadow:0 12px 28px rgba(8,31,35,.12)}
+.field{margin-bottom:10px}.field input,.field select{width:100%;padding:12px;min-height:44px;border:1px solid var(--border);background:#fff;transition:border-color .15s ease, box-shadow .15s ease}.field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,126,140,.12)}
 .coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
 .coa-tool input{min-height:44px}
 .coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-size:12px;line-height:1.6;color:var(--text)}
