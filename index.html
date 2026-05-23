@@ -162,21 +162,23 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 }
 
 /* Cart + checkout */
-.cart-fab{position:fixed;right:16px;bottom:16px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:10px 12px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer}
+.cart-fab{position:fixed;right:14px;bottom:14px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:11px 13px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer}
 .cart-count{display:inline-block;background:var(--accent);padding:2px 6px;border-radius:999px;margin-left:6px}
 .cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
 .cart-drawer.open{transform:translateX(0)}
-.cart-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
-.cart-items{padding:12px 16px;overflow:auto;flex:1}
-.cart-item{padding:10px 0;border-bottom:1px solid var(--border)}
-.qty{display:flex;gap:8px;align-items:center}.qty button{padding:2px 8px}
-.cart-foot{padding:14px 16px;border-top:1px solid var(--border)}
-.checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:center;justify-content:center;padding:14px}
+.cart-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cart-items{padding:10px 14px 14px;overflow:auto;flex:1}
+.cart-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{padding:8px 10px;min-width:36px;min-height:36px;border:1px solid var(--border);background:#fff}
+.cart-foot{padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white)}
+.checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:flex-end;justify-content:center;padding:0}
 .checkout-modal.open{display:flex}
-.checkout-card{background:var(--white);width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--border);padding:16px}
-.field{margin-bottom:10px}.field input,.field select{width:100%;padding:10px;border:1px solid var(--border);background:#fff}
+.checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.field{margin-bottom:10px}.field input,.field select{width:100%;padding:12px;min-height:44px;border:1px solid var(--border);background:#fff}
 .coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
+.coa-tool input{min-height:44px}
 .coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-family:'Share Tech Mono',monospace;font-size:11px}
+.sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)
 </style>
 </head>
 <body>
@@ -381,7 +383,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-foot">
     <div id="cartTotals"></div>
-    <button class="add-btn" id="checkoutBtn" style="width:100%;margin-top:10px">CHECKOUT</button>
+    <button class="add-btn" id="checkoutBtn" style="width:100%;margin-top:10px;min-height:44px">CHECKOUT</button>
   </div>
 </div>
 <div class="checkout-modal" id="checkoutModal"><div class="checkout-card">
@@ -392,9 +394,11 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="field"><input placeholder="Address"></div>
   <div class="field"><select><option>United Kingdom</option><option>Ireland</option><option>Germany</option></select></div>
   <div class="field" style="font-size:12px;color:var(--dim)">UK Tracked 24 dispatch for orders before 2PM.</div>
-  <div id="checkoutSummary" class="coa-result-box"></div>
-  <button class="add-btn" style="width:100%;margin-top:8px">CONTINUE (STRIPE TEST PLACEHOLDER)</button>
-  <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px">Back</button>
+  <div class="sticky-total">
+    <div id="checkoutSummary" class="coa-result-box"></div>
+    <button class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE (STRIPE TEST PLACEHOLDER)</button>
+    <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
+  </div>
 </div></div>
 <script src="./products.js"></script>
 <script>
@@ -403,7 +407,7 @@ const £=n=>`£${n.toFixed(2)}`;
 const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
 const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
 const skuFromBtn=btn=>btn.dataset.sku==='GENERIC'?btn.closest('.product-body').querySelector('.product-sku').textContent.split('—')[0].trim():btn.dataset.sku;
-function renderCart(){const c=getCart();cartCount.textContent=c.reduce((a,b)=>a+b.qty,0);if(!c.length){cartItems.innerHTML='<p style="color:var(--dim)">Basket empty.</p>';cartTotals.textContent='';checkoutSummary.textContent='';return;}cartItems.innerHTML=c.map(i=>`<div class='cart-item'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div>${£(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button onclick="chg('${i.sku}',-1)">-</button><button onclick="chg('${i.sku}',1)">+</button><button onclick="rmv('${i.sku}')">Remove</button></div></div>`).join('');const sub=c.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0);const ship=sub?4.99:0;const tot=sub+ship;cartTotals.innerHTML=`Subtotal ${£(sub)}<br>Shipping ${£(ship)}<br><strong>Total ${£(tot)}</strong>`;checkoutSummary.textContent=`ORDER SUMMARY\nSubtotal: ${£(sub)}\nShipping: ${£(ship)}\nTotal: ${£(tot)}\nSecure laboratory procurement flow.`}
+function renderCart(){const c=getCart();cartCount.textContent=c.reduce((a,b)=>a+b.qty,0);if(!c.length){cartItems.innerHTML='<p style="color:var(--dim)">Basket empty.</p>';cartTotals.textContent='';checkoutSummary.textContent='';return;}cartItems.innerHTML=c.map(i=>`<div class='cart-item'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div style='margin-top:4px'>${£(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button aria-label='Decrease quantity' onclick="chg('${i.sku}',-1)">-</button><button aria-label='Increase quantity' onclick="chg('${i.sku}',1)">+</button><button aria-label='Remove item' style='margin-left:auto;padding:8px 10px;min-height:36px' onclick="rmv('${i.sku}')">Remove</button></div></div>`).join('');const sub=c.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0);const ship=sub?4.99:0;const tot=sub+ship;cartTotals.innerHTML=`Subtotal ${£(sub)}<br>Shipping ${£(ship)}<br><strong>Total ${£(tot)}</strong>`;checkoutSummary.textContent=`ORDER SUMMARY\nSubtotal: ${£(sub)}\nShipping: ${£(ship)}\nTotal: ${£(tot)}\nSecure laboratory procurement flow.`}
 function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s);if(f)f.qty++;else c.push({sku:s,qty:1});setCart(c);renderCart();}
 function chg(s,d){const c=getCart();const f=c.find(x=>x.sku===s);if(!f)return;f.qty+=d;if(f.qty<=0)c.splice(c.indexOf(f),1);setCart(c);renderCart();}
 function rmv(s){setCart(getCart().filter(x=>x.sku!==s));renderCart();}
@@ -414,7 +418,7 @@ cartFab.onclick=()=>cartDrawer.classList.add('open'); cartClose.onclick=()=>cart
 checkoutBtn.onclick=()=>checkoutModal.classList.add('open'); checkoutClose.onclick=()=>checkoutModal.classList.remove('open');
 renderCart();
 // COA lookup
-document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:10px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
+document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:12px;min-height:44px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px;min-height:44px;width:100%'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
 lookupBtn.onclick=()=>{const v=batchLookup.value.trim();const r=COA[v];lookupOut.style.display='block';lookupOut.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND — CHECK BATCH FORMAT.'}
 </script>
 </body>
