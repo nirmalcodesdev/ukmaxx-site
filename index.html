@@ -162,25 +162,26 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 }
 
 /* Cart + checkout */
-.cart-fab{position:fixed;right:14px;bottom:14px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:11px 13px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer}
+.cart-fab{position:fixed;right:12px;bottom:12px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:10px 12px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;box-shadow:0 8px 18px rgba(8,31,35,.18)}
 .cart-count{display:inline-block;background:var(--accent);padding:2px 6px;border-radius:999px;margin-left:6px}
-.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(8,31,35,.12)}
 .cart-drawer.open{transform:translateX(0)}
 .cart-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .cart-close{border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;padding:8px 10px;min-height:36px;cursor:pointer}
 .cart-close:hover{background:var(--white)}
 .cart-items{padding:10px 14px 14px;overflow:auto;flex:1}
-.cart-item{padding:12px 0;border-bottom:1px solid var(--border)}
-.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{padding:8px 10px;min-width:36px;min-height:36px;border:1px solid var(--border);background:#fff}
-.cart-foot{padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white)}
+.cart-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{padding:10px;min-width:44px;min-height:44px;border:1px solid var(--border);background:#fff}
+.cart-foot{padding:10px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white);position:sticky;bottom:0}
 .checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:flex-end;justify-content:center;padding:0}
 .checkout-modal.open{display:flex}
 .checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
 .field{margin-bottom:10px}.field input,.field select{width:100%;padding:12px;min-height:44px;border:1px solid var(--border);background:#fff}
 .coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
 .coa-tool input{min-height:44px}
-.coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-family:'Share Tech Mono',monospace;font-size:11px}
+.coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-size:12px;line-height:1.6;color:var(--text)}
 .sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)}
+@media (max-width:768px){.cart-drawer{top:auto;bottom:0;right:0;height:88vh;border-left:none;border-top:1px solid var(--border);border-radius:14px 14px 0 0;transform:translateY(100%)}.cart-drawer.open{transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -398,7 +399,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="field" style="font-size:12px;color:var(--dim)">UK Tracked 24 dispatch for orders before 2PM.</div>
   <div class="sticky-total">
     <div id="checkoutSummary" class="coa-result-box"></div>
-    <button class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE (STRIPE TEST PLACEHOLDER)</button>
+    <button class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE TO PAYMENT</button>
     <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
   </div>
 </div></div>
