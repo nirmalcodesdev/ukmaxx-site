@@ -400,39 +400,9 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
     <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
   </div>
 </div></div>
-<script src="./products.js"></script>
-<script>
-const CART_KEY='ukmaxx_cart_v1';
-const £=n=>`£${n.toFixed(2)}`;
-const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
-const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
-const skuFromBtn=btn=>btn.dataset.sku==='GENERIC'?btn.closest('.product-body').querySelector('.product-sku').textContent.split('—')[0].trim():btn.dataset.sku;
-function renderCart(){const c=getCart();cartCount.textContent=c.reduce((a,b)=>a+b.qty,0);if(!c.length){cartItems.innerHTML='<p style="color:var(--dim)">Basket empty.</p>';cartTotals.textContent='';checkoutSummary.textContent='';return;}cartItems.innerHTML=c.map(i=>`<div class='cart-item'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div style='margin-top:4px'>${£(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button aria-label='Decrease quantity' onclick="chg('${i.sku}',-1)">-</button><button aria-label='Increase quantity' onclick="chg('${i.sku}',1)">+</button><button aria-label='Remove item' style='margin-left:auto;padding:8px 10px;min-height:36px' onclick="rmv('${i.sku}')">Remove</button></div></div>`).join('');const sub=c.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0);const ship=sub?4.99:0;const tot=sub+ship;cartTotals.innerHTML=`Subtotal ${£(sub)}<br>Shipping ${£(ship)}<br><strong>Total ${£(tot)}</strong>`;checkoutSummary.textContent=`ORDER SUMMARY\nSubtotal: ${£(sub)}\nShipping: ${£(ship)}\nTotal: ${£(tot)}\nSecure laboratory procurement flow.`}
-function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s);if(f)f.qty++;else c.push({sku:s,qty:1});setCart(c);renderCart();}
-function chg(s,d){const c=getCart();const f=c.find(x=>x.sku===s);if(!f)return;f.qty+=d;if(f.qty<=0)c.splice(c.indexOf(f),1);setCart(c);renderCart();}
-function rmv(s){setCart(getCart().filter(x=>x.sku!==s));renderCart();}
-window.chg=chg;window.rmv=rmv;
-document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.onclick=()=>{const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);});
-const shopNowBtnEl=document.getElementById('shopNowBtn'); if(shopNowBtnEl) shopNowBtnEl.onclick=()=>document.querySelector('#products').scrollIntoView({behavior:'smooth'});
-const cartFabEl=document.getElementById('cartFab'), cartDrawerEl=document.getElementById('cartDrawer'), cartCloseEl=document.getElementById('cartClose');
-if(cartFabEl&&cartDrawerEl) cartFabEl.onclick=()=>cartDrawerEl.classList.add('open'); if(cartCloseEl&&cartDrawerEl) cartCloseEl.onclick=()=>cartDrawerEl.classList.remove('open');
-const checkoutBtnEl=document.getElementById('checkoutBtn'), checkoutModalEl=document.getElementById('checkoutModal'), checkoutCloseEl=document.getElementById('checkoutClose');
-if(checkoutBtnEl&&checkoutModalEl) checkoutBtnEl.onclick=()=>checkoutModalEl.classList.add('open'); if(checkoutCloseEl&&checkoutModalEl) checkoutCloseEl.onclick=()=>checkoutModalEl.classList.remove('open');
-renderCart();
-// COA lookup
-document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:12px;min-height:44px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px;min-height:44px;width:100%'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
-const lookupBtnEl=document.getElementById('lookupBtn'), batchLookupEl=document.getElementById('batchLookup'), lookupOutEl=document.getElementById('lookupOut');
-if(lookupBtnEl&&batchLookupEl&&lookupOutEl){
-  lookupBtnEl.onclick=()=>{
-    const v=batchLookupEl.value.trim();
-    const r=COA[v];
-    lookupOutEl.style.display='block';
-    lookupOutEl.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND — CHECK BATCH FORMAT.';
-  };
-}
-</script>
-</body>
+<script src="./products.js"></script>`r`n<script src="./app.js"></script>`r`n</body>
 </html>
+
 
 
 
