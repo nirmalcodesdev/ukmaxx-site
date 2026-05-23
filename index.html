@@ -413,14 +413,20 @@ function chg(s,d){const c=getCart();const f=c.find(x=>x.sku===s);if(!f)return;f.
 function rmv(s){setCart(getCart().filter(x=>x.sku!==s));renderCart();}
 window.chg=chg;window.rmv=rmv;
 document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.onclick=()=>{const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);});
-shopNowBtn.onclick=()=>document.querySelector('#products').scrollIntoView({behavior:'smooth'});
-cartFab.onclick=()=>cartDrawer.classList.add('open'); cartClose.onclick=()=>cartDrawer.classList.remove('open');
-checkoutBtn.onclick=()=>checkoutModal.classList.add('open'); checkoutClose.onclick=()=>checkoutModal.classList.remove('open');
+const shopNowBtnEl=document.getElementById('shopNowBtn'); if(shopNowBtnEl) shopNowBtnEl.onclick=()=>document.querySelector('#products').scrollIntoView({behavior:'smooth'});
+const cartFabEl=document.getElementById('cartFab'), cartDrawerEl=document.getElementById('cartDrawer'), cartCloseEl=document.getElementById('cartClose');
+if(cartFabEl&&cartDrawerEl) cartFabEl.onclick=()=>cartDrawerEl.classList.add('open'); if(cartCloseEl&&cartDrawerEl) cartCloseEl.onclick=()=>cartDrawerEl.classList.remove('open');
+const checkoutBtnEl=document.getElementById('checkoutBtn'), checkoutModalEl=document.getElementById('checkoutModal'), checkoutCloseEl=document.getElementById('checkoutClose');
+if(checkoutBtnEl&&checkoutModalEl) checkoutBtnEl.onclick=()=>checkoutModalEl.classList.add('open'); if(checkoutCloseEl&&checkoutModalEl) checkoutCloseEl.onclick=()=>checkoutModalEl.classList.remove('open');
 renderCart();
 // COA lookup
 document.querySelector('.coa-body').insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:12px;min-height:44px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px;min-height:44px;width:100%'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
-lookupBtn.onclick=()=>{const v=batchLookup.value.trim();const r=COA[v];lookupOut.style.display='block';lookupOut.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND — CHECK BATCH FORMAT.'}
 </script>
+const lookupBtnEl=document.getElementById('lookupBtn'), batchLookupEl=document.getElementById('batchLookup'), lookupOutEl=document.getElementById('lookupOut'); if(lookupBtnEl&&batchLookupEl&&lookupOutEl){lookupBtnEl.onclick=()=>{const v=batchLookupEl.value.trim();const r=COA[v];lookupOutEl.style.display='block';lookupOutEl.textContent=r?VERIFIED
+
+
+
+:'NOT FOUND � CHECK BATCH FORMAT.'}}
 </body>
 </html>
 
