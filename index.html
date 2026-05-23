@@ -18,151 +18,137 @@ body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif
 .topbar { background:var(--accent); color:var(--white); text-align:center; padding:10px 16px; font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; line-height:1.5; }
 
 /* NAV */
-nav { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(244,248,249,0.97); backdrop-filter:blur(12px); z-index:100; }
-.logo { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:0.08em; display:flex; align-items:center; gap:8px; color:var(--text); }
-.logo-mark { width:28px; height:28px; background:var(--accent); display:flex; align-items:center; justify-content:center; clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); flex-shrink:0; }
+nav { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(244,248,249,0.97); backdrop-filter:blur(12px); z-index:100; }
+.logo { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.08em; display:flex; align-items:center; gap:8px; color:var(--text); }
+.logo-mark { width:26px; height:26px; background:var(--accent); display:flex; align-items:center; justify-content:center; clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); flex-shrink:0; }
 .nav-links { display:none; }
-.nav-btn { background:var(--accent); color:var(--white); border:none; padding:9px 18px; font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; cursor:pointer; white-space:nowrap; }
+.nav-btn { background:var(--accent); color:var(--white); border:none; padding:9px 18px; font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; cursor:pointer; white-space:nowrap; border-radius:4px; }
 
-/* HERO */
-.hero { padding:48px 20px; width:100%; }
-.hero-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
-.hero-tag::before { content:''; width:24px; height:1px; background:var(--accent); flex-shrink:0; }
-.hero-title { font-family:'Bebas Neue',sans-serif; font-size:80px; line-height:0.9; letter-spacing:0.02em; margin-bottom:24px; color:var(--text); }
+/* HERO — tighter on mobile */
+.hero { padding:36px 20px 32px; width:100%; }
+.hero-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+.hero-tag::before { content:''; width:20px; height:1px; background:var(--accent); flex-shrink:0; }
+.hero-title { font-family:'Bebas Neue',sans-serif; font-size:68px; line-height:0.9; letter-spacing:0.02em; margin-bottom:18px; color:var(--text); }
 .hero-title span { color:var(--accent); display:block; }
-.hero-sub { font-size:14px; color:var(--dim); line-height:1.7; margin-bottom:32px; font-weight:300; }
-.hero-ctas { display:flex; flex-direction:column; gap:12px; }
-.btn-primary { background:var(--accent); color:var(--white); border:none; padding:16px 20px; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:0.1em; cursor:pointer; text-decoration:none; display:block; text-align:center; }
-.btn-ghost { border:1px solid var(--accent); color:var(--accent); padding:15px 20px; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:0.1em; cursor:pointer; background:transparent; text-decoration:none; display:block; text-align:center; }
-.hero-stats { display:flex; margin-top:40px; padding-top:32px; border-top:1px solid var(--border); }
+.hero-sub { font-size:14px; color:var(--dim); line-height:1.7; margin-bottom:24px; font-weight:300; max-width:480px; }
+.hero-ctas { display:flex; flex-direction:column; gap:10px; }
+.btn-primary { background:var(--accent); color:var(--white); border:none; padding:14px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; text-decoration:none; display:block; text-align:center; border-radius:4px; }
+.btn-ghost { border:1px solid var(--accent); color:var(--accent); padding:13px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; background:transparent; text-decoration:none; display:block; text-align:center; border-radius:4px; }
+.hero-stats { display:flex; margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
 .stat { flex:1; }
-.stat-num { font-family:'Bebas Neue',sans-serif; font-size:30px; color:var(--accent); line-height:1; }
-.stat-label { font-size:10px; color:var(--dim); letter-spacing:0.08em; text-transform:uppercase; margin-top:4px; }
+.stat-num { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--accent); line-height:1; }
+.stat-label { font-size:10px; color:var(--dim); letter-spacing:0.08em; text-transform:uppercase; margin-top:3px; }
 
-.hero-img-strip { display:none; }
+/* images — hidden mobile, shown desktop */
 .hero-img-mosaic { display:none; }
 
 /* TRUST BAR */
-.trust-bar { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface); padding:20px; display:flex; flex-direction:column; gap:16px; }
+.trust-bar { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface); padding:18px 20px; display:flex; flex-direction:column; gap:14px; }
 .trust-item { display:flex; align-items:center; gap:12px; font-size:13px; color:var(--dim); }
-.trust-icon { width:34px; height:34px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.trust-icon { width:32px; height:32px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
 .trust-item strong { display:block; color:var(--text); font-size:13px; font-weight:500; }
 
 /* MARQUEE */
-.marquee-wrap { overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface); padding:14px 0; }
+.marquee-wrap { overflow:hidden; border-bottom:1px solid var(--border); background:var(--surface); padding:12px 0; }
 .marquee { display:flex; gap:40px; animation:marquee 18s linear infinite; white-space:nowrap; }
-.marquee-item { font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.1em; color:var(--dim); display:flex; align-items:center; gap:16px; flex-shrink:0; }
+.marquee-item { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:0.1em; color:var(--dim); display:flex; align-items:center; gap:16px; flex-shrink:0; }
 .marquee-item span { color:var(--accent); }
 @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
 /* LAB BANNER */
-.lab-banner { position:relative; overflow:hidden; height:280px; width:100%; }
+.lab-banner { position:relative; overflow:hidden; height:240px; width:100%; }
 .lab-banner img { width:100%; height:100%; object-fit:cover; filter:grayscale(40%) brightness(0.45); }
-.lab-banner-text { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:32px 20px; }
-.lab-banner-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:rgba(255,255,255,0.6); margin-bottom:12px; }
-.lab-banner-title { font-family:'Bebas Neue',sans-serif; font-size:52px; line-height:0.95; color:var(--white); }
-.lab-banner-sub { font-size:13px; color:rgba(255,255,255,0.55); margin-top:12px; line-height:1.6; font-weight:300; }
+.lab-banner-text { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:28px 20px; }
+.lab-banner-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:rgba(255,255,255,0.6); margin-bottom:10px; }
+.lab-banner-title { font-family:'Bebas Neue',sans-serif; font-size:46px; line-height:0.95; color:var(--white); }
+.lab-banner-sub { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.6; font-weight:300; }
 
 /* SECTION */
-.section { padding:50px 20px; }
-.section-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:10px; }
-.section-title { font-family:'Bebas Neue',sans-serif; font-size:44px; letter-spacing:0.02em; line-height:1; margin-bottom:32px; color:var(--text); }
-.section-header { margin-bottom:32px; }
+.section { padding:44px 20px; }
+.section-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:8px; }
+.section-title { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:24px; color:var(--text); }
+.section-header { margin-bottom:24px; }
 
 /* PRODUCTS */
 .products-grid { display:flex; flex-direction:column; gap:2px; }
 .product-card { background:var(--surface); position:relative; border-top:3px solid transparent; }
 .product-card.featured { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--accent); }
-.product-img { width:100%; height:200px; object-fit:cover; display:block; filter:grayscale(20%) brightness(0.9); }
-.product-body { padding:24px 20px; }
-.product-badge { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--accent); border:1px solid var(--accent); padding:3px 8px; margin-bottom:12px; }
-.product-sku { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:0.12em; margin-bottom:12px; }
-.product-name { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:0.02em; line-height:1; margin-bottom:8px; color:var(--text); }
-.product-desc { font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:20px; font-weight:300; }
+.product-img { width:100%; height:180px; object-fit:cover; display:block; filter:grayscale(20%) brightness(0.9); }
+.product-body { padding:20px; }
+.product-badge { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--accent); border:1px solid var(--accent); padding:3px 8px; margin-bottom:10px; }
+.product-sku { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:0.12em; margin-bottom:10px; }
+.product-name { font-family:'Bebas Neue',sans-serif; font-size:38px; letter-spacing:0.02em; line-height:1; margin-bottom:8px; color:var(--text); }
+.product-desc { font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:16px; font-weight:300; }
 .product-meta { display:flex; justify-content:space-between; align-items:center; }
-.product-price { font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--accent); }
-.product-price sub { font-size:16px; color:var(--dim); font-style:normal; }
-.add-btn { background:var(--accent); border:none; color:var(--white); padding:10px 20px; font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:0.1em; cursor:pointer; }
-.purity-bar { margin-top:16px; }
-.purity-label { display:flex; justify-content:space-between; font-size:10px; color:var(--dim); margin-bottom:5px; font-family:'Share Tech Mono',monospace; }
+.product-price { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--accent); }
+.product-price sub { font-size:14px; color:var(--dim); font-style:normal; }
+.add-btn { background:var(--accent); border:none; color:var(--white); padding:10px 20px; font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; cursor:pointer; border-radius:3px; }
+.purity-bar { margin-top:14px; }
+.purity-label { display:flex; justify-content:space-between; font-size:10px; color:var(--dim); margin-bottom:4px; font-family:'Share Tech Mono',monospace; }
 .purity-track { height:2px; background:var(--border); }
 .purity-fill { height:100%; background:var(--accent); width:99.8%; }
 
-/* LAB ROW */
-.lab-row { display:flex; gap:2px; width:100%; overflow:hidden; }
-.lab-row img { flex:1; height:180px; object-fit:cover; filter:grayscale(30%) brightness(0.85); min-width:0; }
-
 /* COA */
-.coa-section { padding:50px 20px; background:var(--surface); }
-.coa-body { font-size:14px; color:var(--dim); line-height:1.8; margin:16px 0 28px; font-weight:300; }
-.coa-card { background:var(--white); border:1px solid var(--border); padding:24px 20px; position:relative; margin-top:32px; }
+.coa-section { padding:44px 20px; background:var(--surface); }
+.coa-body { font-size:14px; color:var(--dim); line-height:1.8; margin:14px 0 24px; font-weight:300; }
+.coa-card { background:var(--white); border:1px solid var(--border); padding:20px; position:relative; margin-top:24px; }
 .coa-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
-.coa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border); }
-.coa-lab { font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.05em; color:var(--text); }
+.coa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+.coa-lab { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:0.05em; color:var(--text); }
 .coa-verified { font-family:'Share Tech Mono',monospace; font-size:9px; color:#00A550; border:1px solid #00A550; padding:3px 8px; letter-spacing:0.1em; }
-.coa-fields { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-.coa-field label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:4px; }
+.coa-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.coa-field label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:3px; }
 .coa-field p { font-size:13px; font-weight:500; color:var(--text); }
-.coa-result { padding:16px; background:var(--surface); border:1px solid var(--border); margin-top:16px; }
-.coa-result-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; margin-bottom:6px; }
-.coa-result-val { font-family:'Bebas Neue',sans-serif; font-size:48px; color:#00A550; }
-.coa-img { width:100%; height:300px; object-fit:cover; filter:grayscale(20%) brightness(0.9); margin-top:32px; }
-
-/* PROCUREMENT */
-.proc-section { padding:50px 20px; background:var(--bg); }
-.proc-grid { display:flex; flex-direction:column; gap:2px; margin-top:32px; }
-.proc-card { background:var(--surface); padding:28px 20px; border-left:3px solid var(--accent); }
-.proc-num { font-family:'Bebas Neue',sans-serif; font-size:56px; color:var(--accent); opacity:0.15; line-height:1; margin-bottom:12px; }
-.proc-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.05em; color:var(--text); margin-bottom:10px; }
-.proc-body { font-size:13px; color:var(--dim); line-height:1.7; font-weight:300; }
+.coa-result { padding:14px; background:var(--surface); border:1px solid var(--border); }
+.coa-result-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; margin-bottom:4px; }
+.coa-result-val { font-family:'Bebas Neue',sans-serif; font-size:44px; color:#00A550; }
+.coa-img { width:100%; height:260px; object-fit:cover; filter:grayscale(20%) brightness(0.9); margin-top:24px; }
 
 /* FOOTER */
-.footer { background:var(--surface); border-top:1px solid var(--border); padding:40px 20px; }
-.footer-brand { margin-bottom:32px; }
-.footer-bio { font-size:13px; color:var(--dim); line-height:1.7; font-weight:300; margin-top:12px; }
-.footer-disclaimer { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); opacity:0.5; letter-spacing:0.07em; margin-top:16px; line-height:1.6; }
-.footer-cols { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:32px; }
-.footer-col h4 { font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:0.1em; margin-bottom:16px; color:var(--dim); }
-.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer { background:var(--surface); border-top:1px solid var(--border); padding:36px 20px; }
+.footer-brand { margin-bottom:28px; }
+.footer-bio { font-size:13px; color:var(--dim); line-height:1.7; font-weight:300; margin-top:10px; }
+.footer-disclaimer { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); opacity:0.5; letter-spacing:0.07em; margin-top:14px; line-height:1.6; }
+.footer-cols { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:28px; }
+.footer-col h4 { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; margin-bottom:14px; color:var(--dim); }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
 .footer-col ul a { font-size:13px; color:var(--dim); text-decoration:none; font-weight:300; }
-.footer-bottom { border-top:1px solid var(--border); padding:16px 20px; display:flex; flex-direction:column; gap:8px; text-align:center; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.08em; opacity:0.6; }
+.footer-bottom { border-top:1px solid var(--border); padding:14px 20px; display:flex; flex-direction:column; gap:6px; text-align:center; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.08em; opacity:0.6; }
 @keyframes blink { 50%{opacity:0} }
 .blink { animation:blink 1s step-end infinite; }
 
 /* DESKTOP */
 @media (min-width:769px) {
-  nav { padding:20px 48px; }
+  nav { padding:18px 48px; }
   .nav-links { display:flex; gap:32px; list-style:none; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; }
   .nav-links a { color:var(--dim); text-decoration:none; }
   .nav-links a:hover { color:var(--accent); }
-  .logo { font-size:32px; }
-  .logo-mark { width:34px; height:34px; }
-  .hero { display:grid; grid-template-columns:1fr 1fr; padding:80px 48px; min-height:88vh; align-items:center; gap:60px; }
-  .hero-title { font-size:clamp(80px,9vw,130px); }
+  .logo { font-size:30px; }
+  .logo-mark { width:32px; height:32px; }
+
+  .hero { display:grid; grid-template-columns:1fr 1fr; padding:70px 48px; min-height:80vh; align-items:center; gap:60px; }
+  .hero-title { font-size:clamp(72px,8vw,118px); }
   .hero-ctas { flex-direction:row; }
   .btn-primary, .btn-ghost { width:auto; display:inline-block; }
-  .hero-img-strip { display:none; }
-  .hero-img-mosaic { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:260px 260px; gap:4px; height:520px; max-width:100%; overflow:hidden; }
+
+  .hero-img-mosaic { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:250px 250px; gap:4px; height:500px; max-width:100%; overflow:hidden; }
   .hero-img-mosaic img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; filter:grayscale(20%) brightness(0.9); }
   .hero-img-mosaic img:first-child { grid-row:span 2; height:100%; }
-  .hero-img-strip { display:none; }
-  .trust-bar { flex-direction:row; justify-content:space-around; padding:28px 48px; }
-  .lab-banner { height:400px; }
+
+  .trust-bar { flex-direction:row; justify-content:space-around; padding:24px 48px; }
+  .lab-banner { height:360px; }
   .lab-banner-text { padding:60px 48px; }
-  .lab-banner-title { font-size:90px; }
-  .section { padding:90px 48px; }
-  .section-title { font-size:54px; }
+  .lab-banner-title { font-size:84px; }
+  .section { padding:80px 48px; }
+  .section-title { font-size:50px; }
   .section-header { display:flex; justify-content:space-between; align-items:flex-end; }
   .products-grid { display:grid; grid-template-columns:repeat(3,1fr); }
-  .coa-section { display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:90px 48px; align-items:start; }
-  .coa-img { margin-top:0; height:100%; min-height:400px; }
-  .lab-row img { height:280px; }
-  .proc-section { padding:90px 48px; }
-  .proc-grid { display:grid; grid-template-columns:repeat(4,1fr); }
-  .footer { padding:60px 48px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; }
+  .coa-section { display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:80px 48px; align-items:start; }
+  .coa-img { margin-top:0; height:100%; min-height:380px; }
+  .footer { padding:56px 48px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; }
   .footer-brand { margin-bottom:0; }
   .footer-cols { margin-top:0; grid-column:span 1; display:contents; }
-  .footer-bottom { flex-direction:row; justify-content:space-between; padding:20px 48px; }
+  .footer-bottom { flex-direction:row; justify-content:space-between; padding:18px 48px; }
 }
 </style>
 </head>
@@ -172,33 +158,33 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 <nav>
   <div class="logo">
-    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="14" height="14"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>
+    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="13" height="13"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>
     UKMAXX
   </div>
   <ul class="nav-links">
-    <li><a href="#">Products</a></li><li><a href="#">Bundles</a></li><li><a href="#">COA Results</a></li><li><a href="#">FAQ</a></li><li><a href="#">Telegram</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#coa">COA Results</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Telegram</a></li>
   </ul>
   <button class="nav-btn">Shop Now</button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
+  <div>
     <div class="hero-tag">UK-based research compound supplier</div>
     <h1 class="hero-title">PUSH<br><span>MAXIMUM</span></h1>
-    <p class="hero-sub">Research-grade peptide compounds. UK stocked. Tracked dispatch. Every batch independently verified by accredited third-party laboratories. Strictly for research use only.</p>
+    <p class="hero-sub">Research-grade peptide compounds. UK stocked. Every batch independently verified by accredited third-party laboratories. For research use only.</p>
     <div class="hero-ctas">
-      <a href="#" class="btn-primary">Shop Products</a>
-      <a href="#" class="btn-ghost">View COA Results</a>
+      <a href="#products" class="btn-primary">Shop Products</a>
+      <a href="#coa" class="btn-ghost">View COA Results</a>
     </div>
     <div class="hero-stats">
       <div class="stat"><div class="stat-num">99.8%</div><div class="stat-label">Avg Purity</div></div>
       <div class="stat"><div class="stat-num">24HR</div><div class="stat-label">UK Dispatch</div></div>
       <div class="stat"><div class="stat-num">3PL</div><div class="stat-label">Lab Verified</div></div>
     </div>
-  </div>
-  <div class="hero-img-strip">
-    <img src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=400&q=80" alt="Laboratory vials">
-    <img src="https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400&q=80" alt="Research lab">
   </div>
   <div class="hero-img-mosaic">
     <img src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=600&q=80" alt="Laboratory vials">
@@ -207,6 +193,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
 </section>
 
+<!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-item"><div class="trust-icon">⚗</div><div><strong>99%+ Purity</strong>Third-party HPLC verified</div></div>
   <div class="trust-item"><div class="trust-icon">🇬🇧</div><div><strong>UK Stocked</strong>No customs delays</div></div>
@@ -215,6 +202,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="trust-item"><div class="trust-icon">❄</div><div><strong>Cold Chain</strong>Temperature controlled</div></div>
 </div>
 
+<!-- MARQUEE -->
 <div class="marquee-wrap">
   <div class="marquee">
     <div class="marquee-item">RETATRUTIDE <span>—</span></div><div class="marquee-item">BPC-157 <span>—</span></div><div class="marquee-item">IPAMORELIN <span>—</span></div><div class="marquee-item">NAD+ <span>—</span></div><div class="marquee-item">EPITHALON <span>—</span></div><div class="marquee-item">CJC-1295 <span>—</span></div><div class="marquee-item">GHK-CU <span>—</span></div><div class="marquee-item">THYMOSIN A-1 <span>—</span></div>
@@ -222,6 +210,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
 </div>
 
+<!-- LAB BANNER -->
 <div class="lab-banner">
   <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1400&q=80" alt="Research laboratory">
   <div class="lab-banner-text">
@@ -231,7 +220,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
 </div>
 
-<section class="section">
+<!-- PRODUCTS -->
+<section class="section" id="products">
   <div class="section-header">
     <div><div class="section-tag">— Current Stock</div><h2 class="section-title">SHOP PRODUCTS</h2></div>
   </div>
@@ -295,13 +285,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
 </section>
 
-<div class="lab-row">
-  <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Scientist">
-  <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500&q=80" alt="Lab equipment">
-  <img src="https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?w=500&q=80" alt="Research lab">
-</div>
-
-<section class="coa-section">
+<!-- COA -->
+<section class="coa-section" id="coa">
   <div>
     <div class="section-tag">— Lab Verified</div>
     <h2 class="section-title">THIRD PARTY TESTED</h2>
@@ -324,24 +309,14 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
       </div>
     </div>
   </div>
-  <img class="coa-img" src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=700&q=80" alt="Laboratory analysis">
+  <img class="coa-img" src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=700&q=80" alt="Laboratory vials">
 </section>
 
-<section class="proc-section">
-  <div class="section-tag">— Order Process</div>
-  <h2 class="section-title">PROCUREMENT</h2>
-  <div class="proc-grid">
-    <div class="proc-card"><div class="proc-num">01</div><div class="proc-title">SELECT</div><p class="proc-body">Browse the catalogue. Select compounds and quantities. Pay via crypto or bank transfer. Orders before 2PM dispatched same day.</p></div>
-    <div class="proc-card"><div class="proc-num">02</div><div class="proc-title">VERIFY</div><p class="proc-body">Every shipment includes a QR code linked to the batch COA. Scan to independently verify compound identity and purity.</p></div>
-    <div class="proc-card"><div class="proc-num">03</div><div class="proc-title">DISPATCH</div><p class="proc-body">Temperature controlled packaging. Plain discreet packaging. Royal Mail Tracked 24 or DPD next day.</p></div>
-    <div class="proc-card"><div class="proc-num">04</div><div class="proc-title">DELIVERED</div><p class="proc-body">Next working day across the UK. Join our Telegram for new batch notifications and restock alerts.</p></div>
-  </div>
-</section>
-
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-brand">
     <div class="logo">
-      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="14" height="14"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="13" height="13"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>
       UKMAXX
     </div>
     <p class="footer-bio">UK-based research compound supplier. Third-party batch verified. Discreet dispatch. All products strictly for laboratory and research use only.</p>
