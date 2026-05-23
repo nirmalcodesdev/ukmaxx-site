@@ -128,6 +128,20 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 @keyframes blink { 50%{opacity:0} }
 .blink { animation:blink 1s step-end infinite; }
 
+/* motion */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s ease-out,transform .5s ease-out}
+.reveal.in{opacity:1;transform:translateY(0)}
+.hero-title .push,.hero-title .max{display:block;opacity:0;transition:transform .6s ease-out,opacity .6s ease-out;transition-delay:.2s}
+.hero-title .push{transform:translateX(-24px)}
+.hero-title .max{transform:translateX(24px)}
+.hero-title.reveal-in .push,.hero-title.reveal-in .max{opacity:1;transform:translateX(0)}
+.product-card{transition:transform .25s ease, box-shadow .25s ease, background .2s ease}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(8,31,35,.12)}
+.product-card:hover .product-img{transform:scale(1.03)}
+.add-btn.tap{transform:scale(.95);transition:transform .15s ease}
+.trust-item{opacity:0;transform:translateX(-18px);transition:opacity .5s ease-out,transform .5s ease-out}
+.trust-item.in{opacity:1;transform:translateX(0)}
+
 /* DESKTOP */
 @media (min-width:769px) {
   nav { padding:18px 48px; }
@@ -210,7 +224,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 <section class="hero">
   <div>
     <div class="hero-tag">UK-based research compound supplier</div>
-    <h1 class="hero-title">PUSH<br><span>MAXIMUM</span></h1>
+    <h1 class="hero-title"><span class="push">PUSH</span><span class="max">MAXIMUM</span></h1>
     <p class="hero-sub">Research-grade peptide compounds. UK stocked. Every batch independently verified by accredited third-party laboratories. For research use only.</p>
     <div class="hero-ctas">
       <a href="#products" class="btn-primary">Shop Products</a>
