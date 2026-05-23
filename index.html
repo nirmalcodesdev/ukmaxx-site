@@ -171,10 +171,12 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .cart-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .cart-close{border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;padding:8px 10px;min-height:36px;cursor:pointer}
 .cart-close:hover{background:var(--white)}
-.cart-items{padding:10px 14px 14px;overflow:auto;flex:1}
+.cart-items{padding:10px 14px 0;overflow:auto;flex:0 1 auto}
 .cart-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.cart-item-row{display:flex;gap:10px;align-items:flex-start}
+.cart-thumb{width:64px;height:64px;object-fit:cover;border-radius:4px;flex:0 0 64px}
 .qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{padding:10px;min-width:44px;min-height:44px;border:1px solid var(--border);background:#fff}
-.cart-foot{padding:10px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white);position:sticky;bottom:0}
+.cart-foot{padding:16px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white);position:sticky;bottom:0}
 .checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:flex-end;justify-content:center;padding:0}
 .checkout-modal.open{display:flex}
 .checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
