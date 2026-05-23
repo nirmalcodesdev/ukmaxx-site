@@ -178,7 +178,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
 .coa-tool input{min-height:44px}
 .coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-family:'Share Tech Mono',monospace;font-size:11px}
-.sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)
+.sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
@@ -412,7 +412,7 @@ function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s);if(f)f.qty++;e
 function chg(s,d){const c=getCart();const f=c.find(x=>x.sku===s);if(!f)return;f.qty+=d;if(f.qty<=0)c.splice(c.indexOf(f),1);setCart(c);renderCart();}
 function rmv(s){setCart(getCart().filter(x=>x.sku!==s));renderCart();}
 window.chg=chg;window.rmv=rmv;
-document.querySelectorAll('.add-btn[data-sku]').forEach(b=>b.onclick=()=>addSku(skuFromBtn(b)));
+document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.onclick=()=>{const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);});
 shopNowBtn.onclick=()=>document.querySelector('#products').scrollIntoView({behavior:'smooth'});
 cartFab.onclick=()=>cartDrawer.classList.add('open'); cartClose.onclick=()=>cartDrawer.classList.remove('open');
 checkoutBtn.onclick=()=>checkoutModal.classList.add('open'); checkoutClose.onclick=()=>checkoutModal.classList.remove('open');
@@ -423,5 +423,6 @@ lookupBtn.onclick=()=>{const v=batchLookup.value.trim();const r=COA[v];lookupOut
 </script>
 </body>
 </html>
+
 
 
