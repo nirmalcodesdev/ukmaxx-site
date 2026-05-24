@@ -65,9 +65,31 @@ document.addEventListener('DOMContentLoaded',()=>{
   const success=params.get('payment')==='success';
   const cancelled=params.get('payment')==='cancelled';
 
-  document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',(e)=>{
+    e.stopPropagation();
     const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);
   }));
+
+  const detailData={
+    RT10:{science:'Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors simultaneously. Research focus areas include metabolic regulation, adipose tissue reduction, and energy homeostasis. Currently in Phase 2/3 clinical trials.',specs:'Form: Lyophilised peptide\nDose: 10mg per vial\nPurity: 99.8% (UPLC/MS verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly down vial wall. Swirl gently — do not shake. Allow 5 minutes to dissolve fully.\nShelf life: 24 months unopened',coa:'Lab: Brown Biology / Janoshik Analytical\nBatch: RT10-2026-05-A\nMethod: UPLC/MS\nDate: May 2026\nPurity: 99.8%'},
+    BC5:{science:'BPC-157 (Body Protection Compound 157) is a synthetic pentadecapeptide derived from a human gastric protein. Research applications include wound healing mechanisms, angiogenesis, and musculoskeletal tissue repair models. Studied extensively in rodent models.',specs:'Form: Lyophilised peptide\nDose: 5mg per vial\nPurity: 99%+ (HPLC verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly. Swirl gently.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: BPC157-2026-05-A\nMethod: HPLC\nDate: May 2026\nPurity: 99%+'},
+    IP5:{science:'Ipamorelin is a selective growth hormone secretagogue and ghrelin receptor agonist. Research focus includes GH pulse stimulation, IGF-1 pathway modulation, and metabolic signalling. Notable for high selectivity with minimal cortisol or prolactin interference in research models.',specs:'Form: Lyophilised peptide\nDose: 5mg per vial\nPurity: 99%+ (mass spectrometry verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly. Swirl gently.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: IPA-2026-05-A\nMethod: MS\nDate: May 2026\nPurity: 99%+'},
+    NJ500:{science:'Nicotinamide adenine dinucleotide (NAD+) is a coenzyme central to cellular energy metabolism and redox reactions. Research applications include mitochondrial function studies, sirtuin pathway activation, and DNA repair mechanism research.',specs:'Form: Lyophilised compound\nDose: 500mg per vial\nPurity: 99%+\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly. Swirl gently.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: NJ500-2026-05-A\nMethod: HPLC\nDate: May 2026\nPurity: 99%+'}
+  };
+
+  const cards=[...document.querySelectorAll('#products .product-card')];
+  cards.forEach(card=>{
+    const sku=((card.querySelector('.product-sku')?.textContent||'').split('—')[0]||'').trim();
+    const d=detailData[sku];
+    if(!d) return;
+    const panel=document.createElement('div'); panel.className='expand-panel';
+    panel.innerHTML=`<div class='tabs'><button class='tab-btn active' data-tab='science'>SCIENCE</button><button class='tab-btn' data-tab='specs'>SPECS</button><button class='tab-btn' data-tab='coa'>COA</button></div><div class='tab-pane active' data-pane='science'>${d.science}</div><div class='tab-pane' data-pane='specs'>${d.specs.replace(/\n/g,'<br>')}<div class='info-box'>Reconstitution requires bacteriostatic water. <button class='add-btn' data-bac style='min-height:30px;padding:4px 10px;margin-left:6px'>ADD BAC WATER</button></div></div><div class='tab-pane' data-pane='coa'>${d.coa.replace(/\n/g,'<br>')}<br><a href='#coa' style='color:var(--accent);text-decoration:none'>View Full COA Report →</a></div>`;
+    card.querySelector('.product-body')?.appendChild(panel);
+
+    card.addEventListener('click',(e)=>{if(e.target.closest('.add-btn')) return; const isOpen=card.classList.contains('expanded'); cards.forEach(c=>c.classList.remove('expanded')); if(!isOpen) card.classList.add('expanded');});
+    panel.querySelectorAll('.tab-btn').forEach(tb=>tb.addEventListener('click',(e)=>{e.stopPropagation(); panel.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active')); panel.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active')); tb.classList.add('active'); panel.querySelector(`[data-pane='${tb.dataset.tab}']`)?.classList.add('active');}));
+    panel.querySelector('[data-bac]')?.addEventListener('click',(e)=>{e.stopPropagation(); if(!getCart().some(i=>i.sku==='WA10')) addSku('WA10'); });
+  });
   document.getElementById('shopNowBtn')?.addEventListener('click',()=>document.querySelector('#products')?.scrollIntoView({behavior:'smooth'}));
   const drawer=document.getElementById('cartDrawer');
   const cartFab=document.getElementById('cartFab');
