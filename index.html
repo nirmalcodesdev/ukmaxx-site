@@ -93,14 +93,18 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .product-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .card-chevron{font-size:14px;color:var(--dim);transition:transform .3s ease}
 .product-card.expanded .card-chevron{transform:rotate(180deg)}
-.expand-panel{max-height:0;overflow:hidden;transition:max-height .3s ease;padding-top:0}
-.product-card.expanded .expand-panel{max-height:460px;padding-top:10px}
+.expand-panel{max-height:0;overflow:hidden;transition:max-height .3s ease;padding-top:0;background:#f0f4f5}
+.product-card.expanded .expand-panel{max-height:560px;padding:10px}
 .tabs{display:flex;gap:14px;margin-bottom:10px}
-.tab-btn{background:none;border:none;padding:0 0 4px 0;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.09em;color:var(--dim);text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
+.tab-btn{background:none;border:none;padding:0 0 6px 0;min-height:44px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.09em;color:var(--dim);text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
 .tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
 .tab-pane{display:none;font-size:12px;color:var(--dim);line-height:1.65}
 .tab-pane.active{display:block}
-.info-box{margin-top:8px;padding:8px;border:1px solid var(--border);background:rgba(10,126,140,.08);font-size:11px}
+.tab-pane.science{font-size:14px;line-height:1.6;color:var(--text)}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:12px}
+.dl dt{font-family:'Share Tech Mono',monospace;color:var(--dim);text-transform:uppercase;font-size:10px;letter-spacing:.08em}
+.dl dd{margin:0;color:var(--text)}
+.info-box{margin-top:8px;padding:8px;border-left:3px solid var(--accent);background:rgba(10,126,140,.08);font-size:11px}
 .product-price { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--accent); letter-spacing:.01em; }
 .product-price sub { font-size:14px; color:var(--dim); font-style:normal; }
 .add-btn { background:var(--accent); border:1px solid var(--accent); color:var(--white); padding:10px 16px; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.12em; cursor:pointer; border-radius:3px; transition:transform .12s ease, box-shadow .18s ease, background .2s ease, color .2s ease, border-color .2s ease; box-shadow:0 4px 10px rgba(10,126,140,.18); }
