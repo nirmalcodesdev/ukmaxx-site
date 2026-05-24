@@ -1,7 +1,17 @@
 const CART_KEY='ukmaxx_cart_v1';
 const money=n=>`£${Number(n).toFixed(2)}`;
-const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
-const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
+const sanitizeCart=(arr=[])=>{
+  const map=new Map();
+  (Array.isArray(arr)?arr:[]).forEach(i=>{
+    const sku=normalizeSku(i?.sku||'');
+    const qty=Math.max(0,Number(i?.qty||0));
+    if(!sku||!PRODUCTS[sku]||!qty) return;
+    map.set(sku,(map.get(sku)||0)+qty);
+  });
+  return [...map.entries()].map(([sku,qty])=>({sku,qty}));
+};
+const getCart=()=>sanitizeCart(JSON.parse(localStorage.getItem(CART_KEY)||'[]'));
+const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(sanitizeCart(c)));
 const STRIPE_PUBLISHABLE_KEY='STRIPE_PUBLISHABLE_KEY';
 const normalizeSku=(raw='')=>{
   const t=String(raw).trim();
