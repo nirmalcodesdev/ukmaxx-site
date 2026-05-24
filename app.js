@@ -3,6 +3,17 @@ const money=n=>`£${Number(n).toFixed(2)}`;
 const getCart=()=>JSON.parse(localStorage.getItem(CART_KEY)||'[]');
 const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(c));
 const STRIPE_PUBLISHABLE_KEY='STRIPE_PUBLISHABLE_KEY';
+const normalizeSku=(raw='')=>{
+  const t=String(raw).trim();
+  const key=t.split('—')[0].split('-')[0].trim();
+  if(key.toUpperCase().startsWith('RT10 X3')||key.toUpperCase().startsWith('RT10X3')) return 'RT10X3';
+  if(key.toUpperCase().startsWith('RT10')) return 'RT10';
+  if(key.toUpperCase().startsWith('BC5')) return 'BC5';
+  if(key.toUpperCase().startsWith('IP5')) return 'IP5';
+  if(key.toUpperCase().startsWith('NJ500')) return 'NJ500';
+  if(key.toUpperCase().startsWith('WA10')) return 'WA10';
+  return key;
+};
 
 function renderCart(){
   const countEl=document.getElementById('cartCount');
@@ -13,12 +24,14 @@ function renderCart(){
   if(countEl) countEl.textContent=String(c.reduce((a,b)=>a+b.qty,0));
   if(!itemsEl||!totalsEl||!summaryEl) return;
   if(!c.length){ itemsEl.innerHTML='<p style="color:var(--dim)">Basket empty.</p>'; totalsEl.textContent=''; summaryEl.textContent=''; return; }
-  itemsEl.innerHTML=c.map(i=>`<div class='cart-item'><div class='cart-item-row'><img class='cart-thumb' src='${PRODUCTS[i.sku].image}' alt='${PRODUCTS[i.sku].name}'><div style='min-width:0;flex:1'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div style='margin-top:4px'>${money(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button aria-label='Decrease quantity' data-a='dec' data-sku='${i.sku}'>-</button><button aria-label='Increase quantity' data-a='inc' data-sku='${i.sku}'>+</button><button aria-label='Remove item' style='margin-left:auto;padding:8px 10px;min-height:36px' data-a='rm' data-sku='${i.sku}'>Remove</button></div></div></div></div>`).join('');
+  const normalized=c.map(i=>({sku:normalizeSku(i.sku),qty:i.qty})).filter(i=>PRODUCTS[i.sku]);
+  if(!normalized.length){ itemsEl.innerHTML='<p style="color:var(--dim)">Basket empty.</p>'; totalsEl.textContent=''; summaryEl.textContent=''; return; }
+  itemsEl.innerHTML=normalized.map(i=>`<div class='cart-item'><div class='cart-item-row'><img class='cart-thumb' src='${PRODUCTS[i.sku].image}' alt='${PRODUCTS[i.sku].name}'><div style='min-width:0;flex:1'><div><strong>${PRODUCTS[i.sku]?.name||i.sku}</strong></div><div style='margin-top:4px'>${money(PRODUCTS[i.sku].price)} x ${i.qty}</div><div class='qty'><button aria-label='Decrease quantity' data-a='dec' data-sku='${i.sku}'>-</button><button aria-label='Increase quantity' data-a='inc' data-sku='${i.sku}'>+</button><button aria-label='Remove item' style='margin-left:auto;padding:8px 10px;min-height:36px' data-a='rm' data-sku='${i.sku}'>Remove</button></div></div></div></div>`).join('');
   const peptideSkus=['RT10','BC5','IP5','NJ500'];
-  const hasPeptide=c.some(i=>peptideSkus.includes(i.sku));
-  const hasBac=c.some(i=>i.sku==='WA10');
+  const hasPeptide=normalized.some(i=>peptideSkus.includes(i.sku));
+  const hasBac=normalized.some(i=>i.sku==='WA10');
   if(hasPeptide && !hasBac){itemsEl.innerHTML += `<div style='padding:12px 0'><div style='font-family:"Share Tech Mono",monospace;font-size:10px;color:var(--dim);margin-bottom:6px'>You may also need</div><div class='cart-item-row'><img class='cart-thumb' src='${PRODUCTS.WA10.image}' alt='BAC Water'><div style='flex:1'><div><strong>BAC WATER</strong></div><div style='margin-top:4px'>${money(PRODUCTS.WA10.price)}</div><button class='add-btn' id='upsellBacBtn' style='margin-top:8px;min-height:36px'>ADD</button></div></div></div>`;}
-  const sub=c.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0), ship=sub?4.99:0, tot=sub+ship;
+  const sub=normalized.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0), ship=sub?4.99:0, tot=sub+ship;
   totalsEl.innerHTML=`Subtotal ${money(sub)}<br>Shipping ${money(ship)}<br><strong>Total ${money(tot)}</strong>`;
   summaryEl.innerHTML=`<div style='display:flex;justify-content:space-between'><span>Subtotal:</span><strong>${money(sub)}</strong></div><div style='display:flex;justify-content:space-between'><span>Shipping:</span><strong>${money(ship)}</strong></div><div style='border-top:1px solid var(--border);margin:8px 0'></div><div style='display:flex;justify-content:space-between'><span>Total:</span><strong>${money(tot)}</strong></div>`;
 }
@@ -76,7 +89,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',(e)=>{
     e.stopPropagation();
-    const sku=(b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'').split('—')[0].trim(); if(sku) addSku(sku);
+    const sku=normalizeSku((b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'')); if(sku) addSku(sku);
   }));
 
   const detailData={
