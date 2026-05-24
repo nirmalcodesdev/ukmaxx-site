@@ -114,6 +114,18 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('cartItems')?.addEventListener('click',(e)=>{const t=e.target; if(!(t instanceof HTMLElement)) return; if(t.id==='upsellBacBtn'){ addSku('WA10'); return; } const sku=t.getAttribute('data-sku'); const a=t.getAttribute('data-a'); if(!sku||!a) return; if(a==='inc') chg(sku,1); if(a==='dec') chg(sku,-1); if(a==='rm') rmv(sku);});
   document.getElementById('notifyBtn')?.addEventListener('click',()=>{const em=document.getElementById('notifyEmail')?.value.trim(); if(!em) return; const list=JSON.parse(localStorage.getItem('ukmaxx_notify_list')||'[]'); list.push({email:em,ts:Date.now()}); localStorage.setItem('ukmaxx_notify_list',JSON.stringify(list)); console.log('UKMAXX notify signup saved:',em); document.getElementById('notifyEmail').value='';});
 
+  const lb=document.getElementById('coaLightbox'), lbImg=document.getElementById('lbImg'), lbTitle=document.getElementById('lbTitle'), lbBody=document.getElementById('lbBody');
+  const lbData=[
+    {sel:'.coa-micro:nth-child(1)',title:'TAMPER SEAL INTEGRITY',body:'Each vial ships with a tamper-evident security seal applied before dispatch. If the seal is broken, missing, or shows signs of interference on arrival, do not use the product. Contact us immediately at the address in the footer for a replacement.'},
+    {sel:'.coa-micro:nth-child(2)',title:'BATCH CODE TRACEABILITY',body:'Every UKMAXX vial carries a unique batch QR code printed on the label. Scanning the code takes you directly to the third-party COA results for that specific batch — confirming compound identity, purity percentage, test method, lab name, and report date. This links the physical vial in your lab directly to its verified test data.'}
+  ];
+  const openLb=(src,title,body)=>{ if(!lb||!lbImg||!lbTitle||!lbBody) return; lbImg.src=src; lbTitle.textContent=title; lbBody.textContent=body; lb.classList.add('show'); requestAnimationFrame(()=>lb.classList.add('in')); lb.setAttribute('aria-hidden','false'); };
+  const closeLb=()=>{ if(!lb) return; lb.classList.remove('in'); setTimeout(()=>lb.classList.remove('show'),250); lb.setAttribute('aria-hidden','true'); };
+  lbData.forEach(d=>{ const el=document.querySelector(d.sel); const img=el?.querySelector('img'); if(el&&img){ el.addEventListener('click',()=>openLb(img.src,d.title,d.body)); }});
+  document.getElementById('lbClose')?.addEventListener('click',closeLb);
+  document.getElementById('lbClose2')?.addEventListener('click',closeLb);
+  lb?.addEventListener('click',(e)=>{ if(e.target===lb) closeLb(); });
+
   if(success){
     setCart([]); renderCart();
     const sm=document.getElementById('successModal'); const ref=document.getElementById('orderRef'); if(ref) ref.textContent=`Order Reference: ${orderRef()}`; if(sm) sm.style.display='flex';

@@ -123,9 +123,19 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .coa-card { background:var(--white); border:1px solid var(--border); padding:20px; position:relative; margin-top:24px; }
 .coa-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
 .coa-micros { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-.coa-micro { border:1px solid var(--border); background:rgba(230,242,244,.55); padding:6px; }
-.coa-micro img { width:100%; height:72px; object-fit:cover; display:block; filter:grayscale(18%) brightness(.92); }
+.coa-micro { border:1px solid var(--border); background:rgba(230,242,244,.55); padding:6px; position:relative; cursor:pointer; }
+.coa-micro img { width:100%; height:72px; object-fit:cover; display:block; filter:grayscale(18%) brightness(.92); touch-action:manipulation; }
 .coa-micro span { display:block; margin-top:5px; font-family:'Share Tech Mono',monospace; font-size:8px; letter-spacing:.09em; color:var(--dim); text-transform:uppercase; }
+.coa-micro::after{content:'🔍 TAP TO VIEW';position:absolute;left:10px;bottom:30px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--accent);background:rgba(244,248,249,.85);padding:2px 5px}
+.coa-micro:hover,.coa-micro:active{border-color:var(--accent)}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:none;opacity:0;transition:opacity .25s ease;padding:18px;align-items:center;justify-content:center;flex-direction:column}
+.lightbox.show{display:flex}
+.lightbox.in{opacity:1}
+.lightbox-close{position:fixed;top:14px;right:14px;min-width:44px;min-height:44px;border:none;background:transparent;color:#fff;font-size:32px;line-height:1;cursor:pointer}
+.lightbox-img{max-width:92vw;max-height:65vh;object-fit:contain;touch-action:manipulation}
+.lightbox-title{margin-top:14px;color:#fff;font-size:15px;letter-spacing:.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;text-align:center}
+.lightbox-body{margin-top:10px;color:#fff;font-size:13px;line-height:1.6;max-width:320px;text-align:center}
+.lightbox-close2{margin-top:14px;background:none;border:none;color:var(--accent2);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer}
 .coa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
 .coa-lab { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:0.05em; color:var(--text); }
 .coa-verified { font-family:'Share Tech Mono',monospace; font-size:9px; color:#00A550; border:1px solid #00A550; padding:3px 8px; letter-spacing:0.1em; }
@@ -440,6 +450,13 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
     <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
   </div>
 </div></div>
+<div id="coaLightbox" class="lightbox" aria-hidden="true">
+  <button id="lbClose" class="lightbox-close" aria-label="Close">✕</button>
+  <img id="lbImg" class="lightbox-img" alt="COA detail image">
+  <div id="lbTitle" class="lightbox-title"></div>
+  <div id="lbBody" class="lightbox-body"></div>
+  <button id="lbClose2" class="lightbox-close2">CLOSE</button>
+</div>
 <div id="successModal" style="display:none;position:fixed;inset:0;background:rgba(8,31,35,.55);z-index:400;align-items:center;justify-content:center;padding:16px">
   <div style="background:var(--white);border:1px solid var(--border);width:min(560px,100%);padding:24px;text-align:center">
     <div class="logo" style="justify-content:center;margin-bottom:12px"><div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="13" height="13"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>UKMAXX</div>
