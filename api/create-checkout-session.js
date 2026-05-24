@@ -1,8 +1,11 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   try {
+    const key = (process.env.STRIPE_SECRET_KEY || '').trim();
+    if (!key) return res.status(500).json({ error: 'Missing STRIPE_SECRET_KEY at runtime.' });
+    const Stripe = require('stripe');
+    const stripe = new Stripe(key);
+
     const { items, customerEmail, customerName, address } = req.body || {};
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
