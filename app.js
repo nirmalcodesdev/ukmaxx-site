@@ -37,6 +37,7 @@ async function startCheckout(){
   const postcode=document.getElementById('postcode')?.value.trim();
   const country=document.getElementById('country')?.value;
   const err=document.getElementById('checkoutError');
+  const payBtn=document.getElementById('payBtn');
   if(err){ err.style.display='none'; err.textContent=''; }
   if(!email||!fullName||!address||!city||!postcode||!country){ if(err){err.textContent='Please complete all required address fields before payment.';err.style.display='block';} return; }
   const c=getCart(); if(!c.length){ if(err){err.textContent='Your basket is empty.';err.style.display='block';} return; }
@@ -54,10 +55,18 @@ async function startCheckout(){
     quantity:1
   });
 
-  const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,line2:address2,city,postal_code:postcode,country}})});
-  const data=await res.json();
-  if(!res.ok||!data.url){ if(err){err.textContent='Unable to start payment. Please try again.';err.style.display='block';} return; }
-  window.location.href=data.url;
+  try{
+    if(payBtn){ payBtn.disabled=true; payBtn.textContent='PROCESSING...'; }
+    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,line2:address2,city,postal_code:postcode,country}})});
+    const raw=await res.text();
+    let data={}; try{ data=JSON.parse(raw); }catch{ data={}; }
+    if(!res.ok||!data.url){ if(err){err.textContent=(data.error||'Unable to start payment. Please check Stripe env vars and retry.');err.style.display='block';} return; }
+    window.location.href=data.url;
+  }catch(e){
+    if(err){ err.textContent='Unable to start payment. Network/API error.'; err.style.display='block'; }
+  }finally{
+    if(payBtn){ payBtn.disabled=false; payBtn.textContent='CONTINUE TO PAYMENT'; }
+  }
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
