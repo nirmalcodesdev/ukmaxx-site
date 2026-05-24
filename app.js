@@ -70,13 +70,16 @@ async function startCheckout(){
 
   try{
     if(payBtn){ payBtn.disabled=true; payBtn.textContent='PROCESSING...'; }
-    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,line2:address2,city,postal_code:postcode,country}})});
+    const controller=new AbortController();
+    const to=setTimeout(()=>controller.abort(),12000);
+    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,line2:address2,city,postal_code:postcode,country}}),signal:controller.signal});
+    clearTimeout(to);
     const raw=await res.text();
     let data={}; try{ data=JSON.parse(raw); }catch{ data={}; }
     if(!res.ok||!data.url){ if(err){err.textContent=(data.error||'Unable to start payment. Please check Stripe env vars and retry.');err.style.display='block';} return; }
     window.location.href=data.url;
   }catch(e){
-    if(err){ err.textContent='Unable to start payment. Network/API error.'; err.style.display='block'; }
+    if(err){ err.textContent=e?.name==='AbortError'?'Payment request timed out. Please try again.':'Unable to start payment. Network/API error.'; err.style.display='block'; }
   }finally{
     if(payBtn){ payBtn.disabled=false; payBtn.textContent='CONTINUE TO PAYMENT'; }
   }
@@ -125,7 +128,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   let scrollTimer; window.addEventListener('scroll',()=>{ if(!cartFab) return; cartFab.classList.add('scrolling'); clearTimeout(scrollTimer); scrollTimer=setTimeout(()=>cartFab.classList.remove('scrolling'),300); },{passive:true});
   document.getElementById('checkoutBtn')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.add('open'));
   document.getElementById('checkoutClose')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.remove('open'));
-  document.getElementById('payBtn')?.addEventListener('click',startCheckout);
+  const payBtnEl=document.getElementById('payBtn');
+  if(payBtnEl){ payBtnEl.addEventListener('click',startCheckout); payBtnEl.onclick=startCheckout; }
 
   const coaBody=document.querySelector('.coa-body');
   if(coaBody){
