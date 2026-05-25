@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     '#products .product-card','#pens-coming-soon','.coa-section > div','.coa-img','.footer-brand','.footer-col'
   ];
   const revealEls=revealTargets.flatMap(sel=>[...document.querySelectorAll(sel)]);
-  revealEls.forEach((el,i)=>{el.classList.add('reveal','reveal-stagger');el.style.setProperty('--delay',`${Math.min(i*35,240)}ms`);});
+  revealEls.forEach((el,i)=>{el.classList.add('reveal','reveal-stagger');el.style.setProperty('--delay',`${Math.min(i*70,420)}ms`);});
   if('IntersectionObserver' in window){
     const io=new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target);}});
