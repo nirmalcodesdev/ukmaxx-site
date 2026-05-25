@@ -235,8 +235,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 /* Payment trust */
 .pay-trust{padding:18px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
-.pay-trust-head{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
-.pay-trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pay-trust-head{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px;text-align:center}
+.pay-trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;justify-content:center}
 .pay-badge{border:1px solid var(--border);background:var(--surface);min-height:38px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.04em;color:var(--text)}
 .pay-badge.stripe{background:rgba(99,91,255,.08);border-color:rgba(99,91,255,.22);color:#4b45d6}
 @media (max-width:768px){.cart-drawer{top:auto;bottom:0;right:0;height:88vh;border-left:none;border-top:1px solid var(--border);border-radius:14px 14px 0 0;transform:translateY(100%)}.cart-drawer.open{transform:translateY(0)}}
@@ -437,7 +437,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 <section class="pay-trust" aria-label="Secure payment methods">
   <div class="pay-trust-head">— Secure Payments via Stripe</div>
-  <div class="pay-trust-grid" style="grid-template-columns:repeat(2,minmax(0,160px));justify-content:flex-start">
+  <div class="pay-trust-grid" style="grid-template-columns:repeat(2,minmax(0,160px));justify-content:center">
     <div class="pay-badge" aria-label="Visa"><svg viewBox="0 0 64 24" width="58" height="20" role="img" aria-hidden="true"><text x="2" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor">VISA</text></svg></div>
     <div class="pay-badge" aria-label="MasterCard"><svg viewBox="0 0 116 24" width="92" height="20" role="img" aria-hidden="true"><circle cx="34" cy="12" r="8" fill="#EB001B"></circle><circle cx="46" cy="12" r="8" fill="#F79E1B"></circle><text x="58" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="currentColor">MasterCard</text></svg></div>
   </div>
