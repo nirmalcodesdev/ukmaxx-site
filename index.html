@@ -157,6 +157,14 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
 .footer-col ul a { font-size:13px; color:var(--dim); text-decoration:none; font-weight:300; }
 .footer-bottom { border-top:1px solid var(--border); padding:14px 20px; display:flex; flex-direction:column; gap:6px; text-align:center; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.08em; opacity:0.6; }
+
+/* Socials */
+.socials-section{padding:26px 20px;border-top:1px solid var(--border);background:var(--surface)}
+.socials-tag{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.socials-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.social-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--border);background:var(--white);text-decoration:none;color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em}
+.social-link span{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
+.social-link:hover{border-color:var(--accent);color:var(--accent)}
 @keyframes blink { 50%{opacity:0} }
 .blink { animation:blink 1s step-end infinite; }
 
@@ -192,6 +200,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .footer-brand { margin-bottom:0; }
   .footer-cols { margin-top:0; grid-column:span 1; display:contents; }
   .footer-bottom { flex-direction:row; justify-content:space-between; padding:18px 48px; }
+  .socials-section{padding:34px 48px}
+  .socials-grid{grid-template-columns:repeat(4,1fr)}
 }
 
 /* Cart + checkout */
@@ -403,6 +413,16 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 </section>
 
 <!-- FOOTER -->
+<section class="socials-section" id="socials">
+  <div class="socials-tag">— Socials</div>
+  <div class="socials-grid">
+    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Telegram <span>JOIN →</span></a>
+    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">X / Twitter <span>FOLLOW →</span></a>
+    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Instagram <span>FOLLOW →</span></a>
+    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer">Email <span>CONTACT →</span></a>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="footer-brand">
     <div class="logo">
