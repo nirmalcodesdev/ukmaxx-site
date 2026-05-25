@@ -100,19 +100,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   const success=params.get('payment')==='success';
   const cancelled=params.get('payment')==='cancelled';
 
-  const revealTargets=[
-    '.hero > div:first-child','.hero-img-mosaic','.trust-item','.lab-banner-text','.section-header',
-    '#products .product-card','#pens-coming-soon','.coa-section > div','.coa-img','.footer-brand','.footer-col'
-  ];
-  const revealEls=revealTargets.flatMap(sel=>[...document.querySelectorAll(sel)]);
-  revealEls.forEach((el,i)=>{el.classList.add('reveal','reveal-stagger');el.style.setProperty('--delay',`${Math.min(i*35,240)}ms`);});
-  if('IntersectionObserver' in window){
-    const io=new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target);}});
-    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
-    revealEls.forEach(el=>io.observe(el));
-  }else{ revealEls.forEach(el=>el.classList.add('in')); }
-
   document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',(e)=>{
     e.stopPropagation();
     const sku=normalizeSku((b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'')); if(sku) addSku(sku);
