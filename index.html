@@ -437,14 +437,9 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 <section class="pay-trust" aria-label="Secure payment methods">
   <div class="pay-trust-head">— Secure Payments via Stripe</div>
-  <div class="pay-trust-grid">
-    <div class="pay-badge">VISA</div>
-    <div class="pay-badge">MASTERCARD</div>
-    <div class="pay-badge">AMEX</div>
-    <div class="pay-badge">APPLE PAY</div>
-    <div class="pay-badge">GOOGLE PAY</div>
-    <div class="pay-badge">MAESTRO</div>
-    <div class="pay-badge stripe">STRIPE</div>
+  <div class="pay-trust-grid" style="grid-template-columns:repeat(2,minmax(0,160px));justify-content:flex-start">
+    <div class="pay-badge" aria-label="Visa"><svg viewBox="0 0 64 24" width="58" height="20" role="img" aria-hidden="true"><text x="2" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor">VISA</text></svg></div>
+    <div class="pay-badge" aria-label="Mastercard"><svg viewBox="0 0 86 24" width="74" height="20" role="img" aria-hidden="true"><circle cx="34" cy="12" r="8" fill="#EB001B"></circle><circle cx="46" cy="12" r="8" fill="#F79E1B"></circle><text x="58" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="currentColor">mastercard</text></svg></div>
   </div>
 </section>
 
@@ -498,9 +493,9 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="sticky-total">
     <div id="checkoutSummary" class="coa-result-box"></div>
     <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);text-align:center;margin:12px 0">🔒 Secured by Stripe · 📦 UK Tracked 24 · ✓ Batch Verified</div>
-    <div class="pay-trust-grid" style="margin:0 0 10px 0">
-      <div class="pay-badge">VISA</div><div class="pay-badge">MC</div><div class="pay-badge">AMEX</div>
-      <div class="pay-badge">APPLE PAY</div><div class="pay-badge">G PAY</div><div class="pay-badge stripe">STRIPE</div>
+    <div class="pay-trust-grid" style="margin:0 0 10px 0;grid-template-columns:repeat(2,minmax(0,1fr))">
+      <div class="pay-badge" aria-label="Visa"><svg viewBox="0 0 64 24" width="58" height="20" role="img" aria-hidden="true"><text x="2" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor">VISA</text></svg></div>
+      <div class="pay-badge" aria-label="Mastercard"><svg viewBox="0 0 86 24" width="74" height="20" role="img" aria-hidden="true"><circle cx="34" cy="12" r="8" fill="#EB001B"></circle><circle cx="46" cy="12" r="8" fill="#F79E1B"></circle><text x="58" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="currentColor">mastercard</text></svg></div>
     </div>
     <button id="payBtn" class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE TO PAYMENT</button>
     <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
