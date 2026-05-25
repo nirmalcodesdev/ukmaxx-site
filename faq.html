@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — UKMAXX</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#F4F8F9; --surface:#E6F2F4; --accent:#0A7E8C; --text:#081F23; --dim:#4F727B; --border:#B8D8DC; --white:#fff; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.65}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(244,248,249,.97);backdrop-filter:blur(10px);z-index:50}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.08em;color:var(--text);text-decoration:none;display:flex;gap:8px;align-items:center}
+    .logo-mark{width:24px;height:24px;background:var(--accent);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+    .back{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--accent);text-decoration:none}
+    .wrap{max-width:980px;margin:0 auto;padding:38px 20px 56px}
+    .tag{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:56px;line-height:.95;letter-spacing:.03em;margin-bottom:12px}
+    .sub{color:var(--dim);font-size:14px;max-width:760px;margin-bottom:26px}
+    .group{margin-bottom:24px}
+    .group h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;margin-bottom:10px}
+    details{border:1px solid var(--border);background:var(--white);padding:14px 16px;margin-bottom:10px}
+    summary{cursor:pointer;font-weight:500;color:var(--text);list-style:none;padding-right:24px;position:relative}
+    summary::-webkit-details-marker{display:none}
+    summary::after{content:'+';position:absolute;right:0;top:0;color:var(--accent);font-family:'Share Tech Mono',monospace}
+    details[open] summary::after{content:'–'}
+    .a{margin-top:10px;color:var(--dim);font-size:14px}
+    .note{margin-top:24px;padding:14px;border-left:3px solid var(--accent);background:rgba(10,126,140,.08);font-size:12px;color:var(--text)}
+    footer{border-top:1px solid var(--border);padding:16px 20px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
+    @media (min-width:769px){nav{padding:18px 48px}.wrap{padding:56px 48px 80px}h1{font-size:84px}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="/">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M12 2L4 7v5c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V7L12 2z"/></svg></div>
+      UKMAXX
+    </a>
+    <a class="back" href="/">← BACK TO SHOP</a>
+  </nav>
+
+  <main class="wrap">
+    <div class="tag">— Help Centre</div>
+    <h1>FREQUENTLY ASKED QUESTIONS</h1>
+    <p class="sub">Everything about ordering, shipping, verification and handling. All products are supplied strictly for laboratory and in-vitro research use only.</p>
+
+    <section class="group">
+      <h2>Orders & Payments</h2>
+      <details><summary>How quickly do you dispatch?</summary><div class="a">Orders placed before 2PM (UK time) are usually dispatched same day. Orders after 2PM typically dispatch next working day.</div></details>
+      <details><summary>What payment methods do you accept?</summary><div class="a">Checkout is processed securely via Stripe. Available methods are shown at checkout based on your device and location.</div></details>
+      <details><summary>Can I change or cancel an order?</summary><div class="a">If your order has not been dispatched yet, contact support as soon as possible with your order reference and requested change.</div></details>
+    </section>
+
+    <section class="group">
+      <h2>Shipping & Delivery</h2>
+      <details><summary>Do you ship from the UK?</summary><div class="a">Yes. Stock is held in the UK to reduce delivery times and avoid customs delays for UK deliveries.</div></details>
+      <details><summary>How long does delivery take?</summary><div class="a">Most UK deliveries arrive in 1–2 working days after dispatch. Times may vary during peak periods or courier disruptions.</div></details>
+      <details><summary>Is shipping discreet?</summary><div class="a">Yes. Parcels are packed discreetly and securely for standard courier handling.</div></details>
+    </section>
+
+    <section class="group">
+      <h2>Batch Verification & COA</h2>
+      <details><summary>Are batches independently tested?</summary><div class="a">Yes. Batches are tested by third-party labs and associated COA information is published for verification.</div></details>
+      <details><summary>How do I verify my batch?</summary><div class="a">Use the batch code/QR on your vial and compare it against the published lab result details (sample, method, date, purity and lab).</div></details>
+      <details><summary>What if I cannot find my batch code?</summary><div class="a">Contact support with a clear photo of the label and your order details so the team can assist with traceability checks.</div></details>
+    </section>
+
+    <section class="group">
+      <h2>Product Handling</h2>
+      <details><summary>How should products be stored?</summary><div class="a">Follow the storage guidance shown in product specs. As a general rule, keep lyophilised compounds cold and protected from heat/light.</div></details>
+      <details><summary>Do you provide usage or dosing advice?</summary><div class="a">No. UKMAXX does not provide medical, human-use or dosing advice. Products are supplied for research use only.</div></details>
+      <details><summary>Can I return opened items?</summary><div class="a">Opened or used items are generally not eligible for return due to safety and integrity requirements. See the Returns policy for full terms.</div></details>
+    </section>
+
+    <section class="group">
+      <h2>Legal & Compliance</h2>
+      <details><summary>Are products for human consumption?</summary><div class="a">No. All products are sold strictly for laboratory and in-vitro research use only.</div></details>
+      <details><summary>Do you verify customer age?</summary><div class="a">By purchasing, customers confirm they are legally permitted to buy and possess research compounds under applicable law.</div></details>
+    </section>
+
+    <div class="note">
+      Need help with an existing order? Include your order reference and batch code (if applicable) when contacting support for fastest resolution.
+    </div>
+  </main>
+
+  <footer>© 2026 UKMAXX — ALL PRODUCTS FOR RESEARCH USE ONLY</footer>
+</body>
+</html>
