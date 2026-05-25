@@ -205,6 +205,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .footer-bottom { flex-direction:row; justify-content:space-between; padding:18px 48px; }
   .socials-section{padding:34px 48px}
   .socials-grid{grid-template-columns:repeat(4,1fr)}
+  .pay-trust{padding:22px 48px}
+  .pay-trust-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
 }
 
 /* Cart + checkout */
@@ -230,6 +232,13 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .coa-tool input{min-height:44px}
 .coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-size:12px;line-height:1.6;color:var(--text)}
 .sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)}
+
+/* Payment trust */
+.pay-trust{padding:18px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
+.pay-trust-head{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+.pay-trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pay-badge{border:1px solid var(--border);background:var(--surface);min-height:38px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.04em;color:var(--text)}
+.pay-badge.stripe{background:rgba(99,91,255,.08);border-color:rgba(99,91,255,.22);color:#4b45d6}
 @media (max-width:768px){.cart-drawer{top:auto;bottom:0;right:0;height:88vh;border-left:none;border-top:1px solid var(--border);border-radius:14px 14px 0 0;transform:translateY(100%)}.cart-drawer.open{transform:translateY(0)}}
 </style>
 </head>
@@ -426,6 +435,19 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   </div>
 </section>
 
+<section class="pay-trust" aria-label="Secure payment methods">
+  <div class="pay-trust-head">— Secure Payments via Stripe</div>
+  <div class="pay-trust-grid">
+    <div class="pay-badge">VISA</div>
+    <div class="pay-badge">MASTERCARD</div>
+    <div class="pay-badge">AMEX</div>
+    <div class="pay-badge">APPLE PAY</div>
+    <div class="pay-badge">GOOGLE PAY</div>
+    <div class="pay-badge">MAESTRO</div>
+    <div class="pay-badge stripe">STRIPE</div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="footer-brand">
     <div class="logo">
@@ -476,6 +498,10 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="sticky-total">
     <div id="checkoutSummary" class="coa-result-box"></div>
     <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);text-align:center;margin:12px 0">🔒 Secured by Stripe · 📦 UK Tracked 24 · ✓ Batch Verified</div>
+    <div class="pay-trust-grid" style="margin:0 0 10px 0">
+      <div class="pay-badge">VISA</div><div class="pay-badge">MC</div><div class="pay-badge">AMEX</div>
+      <div class="pay-badge">APPLE PAY</div><div class="pay-badge">G PAY</div><div class="pay-badge stripe">STRIPE</div>
+    </div>
     <button id="payBtn" class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE TO PAYMENT</button>
     <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
   </div>
