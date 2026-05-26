@@ -41,7 +41,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .hero-tag::before { content:''; width:20px; height:1px; background:rgba(255,255,255,.65); flex-shrink:0; }
 .hero-title { font-family:'Bebas Neue',sans-serif; font-size:48px; line-height:0.85; letter-spacing:0.02em; margin-bottom:10px; color:var(--white); }
 .hero-title span { color:var(--white); display:block; }
-.hero-sub { font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:12px; font-weight:300; max-width:480px; }
+.hero-sub { display:none; font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:12px; font-weight:300; max-width:480px; }
+.hero-proof{display:none}
 .hero-ctas { display:flex; flex-direction:row; gap:12px; }
 .hero-ctas a{flex:1}
 .btn-primary { background:var(--accent); color:var(--white); border:none; padding:14px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; text-decoration:none; display:block; text-align:center; border-radius:4px; }
@@ -188,7 +189,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .hero-overlay{min-height:0;height:100%;padding:28px}
   .hero-bottomline{font-size:72px;max-width:620px}
   .hero-title { font-size:clamp(72px,8vw,118px); }
-  .hero-sub{margin-top:16px;max-width:100%;font-size:14px;line-height:1.75}
+  .hero-sub{display:block;margin-top:16px;max-width:100%;font-size:14px;line-height:1.75}
   .hero-ctas { flex-direction:row; gap:14px; margin-top:12px; }
   .hero-ctas a{flex:1 1 auto}
   .hero-ctas .btn-primary,.hero-ctas .btn-ghost{min-height:52px;font-size:16px;letter-spacing:.1em;padding:0 18px;display:flex;align-items:center;justify-content:center}
@@ -196,7 +197,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
   .hero-img-mosaic { display:none; }
 
-  .hero-proof{margin-top:16px;padding:14px;border:1px solid var(--border);background:var(--surface)}
+  .hero-proof{display:block;margin-top:16px;padding:14px;border:1px solid var(--border);background:var(--surface)}
   .hero-proof-kicker{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
   .hero-proof-title{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:.95;letter-spacing:.03em;color:var(--text);margin-bottom:8px}
   .hero-proof-body{font-size:13px;line-height:1.7;color:var(--dim)}
