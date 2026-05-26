@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const success=params.get('payment')==='success';
   const cancelled=params.get('payment')==='cancelled';
 
-  document.querySelectorAll('#products .product-card .add-btn').forEach(b=>b.addEventListener('click',(e)=>{
+  document.querySelectorAll('#products .product-card .add-btn, #bundles .product-card .add-btn').forEach(b=>b.addEventListener('click',(e)=>{
     e.stopPropagation();
     const sku=normalizeSku((b.closest('.product-body')?.querySelector('.product-sku')?.textContent||'')); if(sku) addSku(sku);
   }));
