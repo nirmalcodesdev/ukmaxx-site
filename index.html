@@ -42,9 +42,12 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .hero-title { font-family:'Bebas Neue',sans-serif; font-size:48px; line-height:0.85; letter-spacing:0.02em; margin-bottom:10px; color:var(--white); }
 .hero-title span { color:var(--white); display:block; }
 .hero-sub { font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:12px; font-weight:300; max-width:480px; }
-.hero-ctas { display:flex; flex-direction:column; gap:8px; }
+.hero-ctas { display:flex; flex-direction:row; gap:12px; }
+.hero-ctas a{flex:1}
 .btn-primary { background:var(--accent); color:var(--white); border:none; padding:14px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; text-decoration:none; display:block; text-align:center; border-radius:4px; }
 .btn-ghost { border:1px solid var(--accent); color:var(--accent); padding:13px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; background:transparent; text-decoration:none; display:block; text-align:center; border-radius:4px; }
+.hero-ctas .btn-primary{padding:11px 12px;min-height:44px;font-size:16px;letter-spacing:.09em}
+.hero-ctas .btn-ghost{padding:11px 12px;min-height:44px;font-size:11px;letter-spacing:.09em}
 .hero-stats { display:flex; margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
 .stat { flex:1; }
 .stat-num { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--accent); line-height:1; }
@@ -188,6 +191,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .hero { display:grid; grid-template-columns:1fr 1fr; padding:70px 48px; min-height:80vh; align-items:center; gap:60px; }
   .hero-title { font-size:clamp(72px,8vw,118px); }
   .hero-ctas { flex-direction:row; }
+  .hero-ctas a{flex:0 0 auto}
   .btn-primary, .btn-ghost { width:auto; display:inline-block; }
 
   .hero-img-mosaic { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:250px 250px; gap:4px; height:500px; max-width:100%; overflow:hidden; }
