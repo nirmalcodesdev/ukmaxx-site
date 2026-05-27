@@ -121,6 +121,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 /* COA */
 .coa-section { padding:44px 20px; background:var(--surface); }
+.coa-layout{display:grid;grid-template-columns:1fr;gap:16px}
 .coa-body { font-size:14px; color:var(--dim); line-height:1.8; margin:14px 0 24px; font-weight:300; }
 .coa-card { background:var(--white); border:1px solid var(--border); padding:20px; position:relative; margin-top:24px; }
 .coa-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
@@ -213,7 +214,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .bundle-placeholder{display:none}
   .bundles-grid > .product-card { max-width:100%; }
   .bundles-grid .bundle-placeholder{display:block;visibility:hidden;pointer-events:none;border:1px solid transparent;min-height:468px}
-  .coa-section { display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:80px 48px; align-items:start; }
+  .coa-section { padding:80px 48px; }
+  .coa-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
   .coa-img { margin-top:0; height:auto; min-height:0; max-height:760px; object-fit:contain; }
   .footer { padding:56px 48px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; }
   .footer-brand { margin-bottom:0; }
@@ -423,35 +425,21 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 <!-- COA -->
 <section class="coa-section" id="coa">
-  <div>
-    <div class="section-tag">— Lab Verified</div>
-    <h2 class="section-title">THIRD PARTY TESTED</h2>
-    <p class="coa-body">Every batch independently tested by accredited third-party laboratories before dispatch. Results published publicly. Scan the QR code on your vial to verify your specific batch.</p>
-    <a href="#" class="btn-primary" style="display:inline-block;width:auto;">View All COA Results</a>
-    <div class="coa-card">
-      <div class="coa-header">
-        <div class="coa-lab">JANOSHIK ANALYTICAL</div>
-        <div class="coa-verified">✓ VERIFIED</div>
+  <div class="coa-layout">
+    <div>
+      <div class="section-tag">— Lab Verified</div>
+      <h2 class="section-title">THIRD PARTY TESTED</h2>
+      <p class="coa-body">Every batch independently tested by accredited third-party laboratories before dispatch. Results published publicly. Scan the QR code on your vial to verify your specific batch.</p>
+      <a href="#" class="btn-primary" style="display:inline-block;width:auto;">View All COA Results</a>
+    </div>
+    <div class="coa-micros">
+      <div class="coa-micro">
+        <img src="./images/tamper-seal-closeup.jpg" alt="Tamper seal closeup">
+        <span>Tamper Seal Integrity</span>
       </div>
-      <div class="coa-fields">
-        <div class="coa-field"><label>Sample</label><p>Retatrutide 10mg</p></div>
-        <div class="coa-field"><label>Batch</label><p>RT10-2026-05-A</p></div>
-        <div class="coa-field"><label>Method</label><p>UPLC/MS</p></div>
-        <div class="coa-field"><label>Date</label><p>May 2026</p></div>
-      </div>
-      <div class="coa-result">
-        <div class="coa-result-label">PURITY RESULT</div>
-        <div class="coa-result-val">99.8%</div>
-      </div>
-      <div class="coa-micros">
-        <div class="coa-micro">
-          <img src="./images/tamper-seal-closeup.jpg" alt="Tamper seal closeup">
-          <span>Tamper Seal Integrity</span>
-        </div>
-        <div class="coa-micro">
-          <img src="./images/batch-sticker-macro.jpg" alt="Batch sticker macro">
-          <span>Batch Code Traceability</span>
-        </div>
+      <div class="coa-micro">
+        <img src="./images/batch-sticker-macro.jpg" alt="Batch sticker macro">
+        <span>Batch Code Traceability</span>
       </div>
     </div>
   </div>
