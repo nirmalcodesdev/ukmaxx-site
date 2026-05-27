@@ -210,6 +210,9 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .section-title { font-size:50px; }
   .section-header { display:flex; justify-content:space-between; align-items:flex-end; }
   .products-grid { display:grid; grid-template-columns:repeat(3,1fr); }
+  .bundle-placeholder{display:none}
+  .bundles-grid > .product-card { max-width:100%; }
+  .bundles-grid .bundle-placeholder{display:block;visibility:hidden;pointer-events:none;border:1px solid transparent;min-height:468px}
   .coa-section { display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:80px 48px; align-items:start; }
   .coa-img { margin-top:0; height:auto; min-height:0; max-height:760px; object-fit:contain; }
   .footer { padding:56px 48px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; }
@@ -314,7 +317,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   <div class="section-header">
     <div><div class="section-tag">— Multi-Unit Packs</div><h2 class="section-title">BUNDLES</h2></div>
   </div>
-  <div class="products-grid" style="grid-template-columns:1fr;display:flex;flex-direction:column;gap:2px">
+  <div class="products-grid bundles-grid">
     <div class="product-card">
       <img loading="lazy" class="product-img" src="./images/reta-3pack-v2.jpg" alt="Research pack">
       <div class="product-body">
@@ -323,6 +326,8 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
         <p class="product-desc">3x RT10 vials + 3x BAC water. COA included per batch. Save £15 vs single unit.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99.8%</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#coa" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Batch COA -></a><div class="product-meta"><div class="product-price">£149<sub>.99</sub></div><button class="add-btn">Add</button></div>
       </div>
     </div>
+    <div class="bundle-placeholder" aria-hidden="true"></div>
+    <div class="bundle-placeholder" aria-hidden="true"></div>
   </div>
 </section>
 
