@@ -223,6 +223,10 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
   .socials-grid{grid-template-columns:repeat(4,1fr)}
   .pay-trust{padding:22px 48px}
   .pay-trust-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+
+  .pens-section{display:grid;grid-template-columns:minmax(360px,1.1fr) minmax(320px,.9fr);gap:34px;align-items:center}
+  .pens-copy{margin-top:0}
+  .pens-image{max-height:300px;object-fit:cover}
 }
 
 /* Cart + checkout */
@@ -248,6 +252,12 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 .coa-tool input{min-height:44px}
 .coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-size:12px;line-height:1.6;color:var(--text)}
 .sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)}
+
+/* Pens coming soon */
+.pens-section{display:block}
+.pens-media-wrap{border:1px solid var(--border);background:var(--surface);overflow:hidden}
+.pens-image{width:100%;display:block;max-height:340px;object-fit:cover}
+.pens-copy{margin-top:14px}
 
 /* Payment trust */
 .pay-trust{padding:18px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
@@ -384,11 +394,16 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 
 
 
-<section class="section" id="pens-coming-soon" style="padding-top:26px">
-  <div class="section-tag">— New Category</div>
-  <h2 class="section-title" style="margin-bottom:14px">PENS COMING SOON</h2>
-  <p style="font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px">Precision-engineered pens. UK stocked. Batch verified.</p>
-  <img loading="lazy" src="./images/pens-coming-soon.jpg" alt="UKMAXX pens coming soon" style="width:100%;display:block;border:1px solid var(--border)">
+<section class="section pens-section" id="pens-coming-soon" style="padding-top:26px">
+  <div class="pens-media-wrap">
+    <img loading="lazy" class="pens-image" src="./images/pens-coming-soon.jpg" alt="UKMAXX pens coming soon">
+  </div>
+  <div class="pens-copy">
+    <div class="section-tag">— New Category</div>
+    <h2 class="section-title" style="margin-bottom:14px">PENS COMING SOON</h2>
+    <p style="font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px">Precision-engineered pens. UK stocked. Batch verified.</p>
+    <p style="font-size:12px;color:var(--dim);line-height:1.8;max-width:56ch">We’re finalising launch batches now. Join restock alerts below to be first in line when pens go live.</p>
+  </div>
 </section>
 
 <section style="background:var(--accent);color:var(--white);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
