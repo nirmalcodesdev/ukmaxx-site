@@ -65,24 +65,13 @@ async function startCheckout(){
   if(!email||!fullName||!address||!city||!postcode||!country){ if(err){err.textContent='Please complete all required address fields before payment.';err.style.display='block';} return; }
   const c=getCart(); if(!c.length){ if(err){err.textContent='Your basket is empty.';err.style.display='block';} return; }
 
-  const items=c.map(i=>({
-    price_data:{
-      currency:'gbp',
-      product_data:{ name:`${i.sku} x1` },
-      unit_amount: Math.round(PRODUCTS[i.sku].price*100)
-    },
-    quantity:i.qty
-  }));
-  items.push({
-    price_data:{currency:'gbp',product_data:{name:'UK TRACKED SHIPPING'},unit_amount:499},
-    quantity:1
-  });
+  const promoOptIn=!!document.getElementById('promoOptIn')?.checked;
 
   try{
     if(payBtn){ payBtn.disabled=true; payBtn.textContent='PROCESSING...'; }
     const controller=new AbortController();
     const to=setTimeout(()=>controller.abort(),12000);
-    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items,customerEmail:email,customerName:fullName,address:{line1:address,line2:address2,city,postal_code:postcode,country}}),signal:controller.signal});
+    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cartItems:c,email,fullName,promoOptIn,address:{line1:address,line2:address2,city,postal_code:postcode,country}}),signal:controller.signal});
     clearTimeout(to);
     const raw=await res.text();
     let data={}; try{ data=JSON.parse(raw); }catch{ data={}; }
