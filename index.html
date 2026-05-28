@@ -9,6 +9,7 @@
 <link rel="apple-touch-icon" href="/favicon.svg">
 <script src="https://js.stripe.com/v3/"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>if(localStorage.getItem('ukmaxx_age_verified')!=='true'){document.documentElement.classList.add('needs-age-gate');document.addEventListener('DOMContentLoaded',()=>document.body.classList.add('pre-gate'));}</script>
 <style>
 :root {
   --bg:#F4F8F9; --surface:#E6F2F4; --accent:#0A7E8C; --accent2:#0FA3B1;
@@ -19,6 +20,19 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+body.age-gate-lock{overflow:hidden}
+body.pre-gate main{visibility:hidden}
+
+.age-gate{position:fixed;inset:0;background:rgba(4,14,16,.88);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
+.age-gate.show{display:flex}
+.age-gate-card{width:min(560px,100%);background:#0b1f23;border:1px solid rgba(15,163,177,.35);box-shadow:0 20px 40px rgba(0,0,0,.45);padding:24px}
+.age-gate-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--white);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.age-gate-logo .logo-mark{width:22px;height:22px}
+.age-gate-title{font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:.95;letter-spacing:.02em;color:var(--white);margin-bottom:10px}
+.age-gate-copy{font-size:14px;line-height:1.7;color:#b8d8dc;margin-bottom:16px}
+.age-gate-actions{display:flex;gap:10px;flex-wrap:wrap}
+.age-gate-actions .btn-primary,.age-gate-actions .btn-ghost{flex:1;min-width:220px}
+.age-gate-foot{margin-top:14px;padding-top:12px;border-top:1px solid rgba(184,216,220,.24);font-size:11px;line-height:1.6;color:#8fb3bb}
 
 /* TOPBAR */
 .topbar { background:var(--accent); color:var(--white); text-align:center; padding:10px 16px; font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; line-height:1.5; }
@@ -287,6 +301,19 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
 </style>
 </head>
 <body>
+
+<div id="ageGate" class="age-gate" aria-modal="true" role="dialog" aria-labelledby="ageGateTitle" aria-describedby="ageGateDesc">
+  <div class="age-gate-card">
+    <div class="age-gate-logo"><span class="logo-mark">▲</span>UKMAXX</div>
+    <h1 id="ageGateTitle" class="age-gate-title">Research Compounds — Age Verification</h1>
+    <p id="ageGateDesc" class="age-gate-copy">You must be 18 or older to access this site. All products are sold strictly for laboratory research use only. Not for human consumption.</p>
+    <div class="age-gate-actions">
+      <button id="ageEnterBtn" class="btn-primary" type="button">I AM 18 OR OLDER — ENTER</button>
+      <button id="ageExitBtn" class="btn-ghost" type="button">I AM UNDER 18</button>
+    </div>
+    <p class="age-gate-foot">By entering you confirm you are a qualified researcher aged 18 or older acting in compliance with all applicable laws.</p>
+  </div>
+</div>
 
 <div class="topbar">⚡ UK STOCK — TRACKED DISPATCH — THIRD PARTY COA VERIFIED — ALL PRODUCTS FOR RESEARCH USE ONLY ⚡</div>
 

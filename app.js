@@ -85,6 +85,19 @@ async function startCheckout(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
+  const ageGate=document.getElementById('ageGate');
+  const ageVerified=localStorage.getItem('ukmaxx_age_verified')==='true';
+  if(ageGate && !ageVerified){
+    document.body.classList.add('age-gate-lock');
+    ageGate.classList.add('show');
+    const enterBtn=document.getElementById('ageEnterBtn');
+    const exitBtn=document.getElementById('ageExitBtn');
+    enterBtn?.addEventListener('click',()=>{localStorage.setItem('ukmaxx_age_verified','true');ageGate.classList.remove('show');document.body.classList.remove('age-gate-lock');document.body.classList.remove('pre-gate');});
+    exitBtn?.addEventListener('click',()=>{window.location.href='/access-denied.html';});
+  } else {
+    document.body.classList.remove('pre-gate');
+  }
+
   const params=new URLSearchParams(location.search);
   const success=params.get('payment')==='success';
   const cancelled=params.get('payment')==='cancelled';
