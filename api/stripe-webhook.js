@@ -74,6 +74,17 @@ module.exports = async (req, res) => {
         await supabase.from('subscribers').upsert({ email: order.email.toLowerCase(), source: 'checkout_optin', promo_opt_in: true, consent_timestamp: new Date().toISOString() }, { onConflict: 'email' });
       }
 
+      const promoCode = String(session.metadata?.promo_code || '').toUpperCase();
+      if (promoCode === 'MAXX15' && order.email) {
+        await supabase.from('promo_redemptions').upsert({
+          email: order.email.toLowerCase(),
+          promo_code: 'MAXX15',
+          stripe_session_id: stripeSessionId,
+          order_id: order.id,
+          redeemed_at: new Date().toISOString(),
+        }, { onConflict: 'email,promo_code' });
+      }
+
       const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
       await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${order.total.toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
 

@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     if (!process.env.STRIPE_SECRET_KEY) return res.status(500).json({ error: 'Missing Stripe config' });
 
     const { cartItems, email, fullName, address, promoOptIn, promoCode } = req.body || {};
+    const normalizedEmail = String(email || '').trim().toLowerCase();
     if (!Array.isArray(cartItems) || !cartItems.length) return res.status(400).json({ error: 'Cart is empty' });
 
     const normalized = cartItems.map(i => ({ sku: String(i.sku || '').trim(), qty: Number(i.qty || 0) })).filter(i => i.sku && i.qty > 0);
@@ -29,7 +30,12 @@ module.exports = async (req, res) => {
       subtotal += unit * item.qty;
       line_items.push({ price_data: { currency: 'gbp', product_data: { name: p.name, metadata: { sku: p.sku } }, unit_amount: unit }, quantity: item.qty });
     }
-    const validPromo = String(promoCode || '').toUpperCase() === 'MAXX15';
+    const requestedPromo = String(promoCode || '').toUpperCase();
+    let validPromo = requestedPromo === 'MAXX15';
+    if (validPromo && normalizedEmail) {
+      const prior = await supabase.from('promo_redemptions').select('id').eq('email', normalizedEmail).eq('promo_code', 'MAXX15').maybeSingle();
+      if (prior.data) return res.status(400).json({ error: 'Promo code MAXX15 has already been used for this email.' });
+    }
     const discountAmount = validPromo ? Math.round(subtotal * 0.15) : 0;
     const discountedSubtotal = subtotal - discountAmount;
     const shipping = discountedSubtotal >= 10000 ? 0 : 499;
@@ -38,7 +44,7 @@ module.exports = async (req, res) => {
     const origin = process.env.SITE_URL;
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      customer_email: email || undefined,
+      customer_email: normalizedEmail || undefined,
       line_items,
       shipping_address_collection: { allowed_countries: ['GB'] },
       billing_address_collection: 'required',
