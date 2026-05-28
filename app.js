@@ -1,4 +1,5 @@
 const CART_KEY='ukmaxx_cart_v1';
+const PROMO_KEY='ukmaxx_promo_v1';
 const money=n=>`£${Number(n).toFixed(2)}`;
 const sanitizeCart=(arr=[])=>{
   const map=new Map();
@@ -41,9 +42,14 @@ function renderCart(){
   const hasPeptide=normalized.some(i=>peptideSkus.includes(i.sku));
   const hasBac=normalized.some(i=>i.sku==='WA10');
   if(hasPeptide && !hasBac){itemsEl.innerHTML += `<div style='padding:12px 0'><div style='font-family:"Share Tech Mono",monospace;font-size:10px;color:var(--dim);margin-bottom:6px'>You may also need</div><div class='cart-item-row'><img class='cart-thumb' src='${PRODUCTS.WA10.image}' alt='BAC Water'><div style='flex:1'><div><strong>BAC WATER</strong></div><div style='margin-top:4px'>${money(PRODUCTS.WA10.price)}</div><button class='add-btn' id='upsellBacBtn' style='margin-top:8px;min-height:36px'>ADD</button></div></div></div>`;}
-  const sub=normalized.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0), ship=sub?4.99:0, tot=sub+ship;
-  totalsEl.innerHTML=`Subtotal ${money(sub)}<br>Shipping ${money(ship)}<br><strong>Total ${money(tot)}</strong>`;
-  summaryEl.innerHTML=`<div style='display:flex;justify-content:space-between'><span>Subtotal:</span><strong>${money(sub)}</strong></div><div style='display:flex;justify-content:space-between'><span>Shipping:</span><strong>${money(ship)}</strong></div><div style='border-top:1px solid var(--border);margin:8px 0'></div><div style='display:flex;justify-content:space-between'><span>Total:</span><strong>${money(tot)}</strong></div>`;
+  const sub=normalized.reduce((a,b)=>a+PRODUCTS[b.sku].price*b.qty,0);
+  const promo=(localStorage.getItem(PROMO_KEY)||'').toUpperCase();
+  const discountRate=promo==='MAXX15'?0.15:0;
+  const discount=sub*discountRate;
+  const ship=(sub-discount)>=100||sub===0?0:4.99;
+  const tot=sub-discount+ship;
+  totalsEl.innerHTML=`Subtotal ${money(sub)}${discountRate?`<br>Discount (${promo}) -${money(discount)}`:''}<br>Shipping ${ship===0?'FREE':money(ship)}<br><strong>Total ${money(tot)}</strong>`;
+  summaryEl.innerHTML=`<div style='display:flex;justify-content:space-between'><span>Subtotal:</span><strong>${money(sub)}</strong></div>${discountRate?`<div style='display:flex;justify-content:space-between'><span>Discount (${promo}):</span><strong>-${money(discount)}</strong></div>`:''}<div style='display:flex;justify-content:space-between'><span>Shipping:</span><strong>${ship===0?'FREE':money(ship)}</strong></div><div style='border-top:1px solid var(--border);margin:8px 0'></div><div style='display:flex;justify-content:space-between'><span>Total:</span><strong>${money(tot)}</strong></div>`;
 }
 function addSku(s){const c=getCart();const f=c.find(x=>x.sku===s); if(f) f.qty++; else c.push({sku:s,qty:1}); setCart(c); renderCart();}
 function chg(s,d){const c=getCart(); const f=c.find(x=>x.sku===s); if(!f) return; f.qty+=d; if(f.qty<=0)c.splice(c.indexOf(f),1); setCart(c); renderCart();}
@@ -66,12 +72,13 @@ async function startCheckout(){
   const c=getCart(); if(!c.length){ if(err){err.textContent='Your basket is empty.';err.style.display='block';} return; }
 
   const promoOptIn=!!document.getElementById('promoOptIn')?.checked;
+  const promoCode=(localStorage.getItem(PROMO_KEY)||'').toUpperCase();
 
   try{
     if(payBtn){ payBtn.disabled=true; payBtn.textContent='PROCESSING...'; }
     const controller=new AbortController();
     const to=setTimeout(()=>controller.abort(),12000);
-    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cartItems:c,email,fullName,promoOptIn,address:{line1:address,line2:address2,city,postal_code:postcode,country}}),signal:controller.signal});
+    const res=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cartItems:c,email,fullName,promoOptIn,promoCode,address:{line1:address,line2:address2,city,postal_code:postcode,country}}),signal:controller.signal});
     clearTimeout(to);
     const raw=await res.text();
     let data={}; try{ data=JSON.parse(raw); }catch{ data={}; }
@@ -142,6 +149,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('checkoutClose')?.addEventListener('click',()=>document.getElementById('checkoutModal')?.classList.remove('open'));
   const payBtnEl=document.getElementById('payBtn');
   if(payBtnEl){ payBtnEl.addEventListener('click',startCheckout); payBtnEl.onclick=startCheckout; }
+  document.getElementById('applyPromoBtn')?.addEventListener('click',()=>{
+    const input=document.getElementById('promoCode'); const msg=document.getElementById('promoMsg');
+    const code=(input?.value||'').trim().toUpperCase();
+    if(code==='MAXX15'){ localStorage.setItem(PROMO_KEY,'MAXX15'); if(msg){msg.textContent='MAXX15 applied — 15% off compounds.'; msg.style.color='var(--accent)';} }
+    else { localStorage.removeItem(PROMO_KEY); if(msg){msg.textContent=code?'Invalid promo code.':'Promo removed.'; msg.style.color='var(--dim)';} }
+    renderCart();
+  });
 
   const coaBody=document.querySelector('.coa-body');
   if(coaBody){
