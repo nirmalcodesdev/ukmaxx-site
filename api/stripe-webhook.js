@@ -9,7 +9,9 @@ module.exports = async (req, res) => {
   const sig = req.headers['stripe-signature'];
   let event;
   try {
-    const raw = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+    const chunks = [];
+    for await (const chunk of req) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    const raw = Buffer.concat(chunks);
     event = stripe.webhooks.constructEvent(raw, sig, process.env.STRIPE_WEBHOOK_SECRET || '');
   } catch (err) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
