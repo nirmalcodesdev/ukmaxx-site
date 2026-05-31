@@ -28,15 +28,33 @@ module.exports = async (req, res) => {
     const priorOrder = await supabase.from('orders').select('id,order_number').eq('stripe_session_id', stripeSessionId).maybeSingle();
     if (priorOrder.data) return;
 
-    const cart = JSON.parse(session.metadata?.cart || '[]');
-    const skus = cart.map(i => i.sku);
+    let cart = [];
+    try { cart = JSON.parse(session.metadata?.cart || '[]'); } catch (_) { cart = []; }
+
+    if (!Array.isArray(cart) || !cart.length) {
+      const li = await stripe.checkout.sessions.listLineItems(stripeSessionId, { limit: 100 });
+      cart = (li.data || [])
+        .map((x) => {
+          const sku = x.price?.product_details?.metadata?.sku || x.price?.metadata?.sku || '';
+          if (!sku || sku === 'SHIPPING') return null;
+          return { sku, qty: Number(x.quantity || 0) };
+        })
+        .filter(Boolean);
+    }
+
+    if (!cart.length) throw new Error('empty_cart');
+
+    const skus = [...new Set(cart.map(i => i.sku))];
     const { data: products } = await supabase.from('products').select('sku,name,price,stock_quantity').in('sku', skus);
     const bySku = new Map((products || []).map(p => [p.sku, p]));
-    const orderItems = cart.map(i => {
+
+    const orderItems = [];
+    for (const i of cart) {
       const p = bySku.get(i.sku);
+      if (!p) throw new Error(`missing_product_${i.sku}`);
       const lineTotal = Number(p.price) * Number(i.qty);
-      return { sku: i.sku, product_name: p.name, qty: i.qty, price: p.price, line_total: lineTotal };
-    });
+      orderItems.push({ sku: i.sku, product_name: p.name, qty: i.qty, price: p.price, line_total: lineTotal });
+    }
     const subtotal = orderItems.reduce((a, b) => a + Number(b.line_total), 0);
     const shipping = 4.99;
     const total = subtotal + shipping;
@@ -104,15 +122,20 @@ module.exports = async (req, res) => {
     });
   };
 
-  if (event.type === 'checkout.session.completed') {
-    await processCheckoutSession(event.data.object);
-  }
+  try {
+    if (event.type === 'checkout.session.completed') {
+      await processCheckoutSession(event.data.object);
+    }
 
-  if (event.type === 'payment_intent.succeeded') {
-    const pi = event.data.object;
-    const list = await stripe.checkout.sessions.list({ payment_intent: pi.id, limit: 1 });
-    const session = list.data?.[0];
-    if (session) await processCheckoutSession(session);
+    if (event.type === 'payment_intent.succeeded') {
+      const pi = event.data.object;
+      const list = await stripe.checkout.sessions.list({ payment_intent: pi.id, limit: 1 });
+      const session = list.data?.[0];
+      if (session) await processCheckoutSession(session);
+    }
+  } catch (err) {
+    console.error('stripe-webhook-processing-error', { type: event.type, id: event.id, message: err?.message, stack: err?.stack });
+    return res.status(500).json({ error: { code: '500', message: err?.message || 'A server error has occurred' } });
   }
 
   return res.status(200).json({ received: true });
