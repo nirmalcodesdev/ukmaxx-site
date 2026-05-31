@@ -21,8 +21,6 @@ module.exports = async (req, res) => {
   const existing = await supabase.from('stripe_events').select('id').eq('stripe_event_id', event.id).maybeSingle();
   if (existing.data) return res.status(200).json({ received: true, duplicate: true });
 
-  await supabase.from('stripe_events').insert({ stripe_event_id: event.id, event_type: event.type, payload: event });
-
   const processCheckoutSession = async (session) => {
     const stripeSessionId = session.id;
     const priorOrder = await supabase.from('orders').select('id,order_number').eq('stripe_session_id', stripeSessionId).maybeSingle();
@@ -137,6 +135,8 @@ module.exports = async (req, res) => {
     console.error('stripe-webhook-processing-error', { type: event.type, id: event.id, message: err?.message, stack: err?.stack });
     return res.status(500).json({ error: { code: '500', message: err?.message || 'A server error has occurred' } });
   }
+
+  await supabase.from('stripe_events').insert({ stripe_event_id: event.id, event_type: event.type, payload: event });
 
   return res.status(200).json({ received: true });
 };
