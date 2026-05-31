@@ -42,6 +42,23 @@ module.exports = async (req, res) => {
     if (shipping > 0) line_items.push({ price_data: { currency: 'gbp', product_data: { name: 'UK TRACKED SHIPPING', metadata: { sku: 'SHIPPING' } }, unit_amount: shipping }, quantity: 1 });
 
     const origin = process.env.SITE_URL;
+
+    let discounts;
+    if (validPromo) {
+      let couponId = process.env.STRIPE_MAXX15_COUPON_ID;
+      if (!couponId) {
+        const fallbackId = 'MAXX15_AUTO';
+        try {
+          const existing = await stripe.coupons.retrieve(fallbackId);
+          if (existing && !existing.deleted) couponId = fallbackId;
+        } catch (_) {
+          const created = await stripe.coupons.create({ id: fallbackId, percent_off: 15, duration: 'forever', name: 'MAXX15' });
+          couponId = created.id;
+        }
+      }
+      if (couponId) discounts = [{ coupon: couponId }];
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       customer_email: normalizedEmail || undefined,
@@ -51,7 +68,7 @@ module.exports = async (req, res) => {
       phone_number_collection: { enabled: true },
       success_url: `${origin}/index.html?payment=success`,
       cancel_url: `${origin}/index.html?payment=cancelled`,
-      discounts: validPromo ? [{ coupon: process.env.STRIPE_MAXX15_COUPON_ID || '' }].filter(d=>d.coupon) : undefined,
+      discounts,
       metadata: {
         promo_opt_in: promoOptIn ? 'true' : 'false',
         promo_code: validPromo ? 'MAXX15' : '',
