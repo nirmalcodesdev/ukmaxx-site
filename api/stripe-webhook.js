@@ -21,10 +21,38 @@ module.exports = async (req, res) => {
   const existing = await supabase.from('stripe_events').select('id').eq('stripe_event_id', event.id).maybeSingle();
   if (existing.data) return res.status(200).json({ received: true, duplicate: true });
 
+  const sendNotifications = async (order, orderItems, stripeSessionId) => {
+    const alreadySent = await supabase.from('admin_audit_log').select('id').eq('action', 'notifications_sent').eq('order_id', order.id).maybeSingle();
+    if (alreadySent.data) return;
+
+    const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
+    await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${Number(order.total).toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
+
+    await sendOrderConfirmationEmail({
+      to: order.email,
+      orderNumber: order.order_number,
+      items: orderItems,
+      total: order.total,
+      shipping: {
+        line1: order.shipping_address_line1,
+        line2: order.shipping_address_line2,
+        city: order.shipping_city,
+        postcode: order.shipping_postcode,
+        country: order.shipping_country,
+      },
+    });
+
+    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId } });
+  };
+
   const processCheckoutSession = async (session) => {
     const stripeSessionId = session.id;
-    const priorOrder = await supabase.from('orders').select('id,order_number').eq('stripe_session_id', stripeSessionId).maybeSingle();
-    if (priorOrder.data) return;
+    const priorOrder = await supabase.from('orders').select('id,order_number,email,total,shipping_postcode,shipping_country,shipping_address_line1,shipping_address_line2,shipping_city').eq('stripe_session_id', stripeSessionId).maybeSingle();
+    if (priorOrder.data) {
+      const { data: priorItems } = await supabase.from('order_items').select('product_name,qty,line_total').eq('order_id', priorOrder.data.id);
+      await sendNotifications(priorOrder.data, priorItems || [], stripeSessionId);
+      return;
+    }
 
     let cart = [];
     try { cart = JSON.parse(session.metadata?.cart || '[]'); } catch (_) { cart = []; }
@@ -102,22 +130,7 @@ module.exports = async (req, res) => {
       }, { onConflict: 'email,promo_code' });
     }
 
-    const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
-    await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${order.total.toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
-
-    await sendOrderConfirmationEmail({
-      to: order.email,
-      orderNumber: order.order_number,
-      items: orderItems,
-      total: order.total,
-      shipping: {
-        line1: order.shipping_address_line1,
-        line2: order.shipping_address_line2,
-        city: order.shipping_city,
-        postcode: order.shipping_postcode,
-        country: order.shipping_country,
-      },
-    });
+    await sendNotifications(order, orderItems, stripeSessionId);
   };
 
   try {
