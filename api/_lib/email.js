@@ -11,7 +11,7 @@ async function sendOrderConfirmationEmail({ to, orderNumber, items, total, shipp
   <p><strong>Shipping:</strong><br/>${shipping.line1}${shipping.line2 ? `<br/>${shipping.line2}` : ''}<br/>${shipping.city}, ${shipping.postcode}<br/>${shipping.country}</p>
   <p>All products sold for research use only.</p>
   <p>Support: support@ukmaxx.com</p>`;
-  await resend.emails.send({ from: 'UKMAXX <orders@ukmaxx.com>', to, subject: `UKMAXX Order Confirmation — ${orderNumber}`, html });
+  await resend.emails.send({ from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>', to, subject: `UKMAXX Order Confirmation — ${orderNumber}`, html });
 }
 
 module.exports = { sendOrderConfirmationEmail };
