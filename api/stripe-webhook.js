@@ -39,8 +39,19 @@ module.exports = async (req, res) => {
     }
 
     const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
+    const fullName = order.full_name || 'N/A';
+    const phone = order.phone || 'N/A';
+    const addressLines = [
+      order.shipping_address_line1,
+      order.shipping_address_line2,
+      order.shipping_city,
+      order.shipping_postcode,
+      order.shipping_country,
+    ].filter(Boolean);
+    const fullAddress = addressLines.join(', ');
+
     try {
-      await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${Number(order.total).toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
+      await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${Number(order.total).toFixed(2)}</b>\nCustomer: ${order.email}\nName: ${fullName}\nPhone: ${phone}\n${itemText}\nAddress: ${fullAddress}\nSession: <code>${stripeSessionId}</code>`);
       console.log('telegram-alert-sent', { orderId: order.id, stripeSessionId });
     } catch (err) {
       console.error('telegram-alert-failed', {
@@ -71,7 +82,7 @@ module.exports = async (req, res) => {
 
   const processCheckoutSession = async (session) => {
     const stripeSessionId = session.id;
-    const priorOrder = await supabase.from('orders').select('id,order_number,email,total,shipping_postcode,shipping_country,shipping_address_line1,shipping_address_line2,shipping_city').eq('stripe_session_id', stripeSessionId).maybeSingle();
+    const priorOrder = await supabase.from('orders').select('id,order_number,email,full_name,phone,total,shipping_postcode,shipping_country,shipping_address_line1,shipping_address_line2,shipping_city').eq('stripe_session_id', stripeSessionId).maybeSingle();
     if (priorOrder.data) {
       const { data: priorItems } = await supabase.from('order_items').select('product_name,qty,line_total').eq('order_id', priorOrder.data.id);
       await sendNotifications(priorOrder.data, priorItems || [], stripeSessionId);
