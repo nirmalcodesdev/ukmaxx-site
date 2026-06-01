@@ -159,7 +159,28 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
   document.getElementById('cartItems')?.addEventListener('click',(e)=>{const t=e.target; if(!(t instanceof HTMLElement)) return; if(t.id==='upsellBacBtn'){ addSku('WA10'); return; } const sku=t.getAttribute('data-sku'); const a=t.getAttribute('data-a'); if(!sku||!a) return; if(a==='inc') chg(sku,1); if(a==='dec') chg(sku,-1); if(a==='rm') rmv(sku);});
-  document.getElementById('notifyBtn')?.addEventListener('click',()=>{const em=document.getElementById('notifyEmail')?.value.trim(); if(!em) return; const list=JSON.parse(localStorage.getItem('ukmaxx_notify_list')||'[]'); list.push({email:em,ts:Date.now()}); localStorage.setItem('ukmaxx_notify_list',JSON.stringify(list)); console.log('UKMAXX notify signup saved:',em); document.getElementById('notifyEmail').value='';});
+  document.getElementById('notifyBtn')?.addEventListener('click',async ()=>{
+    const input=document.getElementById('notifyEmail');
+    const em=input?.value.trim();
+    if(!em||!input) return;
+
+    const btn=document.getElementById('notifyBtn');
+    const prev=btn?.textContent || 'NOTIFY ME';
+    if(btn){ btn.disabled=true; btn.textContent='SAVING...'; }
+
+    try{
+      const res=await fetch('/api/subscribe-notify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,topics:['restock','batch_updates'],hp:''})});
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok||!data.ok){ if(btn) btn.textContent='TRY AGAIN'; return; }
+      input.value='';
+      input.placeholder='Subscribed for updates ✓';
+      if(btn) btn.textContent='SUBSCRIBED';
+      setTimeout(()=>{ if(btn){btn.disabled=false;btn.textContent='NOTIFY ME';} input.placeholder='Email address'; },1800);
+      return;
+    }catch{}
+
+    if(btn){ btn.disabled=false; btn.textContent='NOTIFY ME'; }
+  });
 
   const reviewDrawer=document.getElementById('reviewDrawer');
   document.getElementById('leaveReviewBtn')?.addEventListener('click',(e)=>{e.preventDefault(); if(reviewDrawer) reviewDrawer.style.display='flex';});
