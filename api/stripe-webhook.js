@@ -18,15 +18,39 @@ module.exports = async (req, res) => {
   }
 
   const supabase = getSupabaseAdmin();
+  const allowDuplicateReplay = String(process.env.WEBHOOK_ALLOW_DUPLICATE_REPLAY || '').toLowerCase() === 'true';
   const existing = await supabase.from('stripe_events').select('id').eq('stripe_event_id', event.id).maybeSingle();
-  if (existing.data) return res.status(200).json({ received: true, duplicate: true });
+  if (existing.data && !allowDuplicateReplay) {
+    console.log('stripe-webhook-duplicate-event-skipped', { eventId: event.id, eventType: event.type });
+    return res.status(200).json({ received: true, duplicate: true });
+  }
+  if (existing.data && allowDuplicateReplay) {
+    console.log('stripe-webhook-duplicate-event-replay-allowed', { eventId: event.id, eventType: event.type });
+  }
 
   const sendNotifications = async (order, orderItems, stripeSessionId) => {
     const alreadySent = await supabase.from('admin_audit_log').select('id').eq('action', 'notifications_sent').eq('order_id', order.id).maybeSingle();
-    if (alreadySent.data) return;
+    if (alreadySent.data && !allowDuplicateReplay) {
+      console.log('stripe-webhook-notifications-already-sent-skipped', { orderId: order.id, stripeSessionId });
+      return;
+    }
+    if (alreadySent.data && allowDuplicateReplay) {
+      console.log('stripe-webhook-notifications-replay-allowed', { orderId: order.id, stripeSessionId });
+    }
 
     const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
-    await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${Number(order.total).toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
+    try {
+      await sendTelegramAdminAlert(`✅ <b>NEW ORDER</b>\nOrder: <b>${order.order_number}</b>\nTotal: <b>£${Number(order.total).toFixed(2)}</b>\nCustomer: ${order.email}\n${itemText}\nShip: ${order.shipping_postcode}, ${order.shipping_country}\nSession: <code>${stripeSessionId}</code>`);
+      console.log('telegram-alert-sent', { orderId: order.id, stripeSessionId });
+    } catch (err) {
+      console.error('telegram-alert-failed', {
+        orderId: order.id,
+        stripeSessionId,
+        message: err?.message,
+        stack: err?.stack,
+      });
+      if (!allowDuplicateReplay) throw err;
+    }
 
     await sendOrderConfirmationEmail({
       to: order.email,
@@ -42,7 +66,7 @@ module.exports = async (req, res) => {
       },
     });
 
-    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId } });
+    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } });
   };
 
   const processCheckoutSession = async (session) => {
