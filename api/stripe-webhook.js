@@ -1,7 +1,7 @@
 const Stripe = require('stripe');
 const { getSupabaseAdmin } = require('./_lib/supabase');
 const { sendTelegramAdminAlert } = require('./_lib/notify');
-const { sendOrderConfirmationEmail } = require('./_lib/email');
+const { sendOrderConfirmationEmail, sendAdminOrderAlertEmail } = require('./_lib/email');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).send('Method not allowed');
@@ -75,6 +75,23 @@ module.exports = async (req, res) => {
         postcode: order.shipping_postcode,
         country: order.shipping_country,
       },
+    });
+
+    await sendAdminOrderAlertEmail({
+      orderNumber: order.order_number,
+      customerEmail: order.email,
+      fullName: order.full_name,
+      phone: order.phone,
+      items: orderItems,
+      total: order.total,
+      shipping: {
+        line1: order.shipping_address_line1,
+        line2: order.shipping_address_line2,
+        city: order.shipping_city,
+        postcode: order.shipping_postcode,
+        country: order.shipping_country,
+      },
+      stripeSessionId,
     });
 
     await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } });

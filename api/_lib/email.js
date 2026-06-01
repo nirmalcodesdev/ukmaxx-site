@@ -23,4 +23,33 @@ async function sendOrderConfirmationEmail({ to, orderNumber, items, total, shipp
   await resend.emails.send({ from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>', to, subject: `UKMAXX Order Confirmation — ${orderNumber}`, html });
 }
 
-module.exports = { sendOrderConfirmationEmail };
+async function sendAdminOrderAlertEmail({ orderNumber, customerEmail, fullName, phone, items, total, shipping, stripeSessionId }) {
+  const key = process.env.RESEND_API_KEY;
+  const adminTo = process.env.ADMIN_ORDER_EMAIL || 'ahmedsjasim1@gmail.com';
+  if (!key || !adminTo) return;
+
+  const resend = new Resend(key);
+  const lines = items.map(i => `• ${i.product_name} x${i.qty} — £${Number(i.line_total).toFixed(2)}`).join('<br/>');
+  const address = [shipping.line1, shipping.line2, shipping.city, shipping.postcode, shipping.country].filter(Boolean).join(', ');
+
+  const html = `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
+    <h2>New UKMAXX Order</h2>
+    <p><strong>Order:</strong> ${orderNumber}<br/>
+    <strong>Total:</strong> £${Number(total).toFixed(2)}<br/>
+    <strong>Customer:</strong> ${customerEmail}<br/>
+    <strong>Name:</strong> ${fullName || 'N/A'}<br/>
+    <strong>Phone:</strong> ${phone || 'N/A'}<br/>
+    <strong>Address:</strong> ${address || 'N/A'}<br/>
+    <strong>Stripe Session:</strong> ${stripeSessionId}</p>
+    <p><strong>Items</strong><br/>${lines}</p>
+  </div>`;
+
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to: adminTo,
+    subject: `New Order ${orderNumber} — £${Number(total).toFixed(2)}`,
+    html,
+  });
+}
+
+module.exports = { sendOrderConfirmationEmail, sendAdminOrderAlertEmail };
