@@ -16,7 +16,7 @@ const setCart=c=>localStorage.setItem(CART_KEY,JSON.stringify(sanitizeCart(c)));
 const STRIPE_PUBLISHABLE_KEY='STRIPE_PUBLISHABLE_KEY';
 const normalizeSku=(raw='')=>{
   const t=String(raw).trim();
-  const key=t.split('—')[0].split('-')[0].trim();
+  const key=t.split('-')[0].split('-')[0].trim();
   if(key.toUpperCase().startsWith('RT10 X3')||key.toUpperCase().startsWith('RT10X3')) return 'RT10X3';
   if(key.toUpperCase().startsWith('RT10')) return 'RT10';
   if(key.toUpperCase().startsWith('BC5')) return 'BC5';
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }));
 
   const detailData={
-    RT10:{science:'Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors simultaneously. Research focus areas include metabolic regulation, adipose tissue reduction, and energy homeostasis. Currently in Phase 2/3 clinical trials.',specs:'Form: Lyophilised peptide\nDose: 10mg per vial\nPurity: 99.8% (UPLC/MS verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly down vial wall. Swirl gently — do not shake. Allow 5 minutes to dissolve fully.\nShelf life: 24 months unopened',coa:'Lab: Brown Biology / Janoshik Analytical\nBatch: RT10-2026-05-A\nMethod: UPLC/MS\nDate: May 2026\nPurity: 99.8%'},
+    RT10:{science:'Retatrutide is a triple agonist peptide targeting GLP-1, GIP, and glucagon receptors simultaneously. Research focus areas include metabolic regulation, adipose tissue reduction, and energy homeostasis. Currently in Phase 2/3 clinical trials.',specs:'Form: Lyophilised peptide\nDose: 10mg per vial\nPurity: 99.8% (UPLC/MS verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly down vial wall. Swirl gently - do not shake. Allow 5 minutes to dissolve fully.\nShelf life: 24 months unopened',coa:'Lab: Brown Biology / Janoshik Analytical\nBatch: RT10-2026-05-A\nMethod: UPLC/MS\nDate: May 2026\nPurity: 99.8%'},
     BC5:{science:'BPC-157 (Body Protection Compound 157) is a synthetic pentadecapeptide derived from a human gastric protein. Research applications include wound healing mechanisms, angiogenesis, and musculoskeletal tissue repair models. Studied extensively in rodent models.',specs:'Form: Lyophilised peptide\nDose: 5mg per vial\nPurity: 99%+ (HPLC verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly. Swirl gently.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: BPC157-2026-05-A\nMethod: HPLC\nDate: May 2026\nPurity: 99%+'},
     IP5:{science:'Ipamorelin is a selective growth hormone secretagogue and ghrelin receptor agonist. Research focus includes GH pulse stimulation, IGF-1 pathway modulation, and metabolic signalling. Notable for high selectivity with minimal cortisol or prolactin interference in research models.',specs:'Form: Lyophilised peptide\nDose: 5mg per vial\nPurity: 99%+ (mass spectrometry verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 28 days)\nReconstitution: Add 2ml bacteriostatic water slowly. Swirl gently.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: IPA-2026-05-A\nMethod: MS\nDate: May 2026\nPurity: 99%+'},
     NJ500:{science:'Nicotinamide adenine dinucleotide (NAD+) is a coenzyme central to cellular energy metabolism and redox reactions. Research applications include mitochondrial function studies, sirtuin pathway activation, and DNA repair mechanism research.',specs:'Form: Lyophilised powder\nDose: 500mg per vial\nPurity: 99%+ (identity verified)\nStorage: -20°C (unopened) / 4°C (reconstituted, use within 7 days)\nReconstitution: Add sterile water or BAC water. Dissolve fully before use. Do not shake.\nShelf life: 24 months unopened',coa:'Lab: Janoshik Analytical\nBatch: NJ500-2026-05-A\nMethod: Identity verification\nDate: May 2026\nPurity: 99%+'},
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const cards=[...document.querySelectorAll('#products .product-card')];
   cards.forEach(card=>{
-    const sku=((card.querySelector('.product-sku')?.textContent||'').split('—')[0]||'').trim();
+    const sku=((card.querySelector('.product-sku')?.textContent||'').split('-')[0]||'').trim();
     const d=detailData[sku];
     if(!d) return;
     const panel=document.createElement('div'); panel.className='expand-panel';
@@ -152,16 +152,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('applyPromoBtn')?.addEventListener('click',()=>{
     const input=document.getElementById('promoCode'); const msg=document.getElementById('promoMsg');
     const code=(input?.value||'').trim().toUpperCase();
-    if(code==='MAXX15'){ localStorage.setItem(PROMO_KEY,'MAXX15'); if(msg){msg.textContent='MAXX15 applied — 15% off compounds.'; msg.style.color='var(--accent)';} }
+    if(code==='MAXX15'){ localStorage.setItem(PROMO_KEY,'MAXX15'); if(msg){msg.textContent='MAXX15 applied - 15% off compounds.'; msg.style.color='var(--accent)';} }
     else { localStorage.removeItem(PROMO_KEY); if(msg){msg.textContent=code?'Invalid promo code.':'Promo removed.'; msg.style.color='var(--dim)';} }
     renderCart();
   });
 
-  const coaBody=document.querySelector('.coa-body');
-  if(coaBody){
-    coaBody.insertAdjacentHTML('beforeend',`<div class='coa-tool'><input id='batchLookup' placeholder='Enter Batch ID (e.g. RT10-2026-05-A)' style='width:100%;padding:12px;min-height:44px;border:1px solid var(--border)'><button id='lookupBtn' class='add-btn' style='margin-top:8px;min-height:44px;width:100%'>VERIFY BATCH</button><div id='lookupOut' class='coa-result-box' style='display:none'></div></div>`);
-    document.getElementById('lookupBtn')?.addEventListener('click',()=>{const v=document.getElementById('batchLookup')?.value.trim();const r=COA[v];const out=document.getElementById('lookupOut'); if(!out) return; out.style.display='block'; out.textContent=r?`VERIFIED\n${r.sample}\n${r.purity}\n${r.method}\n${r.lab}`:'NOT FOUND — CHECK BATCH FORMAT.';});
-  }
 
   document.getElementById('cartItems')?.addEventListener('click',(e)=>{const t=e.target; if(!(t instanceof HTMLElement)) return; if(t.id==='upsellBacBtn'){ addSku('WA10'); return; } const sku=t.getAttribute('data-sku'); const a=t.getAttribute('data-a'); if(!sku||!a) return; if(a==='inc') chg(sku,1); if(a==='dec') chg(sku,-1); if(a==='rm') rmv(sku);});
   document.getElementById('notifyBtn')?.addEventListener('click',()=>{const em=document.getElementById('notifyEmail')?.value.trim(); if(!em) return; const list=JSON.parse(localStorage.getItem('ukmaxx_notify_list')||'[]'); list.push({email:em,ts:Date.now()}); localStorage.setItem('ukmaxx_notify_list',JSON.stringify(list)); console.log('UKMAXX notify signup saved:',em); document.getElementById('notifyEmail').value='';});
@@ -169,7 +164,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const lb=document.getElementById('coaLightbox'), lbImg=document.getElementById('lbImg'), lbTitle=document.getElementById('lbTitle'), lbBody=document.getElementById('lbBody');
   const lbData=[
     {sel:'.coa-micro:nth-child(1)',title:'TAMPER SEAL INTEGRITY',body:'Each vial ships with a tamper-evident security seal applied before dispatch. If the seal is broken, missing, or shows signs of interference on arrival, do not use the product. Contact us immediately at the address in the footer for a replacement.'},
-    {sel:'.coa-micro:nth-child(2)',title:'BATCH CODE TRACEABILITY',body:'Every UKMAXX vial carries a unique batch QR code printed on the label. Scanning the code takes you directly to the third-party COA results for that specific batch — confirming compound identity, purity percentage, test method, lab name, and report date. This links the physical vial in your lab directly to its verified test data.'}
+    {sel:'.coa-micro:nth-child(2)',title:'BATCH CODE TRACEABILITY',body:'Every UKMAXX vial carries a unique batch QR code printed on the label. Scanning the code takes you directly to the third-party COA results for that specific batch - confirming compound identity, purity percentage, test method, lab name, and report date. This links the physical vial in your lab directly to its verified test data.'}
   ];
   const openLb=(src,title,body)=>{ if(!lb||!lbImg||!lbTitle||!lbBody) return; lbImg.src=src; lbTitle.textContent=title; lbBody.textContent=body; lb.classList.add('show'); requestAnimationFrame(()=>lb.classList.add('in')); lb.setAttribute('aria-hidden','false'); };
   const closeLb=()=>{ if(!lb) return; lb.classList.remove('in'); setTimeout(()=>lb.classList.remove('show'),250); lb.setAttribute('aria-hidden','true'); };
@@ -184,7 +179,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('backToShop')?.addEventListener('click',()=>{ if(sm) sm.style.display='none'; history.replaceState({},'',location.pathname); window.scrollTo({top:0,behavior:'smooth'}); });
   }
   if(cancelled){
-    const banner=document.getElementById('checkoutBanner'); if(banner){banner.style.display='block'; banner.textContent='Payment cancelled — your basket has been saved';}
+    const banner=document.getElementById('checkoutBanner'); if(banner){banner.style.display='block'; banner.textContent='Payment cancelled - your basket has been saved';}
     drawer?.classList.add('open');
     history.replaceState({},'',location.pathname);
   }
