@@ -22,7 +22,8 @@ alter table public.reviews_pending enable row level security;
 alter table public.reviews_public enable row level security;
 
 -- Public can read approved reviews list only via reviews_public
-create policy if not exists "public_read_reviews_public"
+drop policy if exists "public_read_reviews_public" on public.reviews_public;
+create policy "public_read_reviews_public"
   on public.reviews_public
   for select
   to anon
