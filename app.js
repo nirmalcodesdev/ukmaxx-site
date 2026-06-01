@@ -161,6 +161,24 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('cartItems')?.addEventListener('click',(e)=>{const t=e.target; if(!(t instanceof HTMLElement)) return; if(t.id==='upsellBacBtn'){ addSku('WA10'); return; } const sku=t.getAttribute('data-sku'); const a=t.getAttribute('data-a'); if(!sku||!a) return; if(a==='inc') chg(sku,1); if(a==='dec') chg(sku,-1); if(a==='rm') rmv(sku);});
   document.getElementById('notifyBtn')?.addEventListener('click',()=>{const em=document.getElementById('notifyEmail')?.value.trim(); if(!em) return; const list=JSON.parse(localStorage.getItem('ukmaxx_notify_list')||'[]'); list.push({email:em,ts:Date.now()}); localStorage.setItem('ukmaxx_notify_list',JSON.stringify(list)); console.log('UKMAXX notify signup saved:',em); document.getElementById('notifyEmail').value='';});
 
+  const reviewDrawer=document.getElementById('reviewDrawer');
+  document.getElementById('leaveReviewBtn')?.addEventListener('click',(e)=>{e.preventDefault(); if(reviewDrawer) reviewDrawer.style.display='flex';});
+  document.getElementById('reviewCloseBtn')?.addEventListener('click',()=>{ if(reviewDrawer) reviewDrawer.style.display='none'; });
+  reviewDrawer?.addEventListener('click',(e)=>{ if(e.target===reviewDrawer) reviewDrawer.style.display='none'; });
+  document.getElementById('reviewSubmitBtn')?.addEventListener('click',()=>{
+    const name=document.getElementById('reviewName')?.value.trim();
+    const product=document.getElementById('reviewProduct')?.value;
+    const rating=document.getElementById('reviewRating')?.value;
+    const text=document.getElementById('reviewText')?.value.trim();
+    const msg=document.getElementById('reviewMsg');
+    if(!name||!product||!rating||!text){ if(msg){msg.textContent='Please complete all review fields.'; msg.style.color='#b42318';} return; }
+    const reviews=JSON.parse(localStorage.getItem('ukmaxx_reviews_pending')||'[]');
+    reviews.push({name,product,rating,text,ts:Date.now(),status:'pending'});
+    localStorage.setItem('ukmaxx_reviews_pending',JSON.stringify(reviews));
+    if(msg){msg.textContent='Thanks — your review was submitted for verification.'; msg.style.color='var(--accent)';}
+    ['reviewName','reviewProduct','reviewRating','reviewText'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+  });
+
   const lb=document.getElementById('coaLightbox'), lbImg=document.getElementById('lbImg'), lbTitle=document.getElementById('lbTitle'), lbBody=document.getElementById('lbBody');
   const lbData=[
     {sel:'.coa-micro:nth-child(1)',title:'TAMPER SEAL INTEGRITY',body:'Each vial ships with a tamper-evident security seal applied before dispatch. If the seal is broken, missing, or shows signs of interference on arrival, do not use the product. Contact us immediately at the address in the footer for a replacement.'},

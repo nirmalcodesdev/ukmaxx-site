@@ -512,7 +512,7 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
     <article style="scroll-snap-align:start;flex:0 0 86%;border:1px solid var(--border);background:var(--white);padding:12px;min-height:168px"><div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase"><span>IP5</span><span>21 May</span></div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em">★★★★★</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;margin:5px 0">Verified Purchase</div><p style="font-size:13px;line-height:1.6">Professional updates throughout and solid cold-chain presentation.</p><div style="margin-top:6px;font-size:12px;color:var(--dim)">— D.S.</div></article>
   </div>
   <div style="margin-top:10px;display:flex;justify-content:flex-end">
-    <a href="#" style="border:1px solid var(--border);background:var(--white);color:var(--text);text-decoration:none;padding:8px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">Leave a Review</a>
+    <a href="#" id="leaveReviewBtn" style="border:1px solid var(--border);background:var(--white);color:var(--text);text-decoration:none;padding:8px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">Leave a Review</a>
   </div>
 </section>
 
@@ -619,6 +619,17 @@ nav { display:flex; justify-content:space-between; align-items:center; padding:1
     <p style="color:var(--dim)">Your order has been received. You will receive a dispatch confirmation email shortly.</p>
     <p id="orderRef" style="font-family:'Share Tech Mono',monospace;font-size:12px"></p>
     <button id="backToShop" class="add-btn" style="min-height:44px;padding:0 20px">BACK TO SHOP</button>
+  </div>
+</div>
+<div id="reviewDrawer" style="position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:420;display:none;align-items:flex-end;justify-content:center;padding:0">
+  <div style="background:var(--white);width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 12px 28px rgba(8,31,35,.12)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">LEAVE A REVIEW</h3><button id="reviewCloseBtn" class="btn-ghost" style="min-height:36px;padding:6px 10px">Close</button></div>
+    <div class="field"><input id="reviewName" placeholder="Your initials (e.g. A.K.)"></div>
+    <div class="field"><select id="reviewProduct"><option value="">Product purchased</option><option>RT10</option><option>BC5</option><option>IP5</option><option>NJ500</option><option>WA10</option></select></div>
+    <div class="field"><select id="reviewRating"><option value="">Rating</option><option value="5">★★★★★ (5)</option><option value="4">★★★★☆ (4)</option><option value="3">★★★☆☆ (3)</option></select></div>
+    <div class="field"><textarea id="reviewText" placeholder="Share your experience" style="width:100%;min-height:120px;padding:12px;border:1px solid var(--border);background:#fff;resize:vertical"></textarea></div>
+    <div id="reviewMsg" style="font-size:12px;color:var(--dim);min-height:16px;margin-bottom:8px"></div>
+    <button id="reviewSubmitBtn" class="add-btn" style="width:100%;min-height:44px">SUBMIT REVIEW</button>
   </div>
 </div>
 <script src="./products.js"></script>
