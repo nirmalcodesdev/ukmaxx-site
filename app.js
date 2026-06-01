@@ -165,19 +165,35 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('leaveReviewBtn')?.addEventListener('click',(e)=>{e.preventDefault(); if(reviewDrawer) reviewDrawer.style.display='flex';});
   document.getElementById('reviewCloseBtn')?.addEventListener('click',()=>{ if(reviewDrawer) reviewDrawer.style.display='none'; });
   reviewDrawer?.addEventListener('click',(e)=>{ if(e.target===reviewDrawer) reviewDrawer.style.display='none'; });
-  document.getElementById('reviewSubmitBtn')?.addEventListener('click',()=>{
+  document.getElementById('reviewSubmitBtn')?.addEventListener('click',async ()=>{
     const name=document.getElementById('reviewName')?.value.trim();
     const product=document.getElementById('reviewProduct')?.value;
     const rating=document.getElementById('reviewRating')?.value;
     const text=document.getElementById('reviewText')?.value.trim();
     const msg=document.getElementById('reviewMsg');
     if(!name||!product||!rating||!text){ if(msg){msg.textContent='Please complete all review fields.'; msg.style.color='#b42318';} return; }
-    const reviews=JSON.parse(localStorage.getItem('ukmaxx_reviews_pending')||'[]');
-    reviews.push({name,product,rating,text,ts:Date.now(),status:'pending'});
-    localStorage.setItem('ukmaxx_reviews_pending',JSON.stringify(reviews));
-    if(msg){msg.textContent='Thanks — your review was submitted for verification.'; msg.style.color='var(--accent)';}
-    ['reviewName','reviewProduct','reviewRating','reviewText'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+
+    try{
+      const res=await fetch('/api/submit-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({initials:name,product,rating:Number(rating),reviewText:text,hp:''})});
+      const data=await res.json().catch(()=>({}));
+      if(!res.ok||!data.ok){ if(msg){msg.textContent='Unable to submit review right now.'; msg.style.color='#b42318';} return; }
+      if(msg){msg.textContent='Thanks — your review was submitted for verification.'; msg.style.color='var(--accent)';}
+      ['reviewName','reviewProduct','reviewRating','reviewText'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+    }catch{
+      if(msg){msg.textContent='Network error — please try again.'; msg.style.color='#b42318';}
+    }
   });
+
+  const reviewsRail=document.getElementById('reviewsRail');
+  const stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+  const fmtDate=(iso)=>{try{return new Date(iso).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}).toUpperCase();}catch{return '';}};
+  if(reviewsRail){
+    fetch('/api/reviews').then(r=>r.json()).then(data=>{
+      const rows=Array.isArray(data?.reviews)?data.reviews:[];
+      if(!rows.length) return;
+      reviewsRail.innerHTML=rows.map(r=>`<article style="scroll-snap-align:start;flex:0 0 86%;border:1px solid var(--border);background:var(--white);padding:12px;min-height:168px"><div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase"><span>${r.product}</span><span>${fmtDate(r.review_date)}</span></div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em">${stars(Number(r.rating)||5)}</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;margin:5px 0">Verified Purchase</div><p style="font-size:13px;line-height:1.6">${r.review_text}</p><div style="margin-top:6px;font-size:12px;color:var(--dim)">— ${r.initials}</div></article>`).join('');
+    }).catch(()=>{});
+  }
 
   const lb=document.getElementById('coaLightbox'), lbImg=document.getElementById('lbImg'), lbTitle=document.getElementById('lbTitle'), lbBody=document.getElementById('lbBody');
   const lbData=[
