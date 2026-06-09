@@ -145,7 +145,9 @@ export function setupSignInForm() {
       const supabase = await getSupabase();
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
-        if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
+        const m = error.message;
+        if (msg) { msg.textContent = m; msg.style.color = 'var(--danger)'; }
+        toast('Sign in failed', m, 'error');
         if (btn) btn.disabled = false;
         return;
       }
@@ -155,6 +157,7 @@ export function setupSignInForm() {
       setTimeout(() => { window.location.href = redirect; }, 600);
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
+      toast('Sign in failed', 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
     }
   });
@@ -176,18 +179,22 @@ export function setupSignUpForm() {
     const btn = form.querySelector('.auth-submit');
     if (!firstName || !lastName || !email || !password) {
       if (msg) { msg.textContent = 'Please fill in all fields.'; msg.style.color = 'var(--danger)'; }
+      toast('Missing fields', 'Please fill in all fields.', 'error');
       return;
     }
     if (password.length < 8) {
       if (msg) { msg.textContent = 'Password must be at least 8 characters.'; msg.style.color = 'var(--danger)'; }
+      toast('Weak password', 'Password must be at least 8 characters.', 'error');
       return;
     }
     if (!terms) {
       if (msg) { msg.textContent = 'Please agree to the Terms of Service.'; msg.style.color = 'var(--danger)'; }
+      toast('Terms required', 'Please agree to the Terms of Service.', 'error');
       return;
     }
     if (!research) {
       if (msg) { msg.textContent = 'Please confirm research use only.'; msg.style.color = 'var(--danger)'; }
+      toast('Research confirmation', 'Please confirm research use only.', 'error');
       return;
     }
     if (msg) msg.textContent = '';
@@ -223,6 +230,7 @@ export function setupSignUpForm() {
       if (btn) { btn.textContent = 'Account created!'; btn.disabled = true; }
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
+      toast('Sign up failed', 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
     }
   });
@@ -302,6 +310,7 @@ export function setupForgotPassword() {
     const btn = byId('forgotSendBtn');
     if (!email) {
       if (msg) { msg.textContent = 'Please enter your email.'; msg.style.color = 'var(--danger)'; }
+      toast('Email required', 'Please enter your email address.', 'error');
       return;
     }
     if (msg) msg.textContent = '';
@@ -313,13 +322,16 @@ export function setupForgotPassword() {
       });
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
+        toast('Reset failed', error.message, 'error');
         if (btn) btn.disabled = false;
         return;
       }
       if (msg) { msg.textContent = 'Check your email for a reset link.'; msg.style.color = 'var(--success)'; }
+      toast('Email sent', 'Check your email for a password reset link.', 'success');
       if (btn) btn.textContent = 'Email sent!';
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
+      toast('Reset failed', 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
     }
   });
@@ -345,10 +357,12 @@ export function setupUpdatePassword() {
     const confirm = byId('confirmPassword')?.value;
     if (!password || password.length < 8) {
       if (msg) { msg.textContent = 'Password must be at least 8 characters.'; msg.style.color = 'var(--danger)'; }
+      toast('Weak password', 'Password must be at least 8 characters.', 'error');
       return;
     }
     if (password !== confirm) {
       if (msg) { msg.textContent = 'Passwords do not match.'; msg.style.color = 'var(--danger)'; }
+      toast('Mismatch', 'Passwords do not match.', 'error');
       return;
     }
     if (msg) msg.textContent = '';
@@ -358,13 +372,16 @@ export function setupUpdatePassword() {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
+        toast('Update failed', error.message, 'error');
         if (btn) btn.disabled = false;
         return;
       }
       if (msg) { msg.textContent = 'Password updated! Redirecting\u2026'; msg.style.color = 'var(--success)'; }
+      toast('Password updated', 'Redirecting to sign in\u2026', 'success');
       setTimeout(() => { window.location.href = '/signin.html?reset=success'; }, 1500);
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
+      toast('Update failed', 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
     }
   });
