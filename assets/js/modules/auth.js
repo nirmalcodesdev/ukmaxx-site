@@ -29,10 +29,12 @@ export function initAuth() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       currentUser = session?.user ?? null;
       updateAuthUI();
+      redirectIfAuthed();
     });
     supabase.auth.onAuthStateChange((event, session) => {
       currentUser = session?.user ?? null;
       updateAuthUI();
+      redirectIfAuthed();
       if (event === 'PASSWORD_RECOVERY' && !window.location.pathname.includes('update-password')) {
         window.location.href = '/update-password.html';
       }
@@ -96,6 +98,16 @@ export function setupProfileDropdown() {
     dropdown.classList.remove('is-open');
     doSignOut();
   });
+}
+
+function redirectIfAuthed() {
+  if (!currentUser) return;
+  const path = window.location.pathname;
+  const guestPages = ['/signin.html', '/signup.html'];
+  if (guestPages.includes(path)) {
+    const params = new URLSearchParams(window.location.search);
+    window.location.href = params.get('redirect') || '/';
+  }
 }
 
 function doSignOut() {
