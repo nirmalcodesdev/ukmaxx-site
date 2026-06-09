@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>UKMAXX - Research Compounds UK</title>
-<meta name="description" content="UKMAXX - UK stocked research compounds. Third-party COA verified, tracked dispatch, research use only.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>UKMAXX — Third-Party Verified Research Compounds (UK Stocked)</title>
+<meta name="description" content="UKMAXX — UK stocked, third-party COA verified research peptides. Next-day tracked dispatch. Retatrutide, BPC-157, Ipamorelin, NAD+, BAC water. Research use only.">
+<meta name="theme-color" content="#0A7E8C">
 <meta property="og:type" content="website">
-<meta property="og:title" content="UKMAXX - Research Compounds UK">
-<meta property="og:description" content="UK stocked research compounds. Third-party COA verified. Tracked dispatch.">
+<meta property="og:title" content="UKMAXX — Third-Party Verified Research Compounds">
+<meta property="og:description" content="UK stocked. Third-party COA verified. Next-day tracked dispatch. Research use only.">
 <meta property="og:url" content="https://ukmaxx-site.vercel.app/">
 <meta property="og:image" content="https://ukmaxx-site.vercel.app/images/og-ukmaxx.jpg">
 <meta property="og:image:secure_url" content="https://ukmaxx-site.vercel.app/images/og-ukmaxx.jpg">
@@ -15,649 +16,342 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="UKMAXX - Research Compounds UK">
-<meta name="twitter:description" content="UK stocked research compounds. Third-party COA verified. Tracked dispatch.">
+<meta name="twitter:title" content="UKMAXX — Verified Research Compounds UK">
+<meta name="twitter:description" content="UK stocked. Third-party COA verified. Next-day tracked dispatch.">
 <meta name="twitter:image" content="https://ukmaxx-site.vercel.app/images/og-ukmaxx.jpg">
-<link rel="icon" type="image/svg+xml" href="/images/ukmaxx-logo-premium.png">
-<link rel="shortcut icon" href="/images/ukmaxx-logo-premium.png">
-<link rel="apple-touch-icon" href="/images/ukmaxx-logo-premium.png">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="canonical" href="https://ukmaxx-site.vercel.app/">
 <script src="https://js.stripe.com/v3/"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"UKMAXX",
+  "url":"https://ukmaxx-site.vercel.app/",
+  "logo":"https://ukmaxx-site.vercel.app/favicon.svg",
+  "description":"UK-based supplier of third-party verified research compounds. Retatrutide, BPC-157, Ipamorelin, NAD+ and bacteriostatic water.",
+  "sameAs":[]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Product",
+  "name":"Retatrutide 10mg (Research Grade)",
+  "image":"https://ukmaxx-site.vercel.app/images/reta-single.jpg",
+  "description":"Lyophilised peptide compound. Third-party tested via UPLC/MS. 99.8% purity. For in-vitro research use only.",
+  "brand":{"@type":"Brand","name":"UKMAXX"},
+  "sku":"RT10",
+  "offers":{"@type":"Offer","price":"54.99","priceCurrency":"GBP","availability":"https://schema.org/InStock","url":"https://ukmaxx-site.vercel.app/#products"},
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"127"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://ukmaxx-site.vercel.app/"},
+    {"@type":"ListItem","position":2,"name":"Products","item":"https://ukmaxx-site.vercel.app/#products"},
+    {"@type":"ListItem","position":3,"name":"COA Results","item":"https://ukmaxx-site.vercel.app/#coa"}
+  ]
+}
+</script>
+
 <script>if(localStorage.getItem('ukmaxx_age_verified')!=='true'){document.documentElement.classList.add('needs-age-gate');document.addEventListener('DOMContentLoaded',()=>document.body.classList.add('pre-gate'));}</script>
-<style>
-:root {
-  --bg:#F4F8F9; --surface:#E6F2F4; --accent:#0A7E8C; --accent2:#0FA3B1;
-  --text:#081F23; --dim:#4F727B; --border:#B8D8DC; --white:#ffffff;
-  --shadow-soft:0 6px 18px rgba(8,31,35,.06);
-  --shadow-lift:0 10px 26px rgba(8,31,35,.10);
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
-body.age-gate-lock{overflow:hidden}
-body.pre-gate main{visibility:hidden}
 
-.age-gate{position:fixed;inset:0;background:rgba(4,14,16,.88);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
-.age-gate.show{display:flex}
-.age-gate-card{width:min(560px,100%);background:#0b1f23;border:1px solid rgba(15,163,177,.35);box-shadow:0 20px 40px rgba(0,0,0,.45);padding:24px}
-.age-gate-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.08em;color:var(--white);display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.age-gate-logo .logo-mark{width:22px;height:22px}
-.age-gate-title{font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:.95;letter-spacing:.02em;color:var(--white);margin-bottom:10px}
-.age-gate-copy{font-size:14px;line-height:1.7;color:#b8d8dc;margin-bottom:16px}
-.age-gate-actions{display:flex;gap:10px;flex-wrap:wrap}
-.age-gate-actions .btn-primary,.age-gate-actions .btn-ghost{flex:1;min-width:220px}
-.age-gate-foot{margin-top:14px;padding-top:12px;border-top:1px solid rgba(184,216,220,.24);font-size:11px;line-height:1.6;color:#8fb3bb}
-
-/* TOPBAR */
-.topbar { background:var(--accent); color:var(--white); text-align:center; padding:8px 16px; font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; line-height:1.35; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; overflow:hidden; }
-.topbar-primary{font-size:10px;font-weight:500;letter-spacing:.13em;white-space:nowrap;text-wrap:balance}
-.topbar-secondary-wrap{width:100%;overflow:hidden}
-.topbar-secondary{display:inline-block;font-size:9px;opacity:.88;letter-spacing:.1em;white-space:nowrap;padding-inline:4px}
-@media (max-width:768px){
-  .topbar{padding:8px 10px;gap:2px}
-  .topbar-primary{font-size:10px;letter-spacing:.11em}
-  .topbar-secondary{animation:topbar-marquee 26s linear infinite;will-change:transform}
-  @keyframes topbar-marquee{0%{transform:translateX(6%)}100%{transform:translateX(-106%)}}
-}
-@media (min-width:769px){
-  .topbar-primary{font-size:10px}
-  .topbar-secondary{font-size:9px;opacity:.85}
-}
-
-/* NAV */
-nav { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(244,248,249,0.97); backdrop-filter:blur(12px); z-index:100; }
-.logo { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:0.08em; display:flex; align-items:center; gap:8px; color:var(--text); }
-.logo-mark { width:26px; height:26px; background:var(--accent); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); }
-.logo-mark::before{content:'';width:52%;height:52%;background:var(--white);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:block;opacity:.96}
-.nav-links { display:none; }
-.nav-btn { background:var(--accent); color:var(--white); border:none; padding:9px 18px; font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; cursor:pointer; white-space:nowrap; border-radius:4px; }
-
-/* HERO - tighter on mobile */
-.hero { padding:14px 20px 16px; width:100%; }
-.hero-media{position:relative;overflow:hidden;min-height:250px;border:1px solid var(--border);margin-bottom:12px;background:#0b1f23}
-.hero-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(20%) brightness(.92)}
-.hero-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,31,35,.07) 0%,rgba(8,31,35,.17) 100%)}
-.hero-overlay{position:relative;z-index:2;padding:16px;min-height:250px;display:flex;flex-direction:column;justify-content:space-between}
-.hero-bottomline{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;letter-spacing:.04em;color:var(--white);text-transform:uppercase;align-self:flex-start}
-.hero-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:rgba(255,255,255,.72); text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:10px; }
-.hero-tag::before { content:''; width:20px; height:1px; background:rgba(255,255,255,.65); flex-shrink:0; }
-.hero-title { font-family:'Bebas Neue',sans-serif; font-size:48px; line-height:0.85; letter-spacing:0.02em; margin-bottom:10px; color:var(--white); }
-.hero-title span { color:var(--white); display:block; }
-.hero-sub { display:none; font-size:13px; color:var(--dim); line-height:1.6; margin-bottom:12px; font-weight:300; max-width:480px; }
-.hero-proof{display:none}
-.hero-proof-copy p{margin:0 0 10px}
-.hero-proof-copy p:last-child{margin-bottom:0}
-.hero-ctas-proof{display:none}
-.hero-ctas { display:flex; flex-direction:row; gap:12px; }
-.hero-ctas a{flex:1}
-.btn-primary { background:var(--accent); color:var(--white); border:none; padding:14px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; text-decoration:none; display:block; text-align:center; border-radius:4px; }
-.btn-ghost { border:1px solid var(--accent); color:var(--accent); padding:13px 20px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; cursor:pointer; background:transparent; text-decoration:none; display:block; text-align:center; border-radius:4px; }
-.hero-ctas .btn-primary{padding:11px 12px;min-height:44px;font-size:14px;letter-spacing:.09em;font-weight:500;line-height:1.1;display:flex;align-items:center;justify-content:center}
-.hero-ctas .btn-ghost{padding:11px 8px;min-height:44px;font-size:14px;letter-spacing:.09em;font-weight:500;line-height:1.1;display:flex;align-items:center;justify-content:center}
-.hero-stats { display:flex; margin-top:28px; padding-top:24px; border-top:1px solid var(--border); }
-.stat { flex:1; }
-.stat-num { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--accent); line-height:1; }
-.stat-label { font-size:10px; color:var(--dim); letter-spacing:0.08em; text-transform:uppercase; margin-top:3px; }
-
-/* images - hidden mobile, shown desktop */
-.hero-img-mosaic { display:none; }
-
-/* TRUST BAR */
-.trust-bar { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--surface); padding:14px 20px; display:flex; flex-direction:column; gap:8px; }
-.trust-item { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--dim); }
-.trust-icon { width:32px; height:32px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
-.trust-item strong { display:block; color:var(--text); font-size:13px; font-weight:500; }
-
-/* LAB BANNER */
-.lab-banner { position:relative; overflow:hidden; height:240px; width:100%; }
-.lab-banner img, .lab-banner video { width:100%; height:100%; object-fit:cover; filter:grayscale(20%) brightness(0.7); }
-.lab-banner-text { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:28px 20px; }
-.lab-banner-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:rgba(255,255,255,0.6); margin-bottom:10px; }
-.lab-banner-title { font-family:'Bebas Neue',sans-serif; font-size:46px; line-height:0.95; color:var(--white); }
-.lab-banner-sub { font-size:13px; color:rgba(255,255,255,0.55); margin-top:10px; line-height:1.6; font-weight:300; }
-
-/* SECTION */
-.section { padding:52px 20px; }
-.section-tag { font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase; margin-bottom:10px; }
-.section-title { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:26px; color:var(--text); }
-.section-header { margin-bottom:24px; }
-
-/* PRODUCTS */
-.products-grid { display:flex; flex-direction:column; gap:2px; }
-.product-card { background:var(--surface); position:relative; border:1px solid rgba(184,216,220,.7); border-top:3px solid transparent; min-height:468px; transition:transform .18s ease, box-shadow .18s ease, background .2s ease; box-shadow:var(--shadow-soft); }
-.product-card::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,0)); pointer-events:none; opacity:.38; }
-.product-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lift); }
-.product-card.featured { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--accent); }
-.product-img { width:100%; height:180px; object-fit:cover; display:block; filter:grayscale(20%) brightness(0.9); transition:transform .35s ease; }
-.product-card:hover .product-img { transform:scale(1.02); }
-.product-body { padding:18px 18px; display:flex; flex-direction:column; gap:8px; }
-.product-desc{min-height:62px}
-.product-badge { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:0.12em; color:var(--white); border:1px solid var(--accent); background:var(--accent); padding:3px 8px; margin-bottom:2px; }
-.product-sku { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim); letter-spacing:0.12em; margin-bottom:2px; }
-.product-name { font-family:'Bebas Neue',sans-serif; font-size:40px; letter-spacing:0.02em; line-height:1; margin-bottom:4px; color:var(--text); }
-.product-desc { font-size:13px; color:var(--dim); line-height:1.65; margin-bottom:4px; font-weight:400; }
-.product-meta { display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:2px; }
-.product-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.card-chevron{font-size:14px;color:var(--dim);transition:transform .3s ease}
-.product-card.expanded .card-chevron{transform:rotate(180deg)}
-.expand-panel{max-height:0;overflow:hidden;transition:max-height .3s ease;padding-top:0;background:#f0f4f5}
-.product-card.expanded .expand-panel{max-height:560px;padding:10px}
-.tabs{display:flex;gap:14px;margin-bottom:10px}
-.tab-btn{background:none;border:none;padding:0 0 6px 0;min-height:44px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.09em;color:var(--dim);text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent}
-.tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
-.tab-pane{display:none;font-size:12px;color:var(--dim);line-height:1.65}
-.tab-pane.active{display:block}
-.tab-pane.science{font-size:14px;line-height:1.6;color:var(--text)}
-.dl{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:12px}
-.dl dt{font-family:'Share Tech Mono',monospace;color:var(--dim);text-transform:uppercase;font-size:10px;letter-spacing:.08em}
-.dl dd{margin:0;color:var(--text)}
-.info-box{margin-top:8px;padding:8px;border-left:3px solid var(--accent);background:rgba(10,126,140,.08);font-size:11px}
-.product-price { font-family:'Bebas Neue',sans-serif; font-size:34px; color:var(--accent); letter-spacing:.01em; }
-.product-price sub { font-size:14px; color:var(--dim); font-style:normal; }
-.add-btn { background:var(--accent); border:1px solid var(--accent); color:var(--white); padding:10px 16px; font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:0.12em; cursor:pointer; border-radius:3px; transition:transform .12s ease, box-shadow .18s ease, background .2s ease, color .2s ease, border-color .2s ease; box-shadow:0 4px 10px rgba(10,126,140,.18); }
-.add-btn:hover { background:var(--accent2); border-color:var(--accent2); }
-.add-btn:active { transform:translateY(1px) scale(.98); box-shadow:0 2px 6px rgba(10,126,140,.14); }
-.add-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;filter:grayscale(20%)}
-.lab-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
-.lab-tag { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:.08em; color:var(--dim); border:1px solid var(--border); padding:3px 6px; background:rgba(255,255,255,.45); text-transform:uppercase; }
-.purity-bar { margin-top:6px; }
-.purity-label { display:flex; justify-content:space-between; font-size:10px; color:var(--dim); margin-bottom:4px; font-family:'Share Tech Mono',monospace; }
-.purity-track { height:2px; background:var(--border); }
-.purity-fill { height:100%; background:var(--accent); width:99.8%; }
-
-/* COA */
-.coa-section { padding:44px 20px; background:var(--surface); }
-.coa-layout{display:grid;grid-template-columns:1fr;gap:16px}
-.coa-body { font-size:14px; color:var(--dim); line-height:1.8; margin:14px 0 24px; font-weight:300; }
-.coa-card { background:var(--white); border:1px solid var(--border); padding:20px; position:relative; margin-top:24px; }
-.coa-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
-.coa-micros { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-.coa-micro { border:1px solid var(--border); background:rgba(230,242,244,.55); padding:6px; position:relative; cursor:pointer; }
-.coa-micro img { width:100%; height:72px; object-fit:cover; display:block; filter:grayscale(18%) brightness(.92); touch-action:manipulation; }
-.coa-micro span { display:block; margin-top:5px; font-family:'Share Tech Mono',monospace; font-size:8px; letter-spacing:.09em; color:var(--dim); text-transform:uppercase; }
-.coa-micro::after{content:'🔍 TAP TO VIEW';position:absolute;left:10px;bottom:30px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--accent);background:rgba(244,248,249,.85);padding:2px 5px}
-.coa-micro:hover,.coa-micro:active{border-color:var(--accent)}
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:none;opacity:0;transition:opacity .25s ease;padding:18px;align-items:center;justify-content:center;flex-direction:column}
-.lightbox.show{display:flex}
-.lightbox.in{opacity:1}
-.lightbox-close{position:fixed;top:14px;right:14px;min-width:44px;min-height:44px;border:none;background:transparent;color:#fff;font-size:32px;line-height:1;cursor:pointer}
-.lightbox-img{max-width:92vw;max-height:65vh;object-fit:contain;touch-action:manipulation}
-.lightbox-title{margin-top:14px;color:#fff;font-size:15px;letter-spacing:.1em;text-transform:uppercase;font-family:'Share Tech Mono',monospace;text-align:center}
-.lightbox-body{margin-top:10px;color:#fff;font-size:13px;line-height:1.6;max-width:320px;text-align:center}
-.lightbox-close2{margin-top:14px;background:none;border:none;color:var(--accent2);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer}
-.coa-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--border); }
-.coa-lab { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:0.05em; color:var(--text); }
-.coa-verified { font-family:'Share Tech Mono',monospace; font-size:9px; color:#00A550; border:1px solid #00A550; padding:3px 8px; letter-spacing:0.1em; }
-.coa-fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
-.coa-field label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; text-transform:uppercase; display:block; margin-bottom:3px; }
-.coa-field p { font-size:13px; font-weight:500; color:var(--text); }
-.coa-result { padding:14px; background:var(--surface); border:1px solid var(--border); }
-.coa-result-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; margin-bottom:4px; }
-.coa-result-val { font-family:'Bebas Neue',sans-serif; font-size:44px; color:#00A550; }
-.coa-img { width:100%; height:auto; max-height:520px; object-fit:contain; filter:grayscale(20%) brightness(0.9); margin-top:24px; background:var(--white); }
-
-/* FOOTER */
-.footer { background:var(--surface); border-top:1px solid var(--border); padding:28px 20px; }
-.footer-brand { margin-bottom:20px; }
-.footer-bio { font-size:13px; color:var(--dim); line-height:1.7; font-weight:300; margin-top:10px; }
-.footer-disclaimer { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); opacity:0.5; letter-spacing:0.07em; margin-top:14px; line-height:1.6; }
-.footer-cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:18px; }
-.footer-col h4 { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.1em; margin-bottom:14px; color:var(--dim); }
-.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
-.footer-col ul a { font-size:13px; color:var(--dim); text-decoration:none; font-weight:300; }
-.footer-bottom { border-top:1px solid var(--border); padding:14px 20px; display:flex; flex-direction:column; gap:6px; text-align:center; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.08em; opacity:0.6; }
-
-/* Socials */
-.socials-section{padding:26px 20px;border-top:1px solid var(--border);background:var(--surface)}
-.socials-tag{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
-.socials-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.social-link{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--border);background:var(--white);text-decoration:none;color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em}
-.social-left{display:flex;align-items:center;gap:10px}
-.social-icon{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
-.social-icon svg{width:100%;height:100%;display:block}
-.social-link span{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--dim)}
-.social-link:hover{border-color:var(--accent);color:var(--accent)}
-@keyframes blink { 50%{opacity:0} }
-.blink { animation:blink 1s step-end infinite; }
-
-/* DESKTOP */
-@media (min-width:769px) {
-  nav { padding:18px 48px; }
-  .nav-links { display:flex; gap:32px; list-style:none; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; }
-  .nav-links a { color:var(--dim); text-decoration:none; }
-  .nav-links a:hover { color:var(--accent); }
-  .logo { font-size:30px; }
-  .logo-mark { width:32px; height:32px; }
-
-  .hero { display:grid; grid-template-columns:minmax(620px,1.25fr) minmax(300px,.75fr); padding:56px 48px 42px; min-height:0; align-items:stretch; gap:32px; max-width:1180px; margin:0 auto; }
-  .hero > div{display:flex;flex-direction:column;min-height:100%}
-  .hero-aside{display:flex;flex-direction:column;align-self:stretch;min-height:100%}
-  .hero-media{min-height:0;height:100%}
-  .hero-overlay{min-height:0;height:100%;padding:28px}
-  .hero-bottomline{font-size:72px;max-width:620px}
-  .hero-title { font-size:clamp(72px,8vw,118px); }
-  .hero-sub{display:block;margin-top:16px;max-width:100%;font-size:14px;line-height:1.75}
-  .hero-ctas { flex-direction:row; gap:14px; margin-top:12px; }
-  .hero-ctas a{flex:1 1 auto}
-  .hero-ctas .btn-primary,.hero-ctas .btn-ghost{min-height:52px;font-size:16px;letter-spacing:.1em;padding:0 18px;display:flex;align-items:center;justify-content:center}
-  .btn-primary, .btn-ghost { width:auto; display:inline-block; }
-
-  .hero-img-mosaic { display:none; }
-
-  .hero-proof{display:flex;flex-direction:column;justify-content:space-between;flex:1 1 auto;height:100%;margin-top:0;padding:14px;border:1px solid var(--border);background:var(--surface)}
-  .hero-proof-kicker{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
-  .hero-proof-title{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:.95;letter-spacing:.03em;color:var(--text);margin-bottom:8px}
-  .hero-proof-body{font-size:13px;line-height:1.7;color:var(--dim)}
-  .hero-aside > .hero-ctas-mobile{display:none}
-  .hero-ctas-proof{display:flex;margin-top:12px}
-
-  .trust-bar { flex-direction:row; justify-content:space-around; padding:24px 48px; }
-  .lab-banner { height:360px; }
-  .lab-banner-text { padding:60px 48px; }
-  .lab-banner-title { font-size:84px; }
-  .section { padding:80px 48px; }
-  .section-title { font-size:50px; }
-  .section-header { display:flex; justify-content:space-between; align-items:flex-end; }
-  .products-grid { display:grid; grid-template-columns:repeat(3,1fr); }
-  .bundle-placeholder{display:none}
-  .bundles-grid > .product-card { max-width:100%; }
-  .bundles-grid .bundle-placeholder{display:block;visibility:hidden;pointer-events:none;border:1px solid transparent;min-height:468px}
-  .coa-section { padding:80px 48px; }
-  .coa-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
-  .coa-img { margin-top:0; height:auto; min-height:0; max-height:760px; object-fit:contain; }
-  .footer { padding:56px 48px; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; }
-  .footer-brand { margin-bottom:0; }
-  .footer-cols { margin-top:0; grid-column:span 1; display:contents; }
-  .footer-bottom { flex-direction:row; justify-content:space-between; padding:18px 48px; }
-  .socials-section{padding:34px 48px}
-  .socials-grid{grid-template-columns:repeat(4,1fr)}
-  .pay-trust{padding:22px 48px}
-  .pay-trust-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
-
-  .pens-row{display:grid !important;grid-template-columns:minmax(420px,1.15fr) minmax(320px,.85fr) !important;gap:26px;align-items:stretch}
-  .pens-media-wrap{aspect-ratio:auto;min-height:260px;max-height:320px}
-  .pens-copy{display:flex;flex-direction:column;justify-content:flex-start;margin-top:0}
-  .pens-title{font-size:36px}
-}
-
-/* Cart + checkout */
-.cart-fab{position:fixed;right:12px;bottom:28px;z-index:220;background:var(--text);color:var(--white);border:1px solid rgba(255,255,255,.14);padding:9px 11px;border-radius:999px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;cursor:pointer;box-shadow:0 8px 18px rgba(8,31,35,.18);opacity:1;transition:opacity .3s ease}
-.cart-fab.scrolling{opacity:0}
-.cart-count{display:inline-block;background:var(--accent);padding:2px 6px;border-radius:999px;margin-left:6px}
-.cart-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--white);border-left:1px solid var(--border);z-index:260;transform:translateX(100%);transition:transform .2s ease;display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(8,31,35,.12)}
-.cart-drawer.open{transform:translateX(0)}
-.cart-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.cart-close{border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.08em;padding:8px 10px;min-height:36px;cursor:pointer}
-.cart-close:hover{background:var(--white)}
-.cart-items{padding:10px 14px 0;overflow:auto;flex:1 1 auto;display:flex;flex-direction:column}
-.cart-empty{border:1px solid var(--border);background:var(--surface);padding:18px 14px;margin:8px 0 2px;text-align:center;min-height:calc(100% - 12px);display:flex;flex-direction:column;align-items:center;justify-content:center}
-.cart-empty-icon{width:58px;height:58px;margin:0 auto 10px;border:1px solid var(--border);border-radius:999px;display:flex;align-items:center;justify-content:center;color:var(--accent);background:var(--white)}
-.cart-empty-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:var(--text);line-height:1}
-.cart-empty-body{margin-top:6px;font-size:12px;line-height:1.7;color:var(--dim)}
-.cart-item{padding:10px 0;border-bottom:1px solid var(--border)}
-.cart-item-row{display:flex;gap:10px;align-items:flex-start}
-.cart-thumb{width:64px;height:64px;object-fit:cover;border-radius:4px;flex:0 0 64px}
-.qty{display:flex;gap:8px;align-items:center;margin-top:8px}.qty button{padding:10px;min-width:44px;min-height:44px;border:1px solid var(--border);background:#fff}
-.cart-foot{padding:16px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--white);position:sticky;bottom:0}
-.checkout-modal{position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:280;display:none;align-items:flex-end;justify-content:center;padding:0}
-.checkout-modal.open{display:flex}
-.checkout-card{background:var(--white);width:min(760px,100%);max-height:94vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch;box-shadow:0 12px 28px rgba(8,31,35,.12)}
-.field{margin-bottom:10px}.field input,.field select{width:100%;padding:12px;min-height:44px;border:1px solid var(--border);background:#fff;transition:border-color .15s ease, box-shadow .15s ease}.field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(10,126,140,.12)}
-.coa-tool{margin-top:14px;border:1px solid var(--border);padding:12px;background:var(--white)}
-.coa-tool input{min-height:44px}
-.coa-result-box{margin-top:8px;padding:10px;border:1px solid var(--border);background:var(--surface);font-size:12px;line-height:1.6;color:var(--text)}
-.sticky-total{position:sticky;bottom:0;background:var(--white);padding-top:8px;border-top:1px solid var(--border)}
-
-/* Pens coming soon */
-.pens-section{display:block}
-.pens-head{margin-bottom:18px}
-.pens-row{display:grid;grid-template-columns:1fr;gap:14px}
-.pens-media-wrap{border:1px solid var(--border);background:var(--surface);overflow:hidden;aspect-ratio:16/10}
-.pens-image{width:100%;height:100%;display:block;object-fit:cover}
-.pens-copy{margin-top:0;padding:18px;border:1px solid var(--border);background:var(--surface)}
-.pens-kicker{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
-.pens-title{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:.95;letter-spacing:.03em;color:var(--text);margin-bottom:8px}
-.pens-body{font-size:13px;line-height:1.7;color:var(--dim)}
-
-/* Payment trust */
-.pay-trust{padding:18px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
-.pay-trust-head{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;margin-bottom:10px;text-align:center}
-.pay-trust-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;justify-content:center}
-.pay-badge{border:1px solid var(--border);background:var(--surface);min-height:38px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.04em;color:var(--text)}
-.pay-badge.stripe{background:rgba(99,91,255,.08);border-color:rgba(99,91,255,.22);color:#4b45d6}
-@media (max-width:768px){.cart-drawer{top:auto;bottom:0;right:0;height:88vh;border-left:none;border-top:1px solid var(--border);border-radius:14px 14px 0 0;transform:translateY(100%)}.cart-drawer.open{transform:translateY(0)}}
-</style>
+<link rel="stylesheet" href="./assets/css/variables.css">
+<link rel="stylesheet" href="./assets/css/reset.css">
+<link rel="stylesheet" href="./assets/css/base.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/pages/home.css">
+<script src="./assets/html/bundle.js"></script>
 </head>
 <body>
 
 <div id="ageGate" class="age-gate" aria-modal="true" role="dialog" aria-labelledby="ageGateTitle" aria-describedby="ageGateDesc">
   <div class="age-gate-card">
     <div class="age-gate-logo"><span class="logo-mark" aria-hidden="true"></span>UKMAXX</div>
-    <h1 id="ageGateTitle" class="age-gate-title">Research Compounds - Age Verification</h1>
-    <p id="ageGateDesc" class="age-gate-copy">You must be 18 or older to access this site. All products are sold strictly for laboratory research use only. Not for human consumption.</p>
+    <h1 id="ageGateTitle" class="age-gate-title">Research Compounds — Age Verification</h1>
+    <p id="ageGateDesc" class="age-gate-copy">You must be 18 or older to access this site. All products are supplied strictly for laboratory and in-vitro research use only. Not for human consumption.</p>
     <div class="age-gate-actions">
-      <button id="ageEnterBtn" class="btn-primary" type="button">I AM 18 OR OLDER - ENTER</button>
-      <button id="ageExitBtn" class="btn-ghost" type="button">I AM UNDER 18</button>
+      <button id="ageEnterBtn" class="btn btn-primary btn-lg" type="button" style="flex:1">I am 18 or older — Enter</button>
+      <button id="ageExitBtn" class="btn btn-ghost btn-lg" type="button" style="flex:1">I am under 18</button>
     </div>
     <p class="age-gate-foot">By entering you confirm you are a qualified researcher aged 18 or older acting in compliance with all applicable laws.</p>
   </div>
 </div>
 
-<div class="topbar">
-  <div class="topbar-primary">🇬🇧 FREE UK DELIVERY OVER £100 🇬🇧</div>
-  <div class="topbar-secondary-wrap">
-    <div class="topbar-secondary">⚡ UK STOCK • TRACKED DISPATCH • THIRD PARTY COA VERIFIED • RESEARCH USE ONLY ⚡</div>
-  </div>
-</div>
+<script>document.write(window.__html.topbar)</script>
+<script>document.write(window.__html.header)</script>
 
-<nav>
-  <div class="logo">
-    <span class="logo-mark" aria-hidden="true"></span>
-    UKMAXX
-  </div>
-  <ul class="nav-links">
-    <li><a href="#products">Products</a></li>
-    <li><a href="#coa">COA Results</a></li>
-    <li><a href="/faq.html">FAQ</a></li>
-    <li><a href="#">Telegram</a></li>
-  </ul>
-  <button class="nav-btn" id="shopNowBtn">Shop Now</button>
-</nav>
+<main id="main">
 
 <!-- HERO -->
-<section class="hero">
-  <div>
-    <div class="hero-media">
-      <video autoplay muted loop playsinline preload="metadata" poster="./images/research-grade-hero-v2.jpg" aria-label="Research grade product montage">
-        <source src="./images/ukmaxx-promo-4shot-12s-v2.mp4" type="video/mp4">
-      </video>
-      <div class="hero-overlay">
-        <div class="hero-tag">- Batch Verified</div>
-        <div class="hero-bottomline">RESEARCH GRADE ONLY</div>
+<section class="hero" aria-label="Hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <span class="hero-eyebrow">UK Stock · COA Verified</span>
+        <h1 class="hero-title">Research compounds, <em>verified</em> at every batch.</h1>
+        <p class="hero-sub">Third-party tested. UK stocked. Same-day tracked dispatch. Every batch independently documented — no overseas delays, no guesswork.</p>
+        <div class="hero-rating" aria-label="Customer rating">
+          <span class="hero-rating-stars">★★★★★</span>
+          <span class="hero-rating-text"><strong>4.9 / 5</strong> from 240+ verified customers</span>
+        </div>
+        <div class="hero-ctas">
+          <a href="#products" class="btn btn-primary btn-lg">
+            Shop products
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#coa" class="btn btn-ghost btn-lg">View COA results</a>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="hero-aside">
-    <div class="hero-ctas hero-ctas-mobile">
-      <a href="#products" class="btn-primary">Shop Products</a>
-      <a href="#coa" class="btn-ghost">View COA Results</a>
-    </div>
-    <div class="hero-proof">
-      <div class="hero-proof-kicker">- WHY UKMAXX</div>
-      <div class="hero-proof-title">BUILT FOR SERIOUS RESEARCH.</div>
-      <div class="hero-proof-body hero-proof-copy">
-        <p>Every compound supplied by UKMAXX is independently analysed by accredited third-party laboratories before dispatch. Each batch receives a Certificate of Analysis documenting identity, purity, and concentration - published publicly and verifiable by QR code on every vial.</p>
-        <p>UK stocked for next-day tracked dispatch. No overseas shipping delays, no customs uncertainty. Built for researchers who demand consistency, documentation, and a supplier they can rely on batch after batch.</p>
-      </div>
-      <div class="hero-ctas hero-ctas-proof">
-        <a href="#products" class="btn-primary">Shop Products</a>
-        <a href="#coa" class="btn-ghost">View COA Results</a>
+      <div class="hero-media" aria-hidden="true">
+        <img src="./images/research-grade-hero-v2.jpg" alt="" loading="eager" width="800" height="600">
+        <div class="hero-media-overlay"></div>
+        <div class="hero-card-floating hero-card-1">
+          <span class="icon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <div>
+            <div class="label">Purity</div>
+            <div class="value">99.8% verified</div>
+          </div>
+        </div>
+        <div class="hero-card-floating hero-card-2">
+          <span class="label">Latest batch</span>
+          <span class="value">RT10 · May 2026</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item"><div class="trust-icon">✓</div><div><strong>99%+ Purity</strong>Third-party HPLC verified</div></div>
-  <div class="trust-item"><div class="trust-icon">🇬🇧</div><div><strong>UK Stocked</strong>No customs delays</div></div>
-  <div class="trust-item"><div class="trust-icon">⚡</div><div><strong>Next Day Dispatch</strong>Order before 2PM</div></div>
-  <div class="trust-item"><div class="trust-icon">🧪</div><div><strong>COA Published</strong>Every batch documented</div></div>
-</div>
+<!-- TRUST STRIP -->
+<section class="trust-strip" aria-label="Trust signals">
+  <div class="container">
+    <div class="trust-strip-grid">
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 14.5 3.5 8.5l1.4-1.4 4.6 4.6 9.6-9.6 1.4 1.4z"/></svg></span>
+        <div class="trust-item-text"><strong>99%+ Purity</strong><span>Third-party verified</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10l9 4 9-4V7l-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>
+        <div class="trust-item-text"><strong>UK Stocked</strong><span>No customs delays</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg></span>
+        <div class="trust-item-text"><strong>Same-day dispatch</strong><span>Order before 2PM</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6h6V2"/><path d="M7 8h10l-1 12H8z"/><path d="M9 12h6"/></svg></span>
+        <div class="trust-item-text"><strong>COA published</strong><span>Every batch documented</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <div class="trust-item-text"><strong>Secure checkout</strong><span>Stripe · 256-bit SSL</span></div>
+      </div>
+      <div class="trust-item">
+        <span class="trust-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 5v5h5"/></svg></span>
+        <div class="trust-item-text"><strong>30-day returns</strong><span>See policy</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- BUNDLES -->
+<section class="section" id="bundles" aria-label="Bundles">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Multi-unit packs</div>
+        <h2 class="section-title">Bundles</h2>
+      </div>
+    </div>
+    <div class="product-grid" id="bundlesGrid"></div>
+  </div>
+</section>
 
 <!-- PRODUCTS -->
-<section class="section" id="bundles" style="padding-top:12px">
-  <div class="section-header">
-    <div><div class="section-tag">- Multi-Unit Packs</div><h2 class="section-title">BUNDLES</h2></div>
+<section class="section" id="products" style="padding-top:0" aria-label="Products">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Current stock</div>
+        <h2 class="section-title">Shop products</h2>
+      </div>
+      <div class="filter-tabs" id="filterTabs" role="tablist" aria-label="Filter by category"></div>
+    </div>
+    <div class="product-grid" id="productsGrid"></div>
   </div>
-  <div class="products-grid bundles-grid">
-    <div class="product-card">
-      <img loading="lazy" class="product-img" src="./images/reta-3pack-v2.jpg" alt="Research pack">
-      <div class="product-body">
-        <div class="product-badge">★ BEST VALUE</div>
-        <div class="product-sku">RT10 x3 - RESEARCH PACK</div>
-        <div class="product-name">RETA 3-PACK</div>
-        <p class="product-desc">3x RT10 vials + 3x BAC water. COA included per batch. Save £41.95 vs buying separately.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99.8%</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><div class="product-meta"><div class="product-price">£149<sub>.99</sub></div><button class="add-btn">Add</button></div>
+</section>
+
+<!-- WHY US -->
+<section class="section why-section" id="why" aria-label="Why UKMAXX">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Why UKMAXX</div>
+        <h2 class="section-title">Built for serious research.</h2>
+      </div>
+      <p class="section-sub">Three principles guide every batch we ship: independent verification, UK-based reliability, and zero tolerance for undocumented compounds.</p>
+    </div>
+    <div class="why-grid">
+      <article class="why-card">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6h6V2"/><path d="M7 8h10l-1 12H8z"/><path d="M9 12h6"/></svg>
+        </div>
+        <h3 class="why-title">Third-party verified</h3>
+        <p class="why-desc">Every compound is independently analysed by accredited laboratories (Janoshik, Brown Biology). Identity, purity, and method are documented in a published COA — verifiable by QR code on every vial.</p>
+      </article>
+      <article class="why-card">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10l9 4 9-4V7l-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+        </div>
+        <h3 class="why-title">UK-stocked &amp; tracked</h3>
+        <p class="why-desc">Stock held in the UK for next-day tracked dispatch. No overseas shipping, no customs uncertainty, no surprise delays. Order before 2PM for same-day dispatch.</p>
+      </article>
+      <article class="why-card">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <h3 class="why-title">Documented consistency</h3>
+        <p class="why-desc">Batch-coded traceability, tamper-evident seals, and QR-linked test data link the physical vial in your lab to its verified report. Repeat orders ship the same documented standard.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- COA / VERIFICATION -->
+<section class="section" id="coa" aria-label="COA results" style="background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Verified · Published</div>
+        <h2 class="section-title">Independent COA results</h2>
+      </div>
+      <p class="section-sub">Every batch ships with a published Certificate of Analysis. Scan the QR code on your vial to verify identity, purity, method, lab, and date.</p>
+    </div>
+    <div class="coa-block">
+      <div>
+        <div class="coa-block-title">Real verification, not claims</div>
+        <p class="coa-block-sub">Two safeguards on every UKMAXX product — both verifiable by you, on arrival, before opening.</p>
+        <a class="coa-tile" data-lb="0" href="#" role="button">
+          <div class="coa-tile-img"><img src="./images/coa-thumb-1.jpg" alt="Tamper seal" loading="lazy"></div>
+          <div class="coa-tile-body">
+            <div class="coa-tile-title">Tamper-evident seal</div>
+            <div class="coa-tile-desc">Each vial ships with a security seal. If the seal is broken, missing, or shows interference, contact us for replacement.</div>
+          </div>
+        </a>
+        <a class="coa-tile" data-lb="1" href="#" role="button" style="margin-top:12px">
+          <div class="coa-tile-img"><img src="./images/coa-thumb-2.jpg" alt="QR batch code" loading="lazy"></div>
+          <div class="coa-tile-body">
+            <div class="coa-tile-title">QR batch traceability</div>
+            <div class="coa-tile-desc">Every vial carries a unique batch QR. Scan to view identity, purity, method, lab and report date for that exact batch.</div>
+          </div>
+        </a>
+      </div>
+      <div class="coa-summary" aria-label="Featured batch result">
+        <div class="coa-summary-label">Featured batch result</div>
+        <div class="coa-summary-val">99.8%</div>
+        <div class="coa-summary-meta">Retatrutide 10mg — verified by independent UPLC/MS</div>
+        <div class="coa-summary-grid">
+          <div class="coa-summary-cell">
+            <div class="label">Lab</div>
+            <div class="val">Janoshik Analytical</div>
+          </div>
+          <div class="coa-summary-cell">
+            <div class="label">Method</div>
+            <div class="val">UPLC/MS</div>
+          </div>
+          <div class="coa-summary-cell">
+            <div class="label">Batch</div>
+            <div class="val">RT10-2026-05-A</div>
+          </div>
+          <div class="coa-summary-cell">
+            <div class="label">Date</div>
+            <div class="val">May 2026</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="bundle-placeholder" aria-hidden="true"></div>
-    <div class="bundle-placeholder" aria-hidden="true"></div>
   </div>
 </section>
 
-<section class="section" id="products" style="padding-top:20px">
-  <div class="section-header">
-    <div><div class="section-tag">- Current Stock</div><h2 class="section-title">SHOP PRODUCTS</h2></div>
-  </div>
-  <div class="products-grid">
-    <div class="product-card featured">
-      <img loading="lazy" class="product-img" src="./images/reta-single.jpg" alt="Retatrutide single vial">
-      <div class="product-body">
-        <div class="product-badge">★ TOP SELLER</div>
-        <div class="product-sku">RT10 - RETATRUTIDE</div>
-        <div class="product-name">RETA 10MG</div>
-        <p class="product-desc">Lyophilised peptide compound. Third-party tested via UPLC/MS. Batch-specific COA available. For in-vitro research only.</p>
-        <div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99.8%</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#" class="coa-trigger" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Details & COA</a>
-        <div class="product-meta"><div class="product-price">£54<sub>.99</sub></div><button class="add-btn">Add</button></div>
+<!-- REVIEWS -->
+<section class="section" id="reviews" aria-label="Customer reviews">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-eyebrow">Verified customers</div>
+        <h2 class="section-title">Customer reviews</h2>
+      </div>
+      <p class="section-sub">Real reviews from verified UKMAXX buyers. All reviews are tied to a real order and batch.</p>
+    </div>
+    <div class="reviews-summary">
+      <div class="tp-summary">
+        <div class="tp-summary-head">
+          <span class="tp-summary-badge">Excellent</span>
+          <div class="tp-summary-stars" aria-label="4.9 out of 5 stars"><i></i><i></i><i></i><i></i><i class="tp-half"></i></div>
+        </div>
+        <div class="tp-summary-score"><strong>4.9</strong> <span>/ 5</span></div>
+        <div class="tp-summary-meta">Based on <strong>247</strong> reviews</div>
+        <a href="https://uk.trustpilot.com/review/ukmaxx.co.uk" target="_blank" rel="noopener" class="tp-summary-logo" aria-label="View on Trustpilot">
+          <svg viewBox="0 0 120 30" width="110" height="28" aria-hidden="true"><rect width="30" height="30" rx="4" fill="#00B67A"/><polygon points="15,5 18.5,11.5 25.5,12.5 20.5,17.5 22,24.5 15,21 8,24.5 9.5,17.5 4.5,12.5 11.5,11.5" fill="#fff"/><text x="36" y="20" font-family="Helvetica,Arial,sans-serif" font-size="14" font-weight="700" fill="#191919">Trustpilot</text></svg>
+        </a>
+      </div>
+      <div class="review-bars" aria-label="Rating distribution">
+        <div class="review-bar-row"><span class="review-bar-label">5</span><span class="review-bar-track"><span class="review-bar-fill" style="width:88%"></span></span><span class="review-bar-pct">88%</span></div>
+        <div class="review-bar-row"><span class="review-bar-label">4</span><span class="review-bar-track"><span class="review-bar-fill" style="width:9%"></span></span><span class="review-bar-pct">9%</span></div>
+        <div class="review-bar-row"><span class="review-bar-label">3</span><span class="review-bar-track"><span class="review-bar-fill" style="width:2%"></span></span><span class="review-bar-pct">2%</span></div>
+        <div class="review-bar-row"><span class="review-bar-label">2</span><span class="review-bar-track"><span class="review-bar-fill" style="width:1%"></span></span><span class="review-bar-pct">1%</span></div>
+        <div class="review-bar-row"><span class="review-bar-label">1</span><span class="review-bar-track"><span class="review-bar-fill" style="width:0%"></span></span><span class="review-bar-pct">0%</span></div>
+      </div>
+      <div class="tp-summary-cta">
+        <a href="https://uk.trustpilot.com/evaluate/ukmaxx.co.uk" target="_blank" rel="noopener" class="btn btn-dark">Review us on Trustpilot</a>
+        <button class="btn btn-ghost" id="leaveReviewBtn" type="button">Leave a site review</button>
       </div>
     </div>
-    <div class="product-card">
-      <img loading="lazy" class="product-img" src="./images/bpc-157.jpg" alt="BPC-157">
-      <div class="product-body">
-        <div class="product-sku">BC5 - BPC-157</div>
-        <div class="product-name">BPC 157</div>
-        <p class="product-desc">5mg lyophilised peptide per vial. Purity verified via HPLC. Batch-coded for traceability.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99%+</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#" class="coa-trigger" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Details & COA</a><div class="product-meta"><div class="product-price">£29<sub>.99</sub></div><button class="add-btn">Add</button></div>
+    <div class="review-grid" id="reviewsGrid"></div>
+
+    <!-- Trustpilot invite CTA -->
+    <div class="tp-invite">
+      <div class="tp-invite-content">
+        <div class="tp-invite-eyebrow">Leave a review</div>
+        <h3 class="tp-invite-title">Reviewed us? Tell it on Trustpilot.</h3>
+        <p class="tp-invite-sub">Your honest feedback helps other UK researchers choose verified suppliers. Takes 30 seconds — every review counts.</p>
       </div>
-    </div>
-    <div class="product-card">
-      <img loading="lazy" class="product-img" src="./images/ipamorelin.jpg" alt="Ipamorelin">
-      <div class="product-body">
-        <div class="product-sku">IP5 - IPAMORELIN</div>
-        <div class="product-name">IPAM 5MG</div>
-        <p class="product-desc">5mg lyophilised peptide. Verified via third-party mass spectrometry. 99%+ purity.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99%+</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#" class="coa-trigger" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Details & COA</a><div class="product-meta"><div class="product-price">£24<sub>.99</sub></div><button class="add-btn">Add</button></div>
-      </div>
-    </div>
-    <div class="product-card">
-      <img loading="lazy" class="product-img" src="./images/nad-500-box.jpg" alt="NAD+">
-      <div class="product-body">
-        <div class="product-sku">NJ500 - NAD+</div>
-        <div class="product-name">NAD+ 500MG</div>
-        <p class="product-desc">High-purity coenzyme compound. Third-party identity verified. For biochemical research.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>99%+</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#" class="coa-trigger" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Details & COA</a><div class="product-meta"><div class="product-price">£44<sub>.99</sub></div><button class="add-btn">Add</button></div>
-      </div>
-    </div>
-    <div class="product-card">
-      <img loading="lazy" class="product-img" src="./images/bac-water-box.jpg" alt="BAC Water product kit">
-      <div class="product-body">
-        <div class="product-sku">WA10 - BAC WATER</div>
-        <div class="product-name">BAC WATER</div>
-        <p class="product-desc">10ml bacteriostatic water. 0.9% benzyl alcohol. Sterile, multi-draw laboratory grade.</p><div class="purity-bar"><div class="purity-label"><span>Purity</span><span>Sterile</span></div><div class="purity-track"><div class="purity-fill"></div></div></div><a href="#" class="coa-trigger" style="font-size:10px;color:var(--dim);opacity:.85;text-decoration:none">View Details & COA</a><div class="product-meta"><div class="product-price">£8<sub>.99</sub></div><button class="add-btn">Add</button></div>
+      <div class="tp-invite-cta">
+        <a href="https://uk.trustpilot.com/evaluate/ukmaxx.co.uk" target="_blank" rel="noopener" class="btn-tp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="12,2 15,9 22,9.5 16.5,14.5 18.5,22 12,18 5.5,22 7.5,14.5 2,9.5 9,9"/></svg>
+          Write a review
+        </a>
+        <a href="https://uk.trustpilot.com/review/ukmaxx.co.uk" target="_blank" rel="noopener" class="btn btn-ghost">See all 247 reviews</a>
       </div>
     </div>
   </div>
 </section>
 
+<script>document.write(window.__html.footer)</script>
+
+</main>
+<script>document.write(window.__html.mobileNav)</script>
 
 
-<section class="section pens-section" id="pens-coming-soon" style="padding-top:26px">
-  <div class="section-header pens-head">
-    <div><div class="section-tag">- New Category</div><h2 class="section-title">PENS COMING SOON</h2></div>
-  </div>
-  <div class="pens-row">
-    <div class="pens-media-wrap">
-      <img loading="lazy" class="pens-image" src="./images/pens-coming-soon.jpg" alt="UKMAXX pens coming soon">
-    </div>
-    <div class="pens-copy">
-      <div class="pens-kicker">- WHY UKMAXX</div>
-      <div class="pens-title">ENGINEERED FOR CONSISTENCY.</div>
-      <div class="pens-body">UK stocked pre-filled pens produced with a focus on formulation consistency, batch traceability, and repeatable research standards. Every release is documented, batch-coded, and aligned with the same operational standards used across the UKMAXX compound range.</div>
-    </div>
-  </div>
-</section>
+<script>document.write(window.__html.cartDrawer)</script>
+<script>document.write(window.__html.checkout)</script>
+<script>document.write(window.__html.lightbox)</script>
+<script>document.write(window.__html.successModal)</script>
+<script>document.write(window.__html.reviewDrawer)</script>
+<script>document.write(window.__html.exitIntent)</script>
+<script>document.write(window.__html.cookieBanner)</script>
+<script>document.write(window.__html.toast)</script>
 
-<section style="padding:24px 20px;background:var(--surface);border-top:1px solid var(--border)">
-  <h2 class="section-title" style="font-size:40px;margin-bottom:6px">CUSTOMER REVIEWS</h2>
-  <p style="font-size:13px;color:var(--dim);margin-bottom:12px">Verified UKMAXX customers</p>
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;border:1px solid var(--border);background:var(--white);padding:12px;margin-bottom:10px">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;line-height:.9">4.9 / 5</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase">Average rating</div>
-  </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-    <span style="border:1px solid var(--border);padding:5px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;text-transform:uppercase;background:rgba(230,242,244,.55)">Verified Purchase</span>
-    <span style="border:1px solid var(--border);padding:5px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;text-transform:uppercase;background:rgba(230,242,244,.55)">UK Dispatch Confirmed</span>
-  </div>
-  <div id="reviewsRail" style="display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px">
-    <article style="scroll-snap-align:start;flex:0 0 86%;border:1px solid var(--border);background:var(--white);padding:12px;min-height:168px"><div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase"><span>RT10</span><span>28 May</span></div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em">★★★★★</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;margin:5px 0">Verified Purchase</div><p style="font-size:13px;line-height:1.6">Fast dispatch, clean packaging and clear communication.</p><div style="margin-top:6px;font-size:12px;color:var(--dim)">— A.K.</div></article>
-    <article style="scroll-snap-align:start;flex:0 0 86%;border:1px solid var(--border);background:var(--white);padding:12px;min-height:168px"><div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase"><span>BAC WATER</span><span>24 May</span></div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em">★★★★★</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;margin:5px 0">Verified Purchase</div><p style="font-size:13px;line-height:1.6">Arrived next day, seals intact and labels were exactly as described.</p><div style="margin-top:6px;font-size:12px;color:var(--dim)">— R.M.</div></article>
-    <article style="scroll-snap-align:start;flex:0 0 86%;border:1px solid var(--border);background:var(--white);padding:12px;min-height:168px"><div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);text-transform:uppercase"><span>IP5</span><span>21 May</span></div><div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em">★★★★★</div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--accent);text-transform:uppercase;margin:5px 0">Verified Purchase</div><p style="font-size:13px;line-height:1.6">Professional updates throughout and solid cold-chain presentation.</p><div style="margin-top:6px;font-size:12px;color:var(--dim)">— D.S.</div></article>
-  </div>
-  <div style="margin-top:10px;display:flex;justify-content:flex-end">
-    <a href="#" id="leaveReviewBtn" style="border:1px solid var(--border);background:var(--white);color:var(--text);text-decoration:none;padding:8px 12px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase">Leave a Review</a>
-  </div>
-</section>
-
-<section style="background:var(--accent);color:var(--white);padding:18px 20px;display:flex;flex-direction:column;gap:10px">
-  <div style="font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.08em">Get restocking alerts and batch updates</div>
-  <div style="display:flex;gap:8px"><input id="notifyEmail" placeholder="Email address" style="flex:1;min-height:44px;border:none;padding:0 12px"><button id="notifyBtn" style="min-height:44px;background:var(--text);color:var(--white);border:none;padding:0 16px;font-family:'Bebas Neue',sans-serif;letter-spacing:.08em">NOTIFY ME</button></div>
-</section>
-
-
-<!-- FOOTER -->
-<section class="socials-section" id="socials">
-  <div class="socials-tag">- Socials</div>
-  <div class="socials-grid">
-    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer"><span class="social-left"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5 2.9 11.7c-1.3.5-1.3 1.2-.2 1.5l4.8 1.5 1.8 5.8c.2.6.1.8.8.8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.2-15.1c.3-1.3-.5-1.8-1.6-1.4zM8.2 14.3l10.9-6.9c.5-.3 1-.1.6.2l-9 8.1-.3 3.3-1.9-4.7z"/></svg></span>Telegram</span><span>JOIN →</span></a>
-    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer"><span class="social-left"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21l-6.56 7.5L22.5 22h-6.31l-4.94-6.47L5.5 22H2.74l7.01-8.01L2 2h6.47l4.46 5.9L18.24 2zm-1.11 18h1.53L7.64 3.9H6.01L17.13 20z"/></svg></span>X</span><span>FOLLOW →</span></a>
-    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer"><span class="social-left"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7zm10.6 1.6a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6z"/></svg></span>Insta</span><span>FOLLOW →</span></a>
-    <a class="social-link" href="#" target="_blank" rel="noopener noreferrer"><span class="social-left"><span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" ry="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>Email</span><span>CONTACT →</span></a>
-  </div>
-</section>
-
-<section class="pay-trust" aria-label="Secure payment methods">
-  <div class="pay-trust-head">- Secure Payments via Stripe</div>
-  <div class="pay-trust-grid" style="grid-template-columns:repeat(2,minmax(0,160px));justify-content:center">
-    <div class="pay-badge" aria-label="Visa"><svg viewBox="0 0 64 24" width="58" height="20" role="img" aria-hidden="true"><text x="2" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor">VISA</text></svg></div>
-    <div class="pay-badge" aria-label="MasterCard"><svg viewBox="0 0 116 24" width="92" height="20" role="img" aria-hidden="true"><circle cx="34" cy="12" r="8" fill="#EB001B"></circle><circle cx="46" cy="12" r="8" fill="#F79E1B"></circle><text x="58" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="currentColor">MasterCard</text></svg></div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-brand">
-    <div class="logo">
-      <span class="logo-mark" aria-hidden="true"></span>
-      UKMAXX
-    </div>
-    <p class="footer-bio">UK-based research compound supplier. Third-party batch verified. Discreet dispatch. All products strictly for laboratory and research use only.</p>
-    <p class="footer-disclaimer">ALL PRODUCTS SOLD FOR RESEARCH PURPOSES ONLY. NOT FOR HUMAN CONSUMPTION. NOT APPROVED BY THE MHRA OR FDA. FOR IN-VITRO LABORATORY USE ONLY.</p>
-  </div>
-  <div class="footer-cols">
-    <div class="footer-col">
-      <h4>Products</h4>
-      <ul><li><a href="#">Retatrutide</a></li><li><a href="#">BPC-157</a></li><li><a href="#">Ipamorelin</a></li><li><a href="#">NAD+</a></li><li><a href="#">BAC Water</a></li></ul>
-    </div>
-    <div class="footer-col">
-      <h4>Info</h4>
-      <ul><li><a href="#coa">COA Results</a></li><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/terms.html">Terms</a></li><li><a href="/shipping.html">Shipping</a></li><li><a href="/returns.html">Returns</a></li></ul>
-    </div>
-  </div>
-</footer>
-<div class="footer-bottom">
-  <span>© 2026 UKMAXX</span>
-  <span>ALL PRODUCTS FOR RESEARCH USE ONLY <span class="blink">_</span></span>
-</div>
-
-<button class="cart-fab" id="cartFab">BASKET <span class="cart-count" id="cartCount">0</span></button>
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cart-head"><strong>BASKET</strong><button id="cartClose" class="cart-close">CLOSE</button></div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-foot">
-    <div id="cartTotals"></div>
-    <button class="add-btn" id="checkoutBtn" style="width:100%;margin-top:10px;min-height:44px">CHECKOUT</button>
-  </div>
-</div>
-<div class="checkout-modal" id="checkoutModal"><div class="checkout-card">
-  <h3 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">SECURE CHECKOUT</h3>
-  <p style="font-size:12px;color:var(--dim)">UK Stocked · Batch Verified · Research Use Only</p>
-  <div class="field"><input id="email" placeholder="Email"></div>
-  <div class="field"><input id="fullName" placeholder="Full Name"></div>
-  <div class="field"><input id="address" placeholder="Address Line 1"></div>
-  <div class="field"><input id="address2" placeholder="Address Line 2 (optional)"></div>
-  <div class="field"><input id="city" placeholder="City"></div>
-  <div class="field"><input id="postcode" placeholder="Postcode"></div>
-  <div class="field"><select id="country"><option selected>United Kingdom</option><option>Ireland</option><option>Germany</option></select></div>
-  <div class="field" style="font-size:12px;color:var(--dim)">UK Tracked 24 dispatch for orders before 2PM.</div>
-  <div id="checkoutError" class="field" style="display:none;color:#b42318;font-size:12px"></div>
-  <div id="checkoutBanner" class="field" style="display:none;color:var(--accent);font-size:12px"></div>
-  <div class="sticky-total">
-    <div id="checkoutSummary" class="coa-result-box"></div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--accent);text-align:center;margin:12px 0">🔒 Secured by Stripe · 📦 UK Tracked 24 · ✓ Batch Verified</div>
-    <div style="margin:0 0 10px 0;display:flex;gap:8px;align-items:center"><input id="promoCode" placeholder="Promo code" style="flex:1;min-height:40px;padding:10px;border:1px solid var(--border);background:var(--white)"><button id="applyPromoBtn" class="btn-ghost" style="min-height:40px;padding:8px 12px">Apply</button></div><div id="promoMsg" style="font-size:11px;color:var(--dim);margin:-4px 0 10px 0;min-height:14px"></div>
-    <div class="pay-trust-grid" style="margin:0 0 10px 0;grid-template-columns:repeat(2,minmax(0,1fr))">
-      <div class="pay-badge" aria-label="Visa"><svg viewBox="0 0 64 24" width="58" height="20" role="img" aria-hidden="true"><text x="2" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="currentColor">VISA</text></svg></div>
-      <div class="pay-badge" aria-label="MasterCard"><svg viewBox="0 0 116 24" width="92" height="20" role="img" aria-hidden="true"><circle cx="34" cy="12" r="8" fill="#EB001B"></circle><circle cx="46" cy="12" r="8" fill="#F79E1B"></circle><text x="58" y="16" font-family="Arial, sans-serif" font-size="8" font-weight="700" fill="currentColor">MasterCard</text></svg></div>
-    </div>
-    <button id="payBtn" class="add-btn" style="width:100%;margin-top:8px;min-height:44px">CONTINUE TO PAYMENT</button>
-    <button id="checkoutClose" class="btn-ghost" style="width:100%;margin-top:8px;min-height:44px">Back</button>
-  </div>
-</div></div>
-<div id="coaLightbox" class="lightbox" aria-hidden="true">
-  <button id="lbClose" class="lightbox-close" aria-label="Close">✕</button>
-  <img id="lbImg" class="lightbox-img" alt="COA detail image">
-  <div id="lbTitle" class="lightbox-title"></div>
-  <div id="lbBody" class="lightbox-body"></div>
-  <button id="lbClose2" class="lightbox-close2">CLOSE</button>
-</div>
-<div id="successModal" style="display:none;position:fixed;inset:0;background:rgba(8,31,35,.55);z-index:400;align-items:center;justify-content:center;padding:16px">
-  <div style="background:var(--white);border:1px solid var(--border);width:min(560px,100%);padding:24px;text-align:center">
-    <div class="logo" style="justify-content:center;margin-bottom:12px"><span class="logo-mark" aria-hidden="true"></span>UKMAXX</div>
-    <h2 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.06em">ORDER CONFIRMED</h2>
-    <p style="color:var(--dim)">Your order has been received. You will receive a dispatch confirmation email shortly.</p>
-    <p id="orderRef" style="font-family:'Share Tech Mono',monospace;font-size:12px"></p>
-    <button id="backToShop" class="add-btn" style="min-height:44px;padding:0 20px">BACK TO SHOP</button>
-  </div>
-</div>
-<div id="reviewDrawer" style="position:fixed;inset:0;background:rgba(8,31,35,.45);z-index:420;display:none;align-items:flex-end;justify-content:center;padding:0">
-  <div style="background:var(--white);width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--border);padding:14px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 12px 28px rgba(8,31,35,.12)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="font-family:'Bebas Neue',sans-serif;letter-spacing:.05em">LEAVE A REVIEW</h3><button id="reviewCloseBtn" class="btn-ghost" style="min-height:36px;padding:6px 10px">Close</button></div>
-    <div class="field"><input id="reviewName" placeholder="Your initials (e.g. A.K.)"></div>
-    <div class="field"><select id="reviewProduct"><option value="">Product purchased</option><option>RT10</option><option>BC5</option><option>IP5</option><option>NJ500</option><option>WA10</option></select></div>
-    <div class="field"><select id="reviewRating"><option value="">Rating</option><option value="5">★★★★★ (5)</option><option value="4">★★★★☆ (4)</option><option value="3">★★★☆☆ (3)</option></select></div>
-    <div class="field"><textarea id="reviewText" placeholder="Share your experience" style="width:100%;min-height:120px;padding:12px;border:1px solid var(--border);background:#fff;resize:vertical"></textarea></div>
-    <div id="reviewMsg" style="font-size:12px;color:var(--dim);min-height:16px;margin-bottom:8px"></div>
-    <button id="reviewSubmitBtn" class="add-btn" style="width:100%;min-height:44px">SUBMIT REVIEW</button>
-  </div>
-</div>
-<script src="./products.js"></script>
-<script src="./app.js"></script>
+<script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

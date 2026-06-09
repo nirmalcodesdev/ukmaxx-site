@@ -2,9 +2,9 @@
   <defs>
     <style><![CDATA[
       .bg{fill:#F4F8F9}.surface{fill:#E6F2F4}.accent{fill:#0A7E8C}.text{fill:#081F23}.dim{fill:#4F727B}.border{stroke:#B8D8DC;stroke-width:2;fill:none}
-      .brand{font-family:'Bebas Neue',Arial,sans-serif;letter-spacing:.08em}
-      .mono{font-family:'Share Tech Mono','Courier New',monospace;letter-spacing:.08em}
-      .sans{font-family:'DM Sans',Arial,sans-serif}
+      .brand{font-family:'Space Grotesk',Arial,sans-serif;letter-spacing:.08em}
+      .mono{font-family:'IBM Plex Mono','Courier New',monospace;letter-spacing:.08em}
+      .sans{font-family:'Inter',Arial,sans-serif}
       .h1{font-size:44px}.h2{font-size:28px}.h3{font-size:20px}.small{font-size:16px}.tiny{font-size:13px}
     ]]></style>
   </defs>
