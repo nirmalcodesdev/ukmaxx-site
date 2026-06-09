@@ -201,11 +201,13 @@ export function setupSignUpForm() {
     if (btn) btn.disabled = true;
     try {
       const supabase = await getSupabase();
-      const { data, error } = await supabase.auth.signUp({
+      const result = await supabase.auth.signUp({
         email,
         password,
         options: { data: { first_name: firstName, last_name: lastName }, emailRedirectTo: SITE_URL }
       });
+      console.log('[signup] Supabase response:', JSON.stringify(result));
+      const { data, error } = result;
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
         toast('Sign up failed', error.message, 'error');
@@ -244,6 +246,7 @@ export function setupSignUpForm() {
       }
       if (btn) { btn.textContent = 'Email sent! Check your inbox.'; btn.disabled = true; }
     } catch (err) {
+      console.error('[signup] caught error:', err);
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
       toast('Sign up failed', err?.message || 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
