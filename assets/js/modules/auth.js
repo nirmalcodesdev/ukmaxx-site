@@ -221,7 +221,7 @@ export function setupSignUpForm() {
         setTimeout(() => { window.location.href = '/'; }, 1200);
         return;
       }
-      if (!data?.user) {
+      if (!data?.user || (Array.isArray(data.user.identities) && data.user.identities.length === 0)) {
         if (msg) { msg.textContent = 'An account with this email already exists. Please sign in.'; msg.style.color = 'var(--danger)'; }
         toast('Email already registered', 'Please sign in instead.', 'error');
         if (btn) btn.disabled = false;
