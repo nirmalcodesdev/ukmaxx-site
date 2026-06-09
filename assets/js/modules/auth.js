@@ -219,6 +219,12 @@ export function setupSignUpForm() {
         setTimeout(() => { window.location.href = '/'; }, 1200);
         return;
       }
+      if (!data?.user) {
+        if (msg) { msg.textContent = 'An account with this email already exists. Please sign in.'; msg.style.color = 'var(--danger)'; }
+        toast('Email already registered', 'Please sign in instead.', 'error');
+        if (btn) btn.disabled = false;
+        return;
+      }
       toast('Check your email', 'A confirmation link has been sent.', 'success');
       if (msg) {
         msg.innerHTML = 'Check your email for a confirmation link. <button type="button" class="auth-resend-btn" id="resendVerifyBtn">Resend email</button>';
