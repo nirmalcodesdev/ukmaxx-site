@@ -1,4 +1,5 @@
 import { toast } from './toast.js';
+import { requireAuth } from './auth.js';
 import { PRODUCTS, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING, PROMO_CODES, CART_KEY, PROMO_KEY } from '../data/products.js';
 import { money } from '../utils/money.js';
 import { getStorage, setStorage, getRaw } from '../utils/storage.js';
@@ -194,7 +195,8 @@ function rmv(s) {
   if (p) toast('Removed from basket', p.name);
 }
 
-export function openCheckout() {
+export async function openCheckout() {
+  if (!(await requireAuth())) return;
   const c = getCart();
   if (!c.length) { toast('Basket empty', 'Add products to begin checkout.', 'error'); return; }
   const m = byId('checkoutBackdrop');

@@ -1,3 +1,4 @@
+import { requireAuth } from './auth.js';
 import { PRODUCTS, DETAIL_DATA, SAMPLE_REVIEWS } from '../data/products.js';
 import { money, tpStars } from '../utils/money.js';
 import { $, $$, byId } from '../utils/dom.js';
@@ -183,7 +184,8 @@ function renderPdpProduct(root) {
   if (mInc) mInc.addEventListener('click', () => { if (mInp) mInp.value = clamp(Number(mInp.value) + 1); mSync(); });
   if (mInp) mInp.addEventListener('change', mSync);
 
-  byId('pdpBuyNow')?.addEventListener('click', () => {
+  byId('pdpBuyNow')?.addEventListener('click', async () => {
+    if (!(await requireAuth())) return;
     const qty = Number(byId('pdpQtyInput')?.value || 1);
     window.addSkuQty(p.id, qty);
     setTimeout(function () { window.openCheckout(); }, 300);

@@ -7,7 +7,7 @@ import { setupLightbox } from './modules/lightbox.js';
 import { setupExitIntent } from './modules/exitIntent.js';
 import { setupCookieBanner } from './modules/cookieBanner.js';
 import { setupNewsletter } from './modules/newsletter.js';
-import { initAuthGate, setupAuthForms, setupPasswordStrength, setupGoogleAuth, setupForgotPassword, initAuth } from './modules/auth.js';
+import { initAuthGate, setupAuthForms, setupPasswordStrength, setupGoogleAuth, setupForgotPassword, setupProfileDropdown, initAuth } from './modules/auth.js';
 import { setupTracking } from './modules/tracking.js';
 import { renderProductDetail, renderRelatedProducts } from './modules/productDetail.js';
 
@@ -33,5 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupPasswordStrength();
   setupGoogleAuth();
   setupForgotPassword();
+  setupProfileDropdown();
   setupTracking();
 });

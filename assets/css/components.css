@@ -83,6 +83,18 @@
 .cart-count-badge{transition:opacity .2s ease,transform .2s ease}
 @media (min-width:1024px){.header-cart{padding:10px 18px}}
 
+/* ===== PROFILE DROPDOWN ===== */
+.header-profile{position:relative}
+.header-profile .header-action{padding-right:4px}
+.header-profile-chevron{transition:transform .2s ease;flex-shrink:0;margin-left:-2px}
+.header-dropdown{position:absolute;top:calc(100% + 6px);right:0;min-width:220px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:100;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .2s ease,visibility .2s ease,transform .2s ease}
+.header-dropdown.is-open{opacity:1;visibility:visible;transform:translateY(0)}
+.header-dropdown-header{padding:12px 14px 10px;font-size:12.5px;font-weight:600;color:var(--text);border-bottom:1px solid var(--border-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Inter',sans-serif}
+.header-dropdown-item{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;color:var(--text-2);background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:'Inter',sans-serif;transition:background .12s ease,color .12s ease;text-decoration:none}
+.header-dropdown-item:hover{background:var(--surface-3);color:var(--accent)}
+.header-dropdown-item svg{flex-shrink:0}
+.header-dropdown-divider{height:1px;background:var(--border-2);margin:4px 0}
+
 /* ===== SECTION HELPERS ===== */
 .section{padding:56px 0}
 @media (min-width:1024px){.section{padding:88px 0}}

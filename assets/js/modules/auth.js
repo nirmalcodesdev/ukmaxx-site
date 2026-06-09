@@ -41,21 +41,61 @@ export function initAuth() {
   }).catch(err => console.error('Auth init failed', err));
 }
 
+export function getCurrentUser() {
+  return currentUser;
+}
+
+export async function requireAuth() {
+  if (currentUser) return true;
+  try {
+    const supabase = await getSupabase();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      currentUser = session.user;
+      updateAuthUI();
+      return true;
+    }
+  } catch {}
+  const currentPath = window.location.pathname + window.location.search;
+  window.location.href = '/signin.html?redirect=' + encodeURIComponent(currentPath);
+  return false;
+}
+
+/* ── Header UI ── */
 function updateAuthUI() {
-  const link = byId('authHeaderLink');
-  const label = byId('authHeaderLabel');
-  if (!link || !label) return;
+  const signInBtn = byId('authSignInBtn');
+  const profileWrap = byId('authProfileWrap');
+  const profileLabel = byId('authProfileLabel');
+  const dropdownEmail = byId('authDropdownEmail');
+  if (!signInBtn || !profileWrap || !profileLabel) return;
   if (currentUser) {
+    signInBtn.style.display = 'none';
+    profileWrap.style.display = '';
     const email = currentUser.email || '';
-    const display = email.length > 22 ? email.slice(0, 20) + '\u2026' : email;
-    link.href = '#';
-    label.textContent = display;
-    link.onclick = e => { e.preventDefault(); doSignOut(); };
+    profileLabel.textContent = email.length > 20 ? email.slice(0, 18) + '\u2026' : email;
+    if (dropdownEmail) {
+      const name = currentUser.user_metadata?.first_name;
+      dropdownEmail.textContent = name ? name + ' ' + (currentUser.user_metadata?.last_name || '') : email;
+    }
   } else {
-    link.href = '/signin.html';
-    label.textContent = 'Account';
-    link.onclick = null;
+    signInBtn.style.display = '';
+    profileWrap.style.display = 'none';
   }
+}
+
+export function setupProfileDropdown() {
+  const toggle = byId('authProfileToggle');
+  const dropdown = byId('authDropdown');
+  if (!toggle || !dropdown) return;
+  toggle.addEventListener('click', e => {
+    e.stopPropagation();
+    dropdown.classList.toggle('is-open');
+  });
+  document.addEventListener('click', () => dropdown.classList.remove('is-open'), { passive: true });
+  byId('authDropdownSignOut')?.addEventListener('click', () => {
+    dropdown.classList.remove('is-open');
+    doSignOut();
+  });
 }
 
 function doSignOut() {
@@ -98,7 +138,9 @@ export function setupSignInForm() {
         return;
       }
       toast('Signed in', 'Redirecting\u2026', 'success');
-      setTimeout(() => { window.location.href = '/'; }, 600);
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect') || '/';
+      setTimeout(() => { window.location.href = redirect; }, 600);
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
       if (btn) btn.disabled = false;
