@@ -212,6 +212,7 @@ export function setupSignUpForm() {
         if (btn) btn.disabled = false;
         return;
       }
+      toast('Account created', 'Check your email for a confirmation link.', 'success');
       if (msg) {
         msg.innerHTML = 'Check your email for a confirmation link. <button type="button" class="auth-resend-btn" id="resendVerifyBtn">Resend email</button>';
         msg.style.color = 'var(--success)';
