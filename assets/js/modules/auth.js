@@ -197,7 +197,7 @@ export function setupSignUpForm() {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { first_name: firstName, last_name: lastName } }
+        options: { data: { first_name: firstName, last_name: lastName }, emailRedirectTo: SITE_URL }
       });
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
