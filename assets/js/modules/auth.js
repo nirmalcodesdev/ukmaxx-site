@@ -208,6 +208,7 @@ export function setupSignUpForm() {
       });
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
+        toast('Sign up failed', error.message, 'error');
         if (btn) btn.disabled = false;
         return;
       }
@@ -347,6 +348,7 @@ export function setupUpdatePassword() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
         if (msg) { msg.textContent = 'Invalid or expired reset link. Please request a new one.'; msg.style.color = 'var(--danger)'; }
+        toast('Link expired', 'Please request a new password reset link.', 'error');
         if (btn) btn.disabled = true;
       }
     });
