@@ -201,7 +201,7 @@ export function setupSignUpForm() {
     if (btn) btn.disabled = true;
     try {
       const supabase = await getSupabase();
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { first_name: firstName, last_name: lastName }, emailRedirectTo: SITE_URL }
@@ -212,7 +212,14 @@ export function setupSignUpForm() {
         if (btn) btn.disabled = false;
         return;
       }
-      toast('Account created', 'Check your email for a confirmation link.', 'success');
+      if (data?.session) {
+        toast('Account created', 'Welcome!', 'success');
+        if (msg) { msg.textContent = 'Account created successfully!'; msg.style.color = 'var(--success)'; }
+        if (btn) { btn.textContent = 'Welcome!'; btn.disabled = true; }
+        setTimeout(() => { window.location.href = '/'; }, 1200);
+        return;
+      }
+      toast('Check your email', 'A confirmation link has been sent.', 'success');
       if (msg) {
         msg.innerHTML = 'Check your email for a confirmation link. <button type="button" class="auth-resend-btn" id="resendVerifyBtn">Resend email</button>';
         msg.style.color = 'var(--success)';
@@ -229,10 +236,10 @@ export function setupSignUpForm() {
           } catch { this.disabled = false; this.textContent = 'Resend email'; }
         });
       }
-      if (btn) { btn.textContent = 'Account created!'; btn.disabled = true; }
-    } catch {
+      if (btn) { btn.textContent = 'Email sent! Check your inbox.'; btn.disabled = true; }
+    } catch (err) {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
-      toast('Sign up failed', 'Network error \u2014 please try again.', 'error');
+      toast('Sign up failed', err?.message || 'Network error \u2014 please try again.', 'error');
       if (btn) btn.disabled = false;
     }
   });
