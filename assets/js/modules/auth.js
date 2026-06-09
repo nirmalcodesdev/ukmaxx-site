@@ -1,4 +1,5 @@
 import { getSupabase } from '../data/supabase.js';
+import { SITE_URL } from '../data/constants.js';
 import { toast } from './toast.js';
 import { byId } from '../utils/dom.js';
 import { getRaw, setRaw } from '../utils/storage.js';
@@ -202,7 +203,7 @@ export function setupGoogleAuth() {
         const supabase = await getSupabase();
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
-          options: { redirectTo: window.location.origin }
+          options: { redirectTo: SITE_URL }
         });
         if (error) { toast('Sign-in failed', error.message, 'error'); btn.disabled = false; }
       } catch (err) { toast('Sign-in failed', err.message, 'error'); btn.disabled = false; }
@@ -239,7 +240,7 @@ export function setupForgotPassword() {
     try {
       const supabase = await getSupabase();
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/update-password.html'
+        redirectTo: SITE_URL + '/update-password.html'
       });
       if (error) {
         if (msg) { msg.textContent = error.message; msg.style.color = 'var(--danger)'; }
