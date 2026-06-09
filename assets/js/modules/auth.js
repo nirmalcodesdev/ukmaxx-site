@@ -1,7 +1,7 @@
 import { getSupabase } from '../data/supabase.js';
 import { SITE_URL } from '../data/constants.js';
 import { toast } from './toast.js';
-import { byId } from '../utils/dom.js';
+import { $, byId } from '../utils/dom.js';
 import { getRaw, setRaw } from '../utils/storage.js';
 import { AGE_KEY } from '../data/products.js';
 
@@ -204,7 +204,22 @@ export function setupSignUpForm() {
         if (btn) btn.disabled = false;
         return;
       }
-      if (msg) { msg.textContent = 'Check your email for a confirmation link.'; msg.style.color = 'var(--success)'; }
+      if (msg) {
+        msg.innerHTML = 'Check your email for a confirmation link. <button type="button" class="auth-resend-btn" id="resendVerifyBtn">Resend email</button>';
+        msg.style.color = 'var(--success)';
+        byId('resendVerifyBtn')?.addEventListener('click', async function resend() {
+          const e = byId('su_email')?.value.trim();
+          if (!e) return;
+          this.disabled = true; this.textContent = 'Sending\u2026';
+          try {
+            const s = await getSupabase();
+            const { error } = await s.auth.resend({ type: 'signup', email: e, options: { emailRedirectTo: SITE_URL } });
+            if (error) { toast('Failed', error.message, 'error'); this.disabled = false; this.textContent = 'Resend email'; return; }
+            toast('Email sent', 'Check your inbox for the verification link.', 'success');
+            this.textContent = 'Sent!';
+          } catch { this.disabled = false; this.textContent = 'Resend email'; }
+        });
+      }
       if (btn) { btn.textContent = 'Account created!'; btn.disabled = true; }
     } catch {
       if (msg) { msg.textContent = 'Network error \u2014 please try again.'; msg.style.color = 'var(--danger)'; }
