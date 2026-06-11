@@ -13,7 +13,11 @@ export function setupHeaderScroll() {
 
 export function setupActiveNav() {
   const links = $$('.primary-nav .nav-link');
-  const sections = links.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const sections = links.map(l => {
+    const h = l.getAttribute('href');
+    if (!h || !h.startsWith('#')) return null;
+    try { return document.querySelector(h); } catch { return null; }
+  }).filter(Boolean);
   if (!sections.length) return;
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {

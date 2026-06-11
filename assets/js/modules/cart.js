@@ -65,14 +65,16 @@ export function renderCart() {
     if (t.discounted >= SHIP_THRESHOLD || c.length === 0) {
       progressEl.classList.add('is-met');
       labelEl.classList.add('is-met');
-      labelEl.querySelector('span').innerHTML = c.length === 0
+      const lblSpan = labelEl.querySelector('span');
+      if (lblSpan) lblSpan.innerHTML = c.length === 0
         ? `Add <strong>${money(SHIP_THRESHOLD)}</strong> more for free UK delivery`
         : `<strong>You've unlocked free UK delivery ✓</strong>`;
     } else {
       progressEl.classList.remove('is-met');
       labelEl.classList.remove('is-met');
       const remaining = SHIP_THRESHOLD - t.discounted;
-      labelEl.querySelector('span').innerHTML = `Add <strong>${money(remaining)}</strong> more for free UK delivery`;
+      const lblSpan = labelEl.querySelector('span');
+      if (lblSpan) lblSpan.innerHTML = `Add <strong>${money(remaining)}</strong> more for free UK delivery`;
     }
   }
   const itemsEl = byId('cartItems');
