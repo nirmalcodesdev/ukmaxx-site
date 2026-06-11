@@ -88,10 +88,13 @@ function updateAuthUI() {
 export function setupProfileDropdown() {
   const toggle = byId('authProfileToggle');
   const dropdown = byId('authDropdown');
-  if (!toggle || !dropdown) return;
+  if (!toggle || !dropdown) { console.warn('[profile] toggle or dropdown missing', {toggle, dropdown}); return; }
+  console.log('[profile] setup ok');
   toggle.addEventListener('click', e => {
     e.stopPropagation();
+    console.log('[profile] toggle clicked, current classes:', dropdown.className);
     dropdown.classList.toggle('is-open');
+    console.log('[profile] after toggle, classes:', dropdown.className);
   });
   document.addEventListener('click', () => dropdown.classList.remove('is-open'), { passive: true });
   byId('authDropdownSignOut')?.addEventListener('click', () => {
