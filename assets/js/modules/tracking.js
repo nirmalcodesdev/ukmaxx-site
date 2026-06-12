@@ -99,9 +99,10 @@ function renderOrder(o) {
     `).join('');
   }
 
-  const carrierLink = byId('carrierLink');
-  if (carrierLink && o.tracking_url) {
-    carrierLink.href = o.tracking_url;
+  const userEl = byId('resUser');
+  if (userEl) {
+    const parts = [o.full_name, o.shipping_address_line1, o.shipping_address_line2, o.shipping_city, o.shipping_postcode].filter(Boolean);
+    userEl.textContent = parts.join(', ');
   }
 
   result.style.display = '';
