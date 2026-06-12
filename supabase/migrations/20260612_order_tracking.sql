@@ -11,3 +11,9 @@ alter table public.orders
 alter table public.orders
   add constraint orders_status_check
     check (status in ('pending','paid','processing','dispatched','delivered','cancelled','refunded'));
+
+-- Cancel / refund tracking columns
+alter table public.orders
+  add column if not exists cancellation_reason text,
+  add column if not exists refunded_at timestamptz,
+  add column if not exists stripe_refund_id text;

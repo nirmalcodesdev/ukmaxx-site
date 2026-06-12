@@ -84,20 +84,29 @@ async function sendAdminOrderAlertEmail({ orderNumber, customerEmail, fullName, 
 }
 
 /* ------------------------------------------------
-   Simple template renderer for Mustache-style {{var}}
-   and {{#items}}...{{/items}} block syntax.
+   Simple template renderer for Mustache-style:
+   • {{var}} — simple value
+   • {{#items}}...{{/items}} — array iteration
+   • {{#boolKey}}...{{/boolKey}} — truthy/falsy section
 ------------------------------------------------- */
 function renderTemplate(tpl, ctx) {
   return tpl
-    .replace(/\{\{#items\}\}([\s\S]*?)\{\{\/items\}\}/g, (_, block) => {
-      const items = ctx.items || [];
-      return items.map((item, idx) => {
+    .replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, key, block) => {
+      const val = ctx[key];
+      if (Array.isArray(val)) {
+        return val.map((item) => {
+          let out = block;
+          for (const [k, v] of Object.entries(item)) {
+            out = out.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), v);
+          }
+          return out;
+        }).join('');
+      }
+      if (val) {
         let out = block;
-        for (const [k, v] of Object.entries(item)) {
-          out = out.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), v);
-        }
-        return out;
-      }).join('');
+        return out.replace(/\{\{(\w+)\}\}/g, (_, k) => ctx[k] ?? '');
+      }
+      return '';
     })
     .replace(/\{\{(\w+)\}\}/g, (_, key) => ctx[key] ?? '');
 }
@@ -160,6 +169,43 @@ async function sendReviewRequestEmail({ to, orderNumber, items }) {
   });
 }
 
+async function sendOrderCancelledEmail({ to, orderNumber, items, total, refundInitiated }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !to) return;
+  const resend = new Resend(key);
+  const rendered = renderTemplate(tpls.cancelled, {
+    orderNumber,
+    total: Number(total).toFixed(2),
+    refundInitiated: !!refundInitiated,
+    items: items || [],
+    email: to,
+  });
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to,
+    subject: `Your UKMAXX order ${orderNumber} has been cancelled`,
+    html: rendered,
+  });
+}
+
+async function sendOrderRefundedEmail({ to, orderNumber, total, refundDate }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !to) return;
+  const resend = new Resend(key);
+  const rendered = renderTemplate(tpls.refunded, {
+    orderNumber,
+    total: Number(total).toFixed(2),
+    refundDate: refundDate || new Date().toLocaleDateString('en-GB'),
+    email: to,
+  });
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to,
+    subject: `Refund processed — UKMAXX order ${orderNumber}`,
+    html: rendered,
+  });
+}
+
 /* ------------------------------------------------
    Template strings (loaded once at module init).
 ------------------------------------------------- */
@@ -173,6 +219,8 @@ const tpls = {
   dispatched: read('dispatched.html'),
   delivered: read('delivered.html'),
   reviewRequest: read('review-request.html'),
+  cancelled: read('cancelled.html'),
+  refunded: read('refunded.html'),
 };
 
 module.exports = {
@@ -181,4 +229,6 @@ module.exports = {
   sendOrderDispatchedEmail,
   sendOrderDeliveredEmail,
   sendReviewRequestEmail,
+  sendOrderCancelledEmail,
+  sendOrderRefundedEmail,
 };

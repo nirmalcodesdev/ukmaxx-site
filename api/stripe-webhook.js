@@ -196,6 +196,43 @@ module.exports = async (req, res) => {
       const session = list.data?.[0];
       if (session) await processCheckoutSession(session);
     }
+
+    /* ---------- Failure / Cancellation events ---------- */
+
+    if (event.type === 'checkout.session.expired') {
+      const s = event.data.object;
+      const email = s.customer_details?.email || s.customer_email || 'unknown';
+      console.log('stripe-webhook-checkout-expired', { sessionId: s.id, email, metadata: s.metadata });
+      if (email && email !== 'unknown') {
+        try {
+          await sendTelegramAdminAlert(`⚠️ <b>Checkout expired</b>\nEmail: ${email}\nSession: <code>${s.id}</code>`);
+        } catch (_) {}
+      }
+    }
+
+    if (event.type === 'checkout.session.async_payment_failed') {
+      const s = event.data.object;
+      const email = s.customer_details?.email || s.customer_email || 'unknown';
+      console.error('stripe-webhook-async-payment-failed', { sessionId: s.id, email, metadata: s.metadata });
+      try {
+        await sendTelegramAdminAlert(`❌ <b>Async payment failed</b>\nEmail: ${email}\nSession: <code>${s.id}</code>`);
+      } catch (_) {}
+    }
+
+    if (event.type === 'payment_intent.payment_failed') {
+      const pi = event.data.object;
+      const email = pi.receipt_email || 'unknown';
+      const lastError = pi.last_payment_error?.message || 'no details';
+      console.error('stripe-webhook-payment-intent-failed', { paymentIntentId: pi.id, email, error: lastError });
+      let sessionId = 'unknown';
+      try {
+        const list = await stripe.checkout.sessions.list({ payment_intent: pi.id, limit: 1 });
+        sessionId = list.data?.[0]?.id || 'unknown';
+      } catch (_) {}
+      try {
+        await sendTelegramAdminAlert(`❌ <b>Payment failed</b>\nEmail: ${email}\nSession: <code>${sessionId}</code>\nError: ${lastError}`);
+      } catch (_) {}
+    }
   } catch (err) {
     console.error('stripe-webhook-processing-error', { type: event.type, id: event.id, message: err?.message, stack: err?.stack });
     return res.status(500).json({ error: { code: '500', message: err?.message || 'A server error has occurred' } });
