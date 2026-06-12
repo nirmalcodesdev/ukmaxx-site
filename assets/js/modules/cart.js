@@ -205,9 +205,7 @@ export async function openCheckout() {
   m.classList.add('is-open');
   m.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-  setCheckoutStep(1);
   renderCheckoutSummary();
-  prefillCheckoutFields();
 }
 
 export function closeCheckout() {
@@ -217,64 +215,12 @@ export function closeCheckout() {
   document.body.style.overflow = '';
 }
 
-function setCheckoutStep(n) {
-  $$('.checkout-step').forEach(s => s.classList.remove('is-active'));
-  $(`.checkout-step[data-step="${n}"]`)?.classList.add('is-active');
-  $$('.checkout-progress-step').forEach(s => {
-    const sn = Number(s.dataset.step);
-    s.classList.remove('is-active', 'is-done');
-    if (sn === n) s.classList.add('is-active');
-    else if (sn < n) s.classList.add('is-done');
-  });
-}
-
-function prefillCheckoutFields() {
-  const user = getCurrentUser();
-  if (!user) return;
-  const emailEl = byId('co_email');
-  const nameEl = byId('co_fullName');
-  if (user.email && emailEl) {
-    emailEl.value = user.email;
-    emailEl.readOnly = true;
-  }
-  const first = user.user_metadata?.first_name || '';
-  const last = user.user_metadata?.last_name || '';
-  const fullName = (first + ' ' + last).trim() || '';
-  if (fullName && nameEl) {
-    nameEl.value = fullName;
-    nameEl.readOnly = true;
-  }
-}
-
-function validateStep1() {
-  const fields = ['co_email', 'co_fullName', 'co_address', 'co_city', 'co_postcode', 'co_country'];
-  for (const id of fields) {
-    const el = byId(id);
-    if (!el || !el.value.trim()) {
-      el?.focus();
-      toast('Missing details', 'Please complete all required fields.', 'error');
-      return false;
-    }
-  }
-  const em = byId('co_email').value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-    toast('Invalid email', 'Please enter a valid email address.', 'error');
-    byId('co_email').focus();
-    return false;
-  }
-  return true;
-}
-
 async function startCheckout() {
   const c = getCart();
   if (!c.length) { toast('Basket empty', 'Add products to begin checkout.', 'error'); return; }
-  const email = byId('co_email')?.value.trim();
-  const fullName = byId('co_fullName')?.value.trim();
-  const address = byId('co_address')?.value.trim();
-  const address2 = byId('co_address2')?.value.trim();
-  const city = byId('co_city')?.value.trim();
-  const postcode = byId('co_postcode')?.value.trim();
-  const country = byId('co_country')?.value;
+  const user = getCurrentUser();
+  const email = user?.email || '';
+  const fullName = (user?.user_metadata?.first_name || '') + ' ' + (user?.user_metadata?.last_name || '');
   const promoCode = (getRaw(PROMO_KEY) || '').toUpperCase();
   const err = byId('checkoutError');
   const payBtn = byId('payBtn');
@@ -286,7 +232,7 @@ async function startCheckout() {
     const to = setTimeout(() => controller.abort(), 15000);
     const res = await fetch('/api/create-checkout-session', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cartItems: c, email, fullName, promoOptIn: false, promoCode, address: { line1: address, line2: address2, city, postal_code: postcode, country } }),
+      body: JSON.stringify({ cartItems: c, email, fullName, promoOptIn: false, promoCode, address: {} }),
       signal: controller.signal
     });
     clearTimeout(to);
@@ -365,10 +311,6 @@ export function initCart() {
 
   byId('checkoutClose')?.addEventListener('click', closeCheckout);
   byId('checkoutBack1')?.addEventListener('click', closeCheckout);
-  byId('checkoutNext1')?.addEventListener('click', () => {
-    if (validateStep1()) setCheckoutStep(2);
-  });
-  byId('checkoutBack2')?.addEventListener('click', () => setCheckoutStep(1));
 
   byId('payBtn')?.addEventListener('click', startCheckout);
 
