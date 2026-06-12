@@ -2,9 +2,7 @@ import { toast } from './toast.js';
 import { byId } from '../utils/dom.js';
 import { getCurrentUser } from './auth.js';
 
-const STATUS_ORDER = ['paid', 'processing', 'dispatched', 'delivered'];
 const STATUS_LABELS = { paid: 'Paid', processing: 'Processing', dispatched: 'Dispatched', delivered: 'Delivered', cancelled: 'Cancelled', refunded: 'Refunded' };
-const STATUS_CLASSES = { paid: 'is-paid', processing: 'is-processing', dispatched: 'is-transit', delivered: 'is-done', cancelled: 'is-cancelled', refunded: 'is-refunded' };
 
 export function setupTracking() {
   const params = new URLSearchParams(location.search);
@@ -51,46 +49,20 @@ function renderOrder(o) {
   const result = byId('trackResult');
   if (!result) return;
 
-  byId('resOrder').textContent = o.order_number || '';
+  byId('resOrder').textContent = o.order_number || '—';
+  byId('resStatusShort').textContent = STATUS_LABELS[o.status] || o.status || 'Unknown';
   byId('resCarrier').textContent = o.carrier || '—';
-  const statusEl = byId('resStatus');
-  const cls = STATUS_CLASSES[o.status] || 'is-processing';
-  statusEl.className = `result-status ${cls}`;
-  statusEl.textContent = STATUS_LABELS[o.status] || o.status || 'Unknown';
+  byId('resTracking').textContent = o.tracking_number || '—';
+  byId('resSubtotal').textContent = `£${Number(o.subtotal || 0).toFixed(2)}`;
+  byId('resShipping').textContent = Number(o.shipping || 0) === 0 ? 'Free' : `£${Number(o.shipping).toFixed(2)}`;
+  byId('resTotal').textContent = `£${Number(o.total || 0).toFixed(2)}`;
 
-  const statusIdx = STATUS_ORDER.indexOf(o.status);
-  const timeline = byId('timeline');
-  if (timeline) {
-    const items = timeline.querySelectorAll('.timeline-item');
-    const statuses = ['order_placed', 'packed', 'dispatched', 'out_for_delivery', 'delivered'];
-    items.forEach((item, i) => {
-      item.className = 'timeline-item';
-      if (i < statusIdx + 1) {
-        item.classList.add('is-done');
-      } else if (i === statusIdx + 1 && o.status === 'dispatched') {
-        item.classList.add('is-active');
-      } else {
-        item.classList.add('is-future');
-      }
-      if (o.status === 'delivered' && i === 4) {
-        item.classList.remove('is-future');
-        item.classList.add('is-done');
-      }
-    });
-
-    const times = timeline.querySelectorAll('.timeline-time');
-    if (times[0]) times[0].textContent = o.created_at ? formatDate(o.created_at) : '—';
-    if (times[1]) times[1].textContent = o.packed_at ? formatDate(o.packed_at) : (o.created_at ? formatDate(o.created_at) : '—');
-    if (times[2]) times[2].textContent = o.dispatched_at ? formatDate(o.dispatched_at) : '—';
-    if (times[3]) times[3].textContent = o.dispatched_at ? formatDate(o.dispatched_at) : '—';
-    if (times[4]) times[4].textContent = o.delivered_at ? formatDate(o.delivered_at) : (o.estimated_delivery ? `Est. ${formatDate(o.estimated_delivery)}` : '—');
-
-    const details = timeline.querySelectorAll('.timeline-detail');
-    if (details[0]) details[0].textContent = 'Payment confirmed via Stripe. Order queued for fulfilment.';
-    if (details[1]) details[1].textContent = 'Batch codes cross-referenced with COA. Sealed in tamper-evident packaging.';
-    if (details[2]) details[2].innerHTML = o.tracking_number ? `Tracking number: <strong>${o.tracking_number}</strong> · handed to carrier.` : 'Package handed to carrier.';
-    if (details[3]) details[3].innerHTML = 'Courier is on the route.' + (o.estimated_delivery ? ` Estimated delivery: <strong>${formatDate(o.estimated_delivery)}</strong>.` : '');
-    if (details[4]) details[4].textContent = o.delivered_at ? 'Package delivered successfully.' : 'A delivery confirmation email will be sent within 5 minutes of delivery.';
+  const statusBar = byId('resStatusBar');
+  if (statusBar) {
+    const label = STATUS_LABELS[o.status] || o.status || 'Unknown';
+    const ts = o.delivered_at || o.dispatched_at || o.created_at || null;
+    const dateStr = ts ? new Date(ts).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+    statusBar.innerHTML = `<span class="result-status result-status--${o.status || 'unknown'}">${label}</span>${dateStr ? `<span class="result-date">${dateStr}</span>` : ''}`;
   }
 
   const itemsContainer = result.querySelector('.result-items');
@@ -107,34 +79,11 @@ function renderOrder(o) {
     `).join('');
   }
 
-  const metaRows = result.querySelectorAll('.result-meta-list .result-meta-row');
-  if (metaRows.length >= 6) {
-    const shipTo = [o.shipping_address_line1, o.shipping_city, o.shipping_postcode].filter(Boolean).join('<br>');
-    metaRows[0].querySelector('.result-meta-val').innerHTML = shipTo || '—';
-    metaRows[1].querySelector('.result-meta-val').textContent = o.carrier || '—';
-    metaRows[2].querySelector('.result-meta-val').textContent = o.tracking_number || '—';
-    metaRows[3].querySelector('.result-meta-val').textContent = `£${Number(o.subtotal || 0).toFixed(2)}`;
-    metaRows[4].querySelector('.result-meta-val').textContent = Number(o.shipping || 0) === 0 ? 'Free' : `£${Number(o.shipping).toFixed(2)}`;
-    metaRows[5].querySelector('.result-meta-val').textContent = `£${Number(o.total || 0).toFixed(2)}`;
-  }
-
-  const carrierLink = result.querySelector('.result-actions-buttons a.btn-ghost');
+  const carrierLink = byId('carrierLink');
   if (carrierLink && o.tracking_url) {
     carrierLink.href = o.tracking_url;
   }
 
-  const lastUpdated = result.querySelector('.result-actions-meta');
-  if (lastUpdated) {
-    lastUpdated.textContent = `Last updated just now`;
-  }
-
   result.style.display = '';
   result.classList.add('is-shown');
-}
-
-function formatDate(d) {
-  try {
-    const dt = new Date(d);
-    return dt.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  } catch { return String(d); }
 }
