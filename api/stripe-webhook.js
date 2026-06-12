@@ -195,13 +195,6 @@ module.exports = async (req, res) => {
       await processCheckoutSession(event.data.object);
     }
 
-    if (event.type === 'payment_intent.succeeded') {
-      const pi = event.data.object;
-      const list = await stripe.checkout.sessions.list({ payment_intent: pi.id, limit: 1 });
-      const session = list.data?.[0];
-      if (session) await processCheckoutSession(session);
-    }
-
     /* ---------- Failure / Cancellation events ---------- */
 
     if (event.type === 'checkout.session.expired') {
