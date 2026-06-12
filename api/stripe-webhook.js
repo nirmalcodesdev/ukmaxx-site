@@ -38,6 +38,10 @@ module.exports = async (req, res) => {
       console.log('stripe-webhook-notifications-replay-allowed', { orderId: order.id, stripeSessionId });
     }
 
+    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } }).catch(e => {
+      console.error('audit-log-insert-failed', { orderId: order.id, error: e?.message });
+    });
+
     const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
     const fullName = order.full_name || 'N/A';
     const phone = order.phone || 'N/A';
@@ -60,7 +64,6 @@ module.exports = async (req, res) => {
         message: err?.message,
         stack: err?.stack,
       });
-      if (!allowDuplicateReplay) throw err;
     }
 
     await sendOrderConfirmationEmail({
@@ -93,8 +96,6 @@ module.exports = async (req, res) => {
       },
       stripeSessionId,
     });
-
-    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } });
   };
 
   const processCheckoutSession = async (session) => {
