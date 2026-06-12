@@ -1,5 +1,22 @@
 const Stripe = require('stripe');
-const { getSupabaseAdmin } = require('./_lib/supabase');
+
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+async function supabaseQuery(table, query) {
+  const url = `${SUPABASE_URL}/rest/v1/${table}?${query}`;
+  const res = await fetch(url, {
+    headers: {
+      apikey: SERVICE_KEY,
+      Authorization: `Bearer ${SERVICE_KEY}`,
+    },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`${table} query failed: ${res.status} ${body}`);
+  }
+  return res.json();
+}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -14,10 +31,9 @@ module.exports = async (req, res) => {
     const normalized = cartItems.map(i => ({ sku: String(i.sku || '').trim(), qty: Number(i.qty || 0) })).filter(i => i.sku && i.qty > 0);
     if (!normalized.length) return res.status(400).json({ error: 'Invalid cart items' });
 
-    const supabase = getSupabaseAdmin();
     const skus = [...new Set(normalized.map(i => i.sku))];
-    const { data: products, error } = await supabase.from('products').select('sku,name,price,stock_quantity,is_active').in('sku', skus);
-    if (error) throw error;
+    const skuFilter = skus.map(s => `"${s}"`).join(',');
+    const products = await supabaseQuery('products', `select=sku,name,price,stock_quantity,is_active&sku=in.(${skuFilter})`);
 
     const bySku = new Map((products || []).map(p => [p.sku, p]));
     const line_items = [];
@@ -33,8 +49,8 @@ module.exports = async (req, res) => {
     const requestedPromo = String(promoCode || '').toUpperCase();
     let validPromo = requestedPromo === 'MAXX15';
     if (validPromo && normalizedEmail) {
-      const prior = await supabase.from('promo_redemptions').select('id').eq('email', normalizedEmail).eq('promo_code', 'MAXX15').maybeSingle();
-      if (prior.data) return res.status(400).json({ error: 'Promo code MAXX15 has already been used for this email.' });
+      const prior = await supabaseQuery('promo_redemptions', `select=id&email=eq.${encodeURIComponent(normalizedEmail)}&promo_code=eq.MAXX15&limit=1`);
+      if (prior.length > 0) return res.status(400).json({ error: 'Promo code MAXX15 has already been used for this email.' });
     }
     const discountAmount = validPromo ? Math.round(subtotal * 0.15) : 0;
     const discountedSubtotal = subtotal - discountAmount;

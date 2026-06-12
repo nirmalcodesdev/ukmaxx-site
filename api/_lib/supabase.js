@@ -6,7 +6,7 @@ function getSupabaseAdmin() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) throw new Error('Missing Supabase admin env vars');
-  cached = createClient(url, key, { auth: { persistSession: false } });
+  cached = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
   return cached;
 }
 
