@@ -57,10 +57,6 @@ module.exports = async (req, res) => {
         await handleRefund(token, chatId, args);
         break;
 
-      case '/review':
-        await handleReviewRequest(token, chatId, args);
-        break;
-
       default:
         await sendTelegram(token, chatId, `Unknown command: ${cmd}\n\n${HELP_TEXT}`);
     }
@@ -74,9 +70,8 @@ module.exports = async (req, res) => {
 
 /* ---------- Help ---------- */
 
-const HELP_TEXT = `🤖 <b>UKMAXX Admin Bot</b>
+const HELP_TEXT = `<b>UKMAXX Admin Bot</b>
 
-Commands:
 /dispatch &lt;orderNumber&gt; [trackingNumber]
    Mark order as dispatched
 
@@ -87,12 +82,7 @@ Commands:
    Cancel order (auto-refunds if paid)
 
 /refund &lt;orderNumber&gt; [reason]
-   Process Stripe refund
-
-/review &lt;orderNumber&gt;
-   Send review request email
-
-/help — Show this message`;
+   Process Stripe refund`;
 
 /* ---------- Send Telegram helper ---------- */
 
@@ -267,32 +257,4 @@ async function handleRefund(token, chatId, args) {
   await sendTelegram(token, chatId, `✅ <b>Refund processed</b>\nOrder: ${orderNumber}\nAmount: £${(refundAmount / 100).toFixed(2)}\nStripe refund: ${stripeRefund.id}\nEmail sent to ${order.email}`);
 }
 
-/* ---------- /review ---------- */
 
-async function handleReviewRequest(token, chatId, args) {
-  const orderNumber = args[0];
-  if (!orderNumber) return sendTelegram(token, chatId, 'Usage: /review &lt;orderNumber&gt;');
-
-  const supabase = getSupabaseAdmin();
-  const order = await findOrder(supabase, orderNumber);
-  if (!order) return sendTelegram(token, chatId, '❌ Order not found.');
-  if (order.status !== 'delivered') {
-    return sendTelegram(token, chatId, `❌ Cannot send review request for order with status "${order.status}". Only "delivered" orders qualify.`);
-  }
-  if (order.review_request_sent_at) {
-    return sendTelegram(token, chatId, '❌ Review request has already been sent for this order.');
-  }
-
-  const items = await getItems(supabase, order.id);
-  await sendReviewRequestEmail({ to: order.email, orderNumber: order.order_number, items });
-
-  const now = new Date().toISOString();
-  await supabase.from('orders').update({ review_request_sent_at: now }).eq('id', order.id);
-
-  await supabase.from('admin_audit_log').insert({
-    action: 'review_request_sent', order_id: order.id,
-    payload: { order_number: orderNumber, source: 'telegram_bot' },
-  });
-
-  await sendTelegram(token, chatId, `✅ <b>Review request sent</b>\nOrder: ${orderNumber}\nEmail sent to ${order.email}`);
-}
