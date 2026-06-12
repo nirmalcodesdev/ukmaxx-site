@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
 
     return res.json({ url: session.url });
   } catch (e) {
-    console.error('create-checkout-session-error', { message: e?.message, stack: e?.stack });
-    return res.status(500).json({ error: 'Unable to start checkout' });
+    console.error('create-checkout-session-error', { message: e?.message, stack: e?.stack, hint: 'Check SUPABASE_SERVICE_ROLE_KEY env var has the service_role key (not anon key)' });
+    return res.status(500).json({ error: e?.message === 'permission denied for table products' ? 'Database permission error — check SUPABASE_SERVICE_ROLE_KEY env var has the service_role key' : 'Unable to start checkout' });
   }
 };
