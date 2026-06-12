@@ -1,5 +1,6 @@
 import { toast } from './toast.js';
 import { byId } from '../utils/dom.js';
+import { getCurrentUser } from './auth.js';
 
 const STATUS_ORDER = ['paid', 'processing', 'dispatched', 'delivered'];
 const STATUS_LABELS = { paid: 'Paid', processing: 'Processing', dispatched: 'Dispatched', delivered: 'Delivered', cancelled: 'Cancelled', refunded: 'Refunded' };
@@ -16,9 +17,11 @@ export function setupTracking() {
   byId('trackForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const ref = byId('orderNumber')?.value.trim();
-    const email = byId('orderEmail')?.value.trim();
+    const user = getCurrentUser();
+    const email = user?.email || '';
     const result = byId('trackResult');
-    if (!ref || !email) { toast('Missing details', 'Please enter both order number and email.', 'error'); return; }
+    if (!ref) { toast('Missing order number', 'Please enter your order number.', 'error'); return; }
+    if (!email) { toast('Sign in required', 'Please sign in to track your orders.', 'error'); return; }
     if (result) {
       result.style.display = 'none';
       result.classList.remove('is-shown');
