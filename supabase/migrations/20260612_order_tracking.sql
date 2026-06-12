@@ -4,6 +4,9 @@ alter table public.orders
   add column if not exists dispatched_at timestamptz,
   add column if not exists delivered_at timestamptz;
 
+-- Convert existing 'shipped' orders to 'dispatched' before changing constraint
+update public.orders set status = 'dispatched' where status = 'shipped';
+
 -- Update the status check constraint to include 'dispatched'
 alter table public.orders
   drop constraint if exists orders_status_check;
