@@ -83,4 +83,102 @@ async function sendAdminOrderAlertEmail({ orderNumber, customerEmail, fullName, 
   });
 }
 
-module.exports = { sendOrderConfirmationEmail, sendAdminOrderAlertEmail };
+/* ------------------------------------------------
+   Simple template renderer for Mustache-style {{var}}
+   and {{#items}}...{{/items}} block syntax.
+------------------------------------------------- */
+function renderTemplate(tpl, ctx) {
+  return tpl
+    .replace(/\{\{#items\}\}([\s\S]*?)\{\{\/items\}\}/g, (_, block) => {
+      const items = ctx.items || [];
+      return items.map((item, idx) => {
+        let out = block;
+        for (const [k, v] of Object.entries(item)) {
+          out = out.replace(new RegExp(`\\{\\{${k}\\}\\}`, 'g'), v);
+        }
+        return out;
+      }).join('');
+    })
+    .replace(/\{\{(\w+)\}\}/g, (_, key) => ctx[key] ?? '');
+}
+
+async function sendOrderDispatchedEmail({ to, orderNumber, items, total, trackingNumber, expectedDate, packedDate, dispatchedDate }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !to) return;
+  const resend = new Resend(key);
+  const rendered = renderTemplate(tpls.dispatched, {
+    orderNumber,
+    total: Number(total).toFixed(2),
+    trackingNumber: trackingNumber || '—',
+    expectedDate: expectedDate || '—',
+    packedDate: packedDate || '—',
+    dispatchedDate: dispatchedDate || '—',
+    items: items || [],
+    email: to,
+  });
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to,
+    subject: `Your UKMAXX order ${orderNumber} has been dispatched`,
+    html: rendered,
+  });
+}
+
+async function sendOrderDeliveredEmail({ to, orderNumber, items, total, deliveredTime }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !to) return;
+  const resend = new Resend(key);
+  const rendered = renderTemplate(tpls.delivered, {
+    orderNumber,
+    total: Number(total).toFixed(2),
+    deliveredTime: deliveredTime || '—',
+    items: items || [],
+    email: to,
+  });
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to,
+    subject: `Your UKMAXX order ${orderNumber} has been delivered`,
+    html: rendered,
+  });
+}
+
+async function sendReviewRequestEmail({ to, orderNumber, items }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !to) return;
+  const resend = new Resend(key);
+  const rendered = renderTemplate(tpls.reviewRequest, {
+    orderNumber,
+    items: items || [],
+    email: to,
+  });
+  await resend.emails.send({
+    from: process.env.RESEND_FROM || 'UKMAXX <orders@ukmaxx.com>',
+    to,
+    subject: `How was your UKMAXX order ${orderNumber}? — Quick review`,
+    html: rendered,
+  });
+}
+
+/* ------------------------------------------------
+   Template strings (loaded once at module init).
+------------------------------------------------- */
+const fs = require('fs');
+const path = require('path');
+const emailsDir = path.resolve(__dirname, '../../emails');
+const read = (name) => {
+  try { return fs.readFileSync(path.join(emailsDir, name), 'utf-8'); } catch { return ''; }
+};
+const tpls = {
+  dispatched: read('dispatched.html'),
+  delivered: read('delivered.html'),
+  reviewRequest: read('review-request.html'),
+};
+
+module.exports = {
+  sendOrderConfirmationEmail,
+  sendAdminOrderAlertEmail,
+  sendOrderDispatchedEmail,
+  sendOrderDeliveredEmail,
+  sendReviewRequestEmail,
+};
