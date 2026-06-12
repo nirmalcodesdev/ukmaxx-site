@@ -370,14 +370,6 @@ export function initCart() {
   });
   byId('checkoutBack2')?.addEventListener('click', () => setCheckoutStep(1));
 
-  $$('.payment-tab').forEach(tab => tab.addEventListener('click', () => {
-    $$('.payment-tab').forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-selected', 'false'); });
-    $$('.payment-pane').forEach(x => x.classList.remove('is-active'));
-    tab.classList.add('is-active');
-    tab.setAttribute('aria-selected', 'true');
-    $(`.payment-pane[data-pane="${tab.dataset.method}"]`)?.classList.add('is-active');
-  }));
-
   byId('payBtn')?.addEventListener('click', startCheckout);
 
   byId('applyPromoBtn')?.addEventListener('click', () => {

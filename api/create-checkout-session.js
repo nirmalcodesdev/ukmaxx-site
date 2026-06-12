@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
     const shipping = discountedSubtotal >= 10000 ? 0 : 499;
     if (shipping > 0) line_items.push({ price_data: { currency: 'gbp', product_data: { name: 'UK TRACKED SHIPPING', metadata: { sku: 'SHIPPING' } }, unit_amount: shipping }, quantity: 1 });
 
-    const origin = process.env.SITE_URL;
+    const origin = process.env.SITE_URL || 'https://ukmaxx-site-5tc7.vercel.app';
 
     let discounts;
     if (validPromo) {
@@ -86,6 +86,7 @@ module.exports = async (req, res) => {
 
     return res.json({ url: session.url });
   } catch (e) {
+    console.error('create-checkout-session-error', { message: e?.message, stack: e?.stack });
     return res.status(500).json({ error: 'Unable to start checkout' });
   }
 };
