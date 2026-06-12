@@ -40,6 +40,19 @@
 .result-actions-buttons{display:flex;flex-wrap:wrap;gap:8px}
 
 .result-status-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;background:var(--surface-3);border-bottom:1px solid var(--border)}
+
+.timeline{padding:16px 24px 20px}
+.timeline-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:row;gap:0;position:relative;justify-content:space-between}
+.timeline-list::before{content:'';position:absolute;left:0;right:0;top:10px;height:2px;background:var(--border-2);z-index:0}
+.timeline-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;flex:1;text-align:center}
+.timeline-dot{width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--border);flex-shrink:0;position:relative;z-index:2}
+.timeline-item.is-done .timeline-dot{background:var(--success);border-color:var(--success)}
+.timeline-item.is-active .timeline-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px rgba(10,126,140,.18)}
+.timeline-item.is-future .timeline-dot{background:#fff;border-color:var(--border)}
+.timeline-item.is-cancelled .timeline-dot{background:#c0392b;border-color:#c0392b}
+.timeline-label{font-size:11px;font-weight:600;color:var(--text);line-height:1.2;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
+.timeline-item.is-future .timeline-label{color:var(--dim);font-weight:500}
+.timeline-item.is-cancelled .timeline-label{color:#c0392b}
 .result-status{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
 .result-status--paid,.result-status--pending,.result-status--processing{background:var(--warning-light);color:var(--warning)}
 .result-status--dispatched{background:var(--accent-light);color:var(--accent)}

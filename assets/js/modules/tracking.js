@@ -2,6 +2,7 @@ import { toast } from './toast.js';
 import { byId } from '../utils/dom.js';
 import { getCurrentUser } from './auth.js';
 
+const STATUS_ORDER = ['paid', 'processing', 'dispatched', 'delivered'];
 const STATUS_LABELS = { paid: 'Paid', processing: 'Processing', dispatched: 'Dispatched', delivered: 'Delivered', cancelled: 'Cancelled', refunded: 'Refunded' };
 
 export function setupTracking() {
@@ -63,6 +64,25 @@ function renderOrder(o) {
     const ts = o.delivered_at || o.dispatched_at || o.created_at || null;
     const dateStr = ts ? new Date(ts).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
     statusBar.innerHTML = `<span class="result-status result-status--${o.status || 'unknown'}">${label}</span>${dateStr ? `<span class="result-date">${dateStr}</span>` : ''}`;
+  }
+
+  const timeline = byId('timeline');
+  if (timeline) {
+    const items = timeline.querySelectorAll('.timeline-item');
+    const statusIdx = STATUS_ORDER.indexOf(o.status);
+    items.forEach((item, i) => {
+      item.className = 'timeline-item';
+      if (o.status === 'cancelled' || o.status === 'refunded') {
+        if (i <= statusIdx) { item.classList.add('is-done'); }
+        else { item.classList.add('is-cancelled'); }
+      } else if (i < statusIdx) {
+        item.classList.add('is-done');
+      } else if (i === statusIdx) {
+        item.classList.add('is-active');
+      } else {
+        item.classList.add('is-future');
+      }
+    });
   }
 
   const itemsContainer = result.querySelector('.result-items');
