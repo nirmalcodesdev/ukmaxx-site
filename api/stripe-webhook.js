@@ -38,9 +38,11 @@ module.exports = async (req, res) => {
       console.log('stripe-webhook-notifications-replay-allowed', { orderId: order.id, stripeSessionId });
     }
 
-    await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } }).catch(e => {
+    try {
+      await supabase.from('admin_audit_log').insert({ action: 'notifications_sent', order_id: order.id, payload: { stripe_session_id: stripeSessionId, replay: allowDuplicateReplay } });
+    } catch (e) {
       console.error('audit-log-insert-failed', { orderId: order.id, error: e?.message });
-    });
+    }
 
     const itemText = orderItems.map(i => `• ${i.product_name} x${i.qty}`).join('\n');
     const fullName = order.full_name || 'N/A';
@@ -162,10 +164,12 @@ module.exports = async (req, res) => {
 
     await supabase.from('order_items').insert(orderItems.map(i => ({ ...i, order_id: order.id })));
     for (const i of cart) {
-      await supabase.rpc('decrement_stock', { p_sku: i.sku, p_qty: i.qty }).catch(async () => {
+      try {
+        await supabase.rpc('decrement_stock', { p_sku: i.sku, p_qty: i.qty });
+      } catch (_) {
         const p = bySku.get(i.sku);
         await supabase.from('products').update({ stock_quantity: Math.max(0, Number(p.stock_quantity) - Number(i.qty)) }).eq('sku', i.sku);
-      });
+      }
     }
 
     if (order.promo_opt_in && order.email) {
