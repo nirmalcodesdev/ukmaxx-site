@@ -1,5 +1,5 @@
 const { getSupabaseAdmin } = require('./_lib/supabase');
-const { sendOrderCancelledEmail, sendAdminOrderAlertEmail } = require('./_lib/email');
+const { sendOrderCancelledEmail } = require('./_lib/email');
 
 const VALID_PRIOR_STATUSES = ['pending', 'paid', 'processing', 'dispatched'];
 

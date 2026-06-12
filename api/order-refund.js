@@ -1,6 +1,6 @@
 const Stripe = require('stripe');
 const { getSupabaseAdmin } = require('./_lib/supabase');
-const { sendOrderRefundedEmail, sendAdminOrderAlertEmail } = require('./_lib/email');
+const { sendOrderRefundedEmail } = require('./_lib/email');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });

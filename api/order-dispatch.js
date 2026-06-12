@@ -19,6 +19,12 @@ module.exports = async (req, res) => {
     if (orderErr) throw orderErr;
     if (!order) return res.status(404).json({ error: 'Order not found' });
 
+    if (order.status !== 'paid' && order.status !== 'processing') {
+      return res.status(400).json({
+        error: `Cannot dispatch order with status "${order.status}". Only "paid" or "processing" orders can be dispatched.`,
+      });
+    }
+
     const { data: items } = await supabase
       .from('order_items')
       .select('product_name, sku, qty, line_total')
