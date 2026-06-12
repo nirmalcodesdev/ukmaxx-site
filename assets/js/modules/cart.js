@@ -1,5 +1,5 @@
 import { toast } from './toast.js';
-import { requireAuth } from './auth.js';
+import { requireAuth, getCurrentUser } from './auth.js';
 import { PRODUCTS, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING, PROMO_CODES, CART_KEY, PROMO_KEY } from '../data/products.js';
 import { money } from '../utils/money.js';
 import { getStorage, setStorage, getRaw } from '../utils/storage.js';
@@ -207,6 +207,7 @@ export async function openCheckout() {
   document.body.style.overflow = 'hidden';
   setCheckoutStep(1);
   renderCheckoutSummary();
+  prefillCheckoutFields();
 }
 
 export function closeCheckout() {
@@ -225,6 +226,24 @@ function setCheckoutStep(n) {
     if (sn === n) s.classList.add('is-active');
     else if (sn < n) s.classList.add('is-done');
   });
+}
+
+function prefillCheckoutFields() {
+  const user = getCurrentUser();
+  if (!user) return;
+  const emailEl = byId('co_email');
+  const nameEl = byId('co_fullName');
+  if (user.email && emailEl) {
+    emailEl.value = user.email;
+    emailEl.readOnly = true;
+  }
+  const first = user.user_metadata?.first_name || '';
+  const last = user.user_metadata?.last_name || '';
+  const fullName = (first + ' ' + last).trim() || '';
+  if (fullName && nameEl) {
+    nameEl.value = fullName;
+    nameEl.readOnly = true;
+  }
 }
 
 function validateStep1() {
